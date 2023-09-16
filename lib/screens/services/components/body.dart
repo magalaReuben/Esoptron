@@ -126,7 +126,8 @@ class _BodyState extends ConsumerState<Body> {
   GestureDetector serviceProvider(int index) {
     index += 1;
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, ServiceProvider.routeName),
+      onTap: () => Navigator.pushNamed(context, ServiceProvider.routeName,
+          arguments: ['assets/images/home/pic$index.png']),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
