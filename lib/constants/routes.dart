@@ -1,0 +1,34 @@
+import 'package:esoptron_salon/controllers/service.dart';
+import 'package:esoptron_salon/screens/categories/categories_page.dart';
+import 'package:esoptron_salon/screens/editprofile/edit_profile.dart';
+import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
+import 'package:esoptron_salon/screens/forgot/forgot_scren.dart';
+import 'package:esoptron_salon/screens/landing/landing_screen.dart';
+import 'package:esoptron_salon/screens/login/login_screen.dart';
+import 'package:esoptron_salon/screens/onboarding/onboarding.dart';
+import 'package:esoptron_salon/screens/otp/otp_screen.dart';
+import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
+import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
+import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
+import 'package:esoptron_salon/screens/servicesbooked/services_booked.dart';
+import 'package:esoptron_salon/screens/signup/signup_screen.dart';
+import 'package:esoptron_salon/screens/splash/splash_screen.dart';
+import 'package:flutter/material.dart';
+
+final Map<String, WidgetBuilder> routes = {
+  SplashScreen.routeName: (context) => const SplashScreen(),
+  LoginScreen.routeName: (context) => const LoginScreen(),
+  SplashScreen.routeName: (context) => const SplashScreen(),
+  OnBoarding.routeName: (context) => const OnBoarding(),
+  ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
+  SignupScreen.routeName: (context) => const SignupScreen(),
+  OtpScreen.routeName: (context) => OtpScreen(),
+  LandingScreen.routeName: (context) => const LandingScreen(),
+  EditProfile.routeName: (context) => const EditProfile(),
+  CategoriesScreen.routeName: (context) => const CategoriesScreen(),
+  PriceMenu.routeName: (context) => PriceMenu(),
+  ServicesBooked.routeName: (context) => const ServicesBooked(),
+  FavoriteScreen.routeName: (context) => const FavoriteScreen(),
+  ServiceDetails.routeName: (context) => const ServiceDetails(),
+  ServiceProvider.routeName: (context) => const ServiceProvider()
+};

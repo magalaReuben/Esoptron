@@ -1,0 +1,130 @@
+import 'package:awesome_icons/awesome_icons.dart';
+import 'package:esoptron_salon/constants/constants.dart';
+import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/providers/profileProviders.dart';
+import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
+import 'package:esoptron_salon/screens/home/components/body.dart';
+import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
+import 'package:esoptron_salon/screens/servicesbooked/services_booked.dart';
+import 'package:esoptron_salon/widgets/text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfileInfo();
+  }
+
+  Future getProfileInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? avatar = prefs.getString("avatar");
+    ref.read(profilePicProvider.notifier).state = avatar;
+  }
+
+  Future<NetworkImage> getImage() async {
+    final profileUrl = ref.watch(profilePicProvider);
+    final response = await http
+        .head(Uri.parse("http://admin.esoptronsalon.com/$profileUrl"));
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return NetworkImage("http://admin.esoptronsalon.com/$profileUrl");
+    } else {
+      return const NetworkImage(
+          "http://admin.esoptronsalon.com/storage/users/user.png");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FutureBuilder<NetworkImage>(
+              future: getImage(),
+              builder: (context, snapshot) {
+                //print(snapshot);
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return CircleAvatar(
+                    radius: 5,
+                    backgroundImage: snapshot.data,
+                  );
+                } else {
+                  // You can return a placeholder or loading indicator while the image is loading
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+          ),
+          title: TextFieldWidget(
+            radiusBottomLeft: 30,
+            radiusBottomRight: 30,
+            radiusTopLeft: 30,
+            radiusTopRight: 30,
+            hintText: "Search for service",
+            suffixWidget: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  decoration: const BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(60))),
+                  child: const Icon(
+                    FontAwesomeIcons.search,
+                    color: Colors.white,
+                  )),
+            ),
+          ),
+          actions: [
+            // GestureDetector(
+            //   onTap: () =>
+            //       Navigator.pushNamed(context, FavoriteScreen.routeName),
+            //   child: const Icon(
+            //     FontAwesomeIcons.solidBookmark,
+            //     color: kPrimaryColor,
+            //   ),
+            // ),
+            SizedBox(
+              width: getProportionateScreenWidth(5),
+            ),
+            GestureDetector(
+              onTap: () =>
+                  Navigator.pushNamed(context, ServicesBooked.routeName),
+              child: const Icon(
+                FontAwesomeIcons.bell,
+                color: kPrimaryColor,
+              ),
+            ),
+            SizedBox(
+              width: getProportionateScreenWidth(5),
+            ),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => SizedBox(
+                        height: getProportionateScreenHeight(300),
+                        child: PriceMenu()));
+              },
+              child: const Icon(
+                FontAwesomeIcons.clipboardList,
+                color: kPrimaryColor,
+              ),
+            )
+          ],
+        ),
+        body: const Body());
+  }
+}
