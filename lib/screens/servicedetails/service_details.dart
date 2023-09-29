@@ -2,6 +2,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/screens/serviceBooking/service_booking.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,6 +20,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   bool chip1tapped = true;
   bool chip2tapped = false;
   bool chip3tapped = false;
+  bool selected1 = false;
   PageController? pageController = PageController();
 
   Future<NetworkImage> getImage(profileUrl) async {
@@ -154,19 +156,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: getProportionateScreenHeight(100),
-                width: getProportionateScreenWidth(360),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(
-                      width: 2,
-                      color: kPrimaryColor.withOpacity(0.2),
-                    )),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FutureBuilder<NetworkImage>(
+                  height: getProportionateScreenHeight(100),
+                  width: getProportionateScreenWidth(360),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        width: 2,
+                        color: kPrimaryColor.withOpacity(0.2),
+                      )),
+                  child: Center(
+                    child: ListTile(
+                      leading: FutureBuilder<NetworkImage>(
                         future: getImage(arguments[3]["avatar"]),
                         builder: (context, snapshot) {
                           //print(snapshot);
@@ -182,24 +182,24 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           }
                         },
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      title: Text("Service Provider",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenWidth(18),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'krona')),
+                      subtitle: Column(
                         children: [
-                          Text("Service Provider",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona')),
-                          Text(arguments[3]["name"],
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'krona')),
+                          Row(
+                            children: [
+                              Text(arguments[3]["name"],
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(18),
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'krona')),
+                            ],
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -220,10 +220,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           )
                         ],
                       ),
-                    )
-                  ],
-                ),
-              ),
+                    ),
+                  )),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -318,40 +316,43 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           Align(
               alignment: Alignment.bottomCenter,
               child: DraggableScrollableSheet(
-                  initialChildSize: 0.23,
-                  minChildSize: 0.23,
-                  maxChildSize: 0.95,
+                  initialChildSize: 0.25,
+                  minChildSize: 0.25,
+                  maxChildSize: 0.85,
                   builder: (_, ScrollController scrollController) => Scaffold(
                         body: SingleChildScrollView(
-                            child: Column(children: [
-                          ListTile(
-                              leading: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5),
-                                      border: Border.all(
-                                          color:
-                                              kPrimaryColor.withOpacity(0.5))),
-                                  child: Image.asset(
-                                      "assets/images/serviceDetails/wax1.png"))),
-                          ListTile(
-                              leading: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5),
-                                      border: Border.all(
-                                          color:
-                                              kPrimaryColor.withOpacity(0.5))),
-                                  child: Image.asset(
-                                      "assets/images/serviceDetails/wax1.png"))),
-                          ListTile(
-                              leading: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5),
-                                      border: Border.all(
-                                          color:
-                                              kPrimaryColor.withOpacity(0.5))),
-                                  child: Image.asset(
-                                      "assets/images/serviceDetails/wax1.png"))),
-                        ])),
+                            controller: scrollController,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(children: [
+                                ListTile(
+                                  leading: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.5),
+                                          border: Border.all(
+                                              color: kPrimaryColor
+                                                  .withOpacity(0.5))),
+                                      child: Image.asset(
+                                          "assets/images/serviceDetails/wax3.png")),
+                                  title: const Text("Full brazilian waxing",
+                                      style: TextStyle(color: Colors.black)),
+                                  subtitle: const Padding(
+                                    padding: EdgeInsets.only(top: 8.0),
+                                    child: Text("UGX 20000",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  trailing: Checkbox(
+                                      value: selected1,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          selected1 = value!;
+                                        });
+                                      }),
+                                ),
+                              ]),
+                            )),
                         appBar: AppBar(
                           centerTitle: true,
                           actions: const [
@@ -377,9 +378,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             child: Container(
               color: Colors.white,
               height: getProportionateScreenHeight(85),
-              child: const Padding(
-                padding: EdgeInsets.all(13.0),
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
                 child: DefaultButton(
+                  press: () =>
+                      Navigator.pushNamed(context, ServiceBooking.routeName),
                   text: "Book Now",
                 ),
               ),

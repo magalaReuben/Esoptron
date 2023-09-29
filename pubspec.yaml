@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   awesome_icons: ^1.1.0
+  calendar_date_picker2: ^0.5.3
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
@@ -69,6 +70,7 @@ flutter:
     - assets/images/serviceDetails/
     - assets/authentication/icons/
     - assets/authentication/widgets/
+    - assets/images/serviceBooking/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

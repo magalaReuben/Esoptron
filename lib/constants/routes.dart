@@ -1,4 +1,5 @@
 import 'package:esoptron_salon/controllers/service.dart';
+import 'package:esoptron_salon/screens/addPaymentmethod/add_payment.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/editprofile/edit_profile.dart';
 import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
@@ -8,7 +9,10 @@ import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/onboarding/onboarding.dart';
 import 'package:esoptron_salon/screens/otp/otp_screen.dart';
 import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
+import 'package:esoptron_salon/screens/scheduleService/schedule_service.dart';
+import 'package:esoptron_salon/screens/serviceBooking/service_booking.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
+import 'package:esoptron_salon/screens/serviceSpecification/service_specification.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/screens/servicesbooked/services_booked.dart';
 import 'package:esoptron_salon/screens/signup/signup_screen.dart';
@@ -30,5 +34,9 @@ final Map<String, WidgetBuilder> routes = {
   ServicesBooked.routeName: (context) => const ServicesBooked(),
   FavoriteScreen.routeName: (context) => const FavoriteScreen(),
   ServiceDetails.routeName: (context) => const ServiceDetails(),
-  ServiceProvider.routeName: (context) => const ServiceProvider()
+  ServiceProvider.routeName: (context) => const ServiceProvider(),
+  ServiceBooking.routeName: (context) => const ServiceBooking(),
+  ServiceSpecification.routeName: (context) => const ServiceSpecification(),
+  ScheduleService.routeName: (context) => const ScheduleService(),
+  AddPaymentMethod.routeName: (context) => const AddPaymentMethod()
 };

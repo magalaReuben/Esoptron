@@ -1,6 +1,7 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
 import 'package:esoptron_salon/screens/services/components/body.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class ServiceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: TextFieldWidget(
           radiusBottomLeft: 30,
@@ -32,16 +35,26 @@ class ServiceScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          const Icon(
-            FontAwesomeIcons.solidBookmark,
-            color: kPrimaryColor,
-          ),
+          // const Icon(
+          //   FontAwesomeIcons.solidBookmark,
+          //   color: kPrimaryColor,
+          // ),
           SizedBox(
             width: getProportionateScreenWidth(5),
           ),
-          const Icon(
-            FontAwesomeIcons.solidHeart,
-            color: kPrimaryColor,
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, FavoriteScreen.routeName),
+            child: const Icon(
+              FontAwesomeIcons.solidHeart,
+              color: kPrimaryColor,
+            ),
+          ),
+          // const Icon(
+          //   FontAwesomeIcons.solidHeart,
+          //   color: kPrimaryColor,
+          // ),
+          SizedBox(
+            width: getProportionateScreenWidth(15),
           ),
         ],
       ),

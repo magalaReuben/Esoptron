@@ -5,6 +5,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/category.dart';
 import 'package:esoptron_salon/controllers/service.dart';
+import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
@@ -27,6 +28,7 @@ class _BodyState extends ConsumerState<Body> {
   Future getUserNames() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     firstName = prefs.getString("firstName");
+    ref.read(firstNameProvider.notifier).state = firstName;
   }
 
   @override
@@ -88,6 +90,8 @@ class _BodyState extends ConsumerState<Body> {
       "Bridal",
       "Waxing"
     ];
+
+    final firstName = ref.watch(firstNameProvider);
 
     return SingleChildScrollView(
       child: Column(
