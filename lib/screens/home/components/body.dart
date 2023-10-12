@@ -82,13 +82,27 @@ class _BodyState extends ConsumerState<Body> {
     ];
 
     List serviceTypeName = [
-      "Pedicure",
-      "Hair Styling",
+      "pedicure",
+      "hairstyling",
+      "makeup",
+      "manicure",
+      "massage",
+      "bridal",
+      "waxing"
+    ];
+
+    List topRated = [
+      'assets/images/home/pic1.jpg',
+      'assets/images/home/nail.jpg',
+      'assets/images/home/makeup.jpg',
+      'assets/images/home/massage.jpg',
+    ];
+
+    List names = [
+      "Dreadlines",
+      "Nails",
       "Makeup",
-      "Manicure",
-      "Message",
-      "Bridal",
-      "Waxing"
+      "Massage",
     ];
 
     final firstName = ref.watch(firstNameProvider);
@@ -182,13 +196,34 @@ class _BodyState extends ConsumerState<Body> {
                               context, CategoriesScreen.routeName,
                               arguments: [serviceTypeName[i - 1], categories]);
                         },
-                        child: Image(
-                            image: AssetImage(
-                                "assets/images/home/service-type-item$i.png"),
-                            fit: BoxFit.cover),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                child: Image(
+                                    height: 120,
+                                    width: 120,
+                                    image: AssetImage(
+                                        "assets/images/services/${serviceTypeName[i - 1]}.jpeg"),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                            Text(
+                              "${serviceTypeName[i - 1]}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(15),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'krona'),
+                            ),
+                          ],
+                        ),
                       ),
                     SizedBox(
-                      width: getProportionateScreenWidth(5),
+                      width: getProportionateScreenWidth(15),
                     )
                   ],
                 ),
@@ -212,7 +247,7 @@ class _BodyState extends ConsumerState<Body> {
               ],
             ),
           ),
-          SizedBox(height: getProportionateScreenHeight(8)),
+          //SizedBox(height: getProportionateScreenHeight(8)),
           Builder(builder: (context) {
             // ref.invalidate(documentsProvider);
             final servicesState = ref.watch(servicesProvider);
@@ -240,11 +275,15 @@ class _BodyState extends ConsumerState<Body> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ratingCard(
-                              "http://admin.esoptronsalon.com/${services[i]["logo"]}",
-                              services[i]["name"],
+                              topRated[i],
+                              //"http://admin.esoptronsalon.com/${services[i]["logo"]}",
+                              //services[i]["name"],
+                              names[i],
                               services[i]["ratings_count"].toString(),
                               services[i]["description"],
                               services[i]["service_provider"]),
+                          // names[i]
+                          //),
                         )
                     ],
                   ),
@@ -406,9 +445,10 @@ class _BodyState extends ConsumerState<Body> {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: Image(
-                    image: NetworkImage(image),
-                    // height: getProportionateScreenHeight(470),
-                    // width: getProportionateScreenWidth(440),
+                    image: AssetImage(image),
+                    //image: NetworkImage(image),
+                    height: getProportionateScreenHeight(200),
+                    //width: getProportionateScreenWidth(440),
                     fit: BoxFit.cover),
               ),
             ),

@@ -18,6 +18,12 @@ class Body extends ConsumerStatefulWidget {
 }
 
 class _BodyState extends ConsumerState<Body> {
+  var serviceProviderNames = [
+    'Mutesi Irene',
+    'Phiona Mugenyi',
+    'Namubiru Ruth',
+    'Ainebyona Daphine'
+  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,7 +47,7 @@ class _BodyState extends ConsumerState<Body> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "New Services",
+                    "New Service",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: getProportionateScreenWidth(18),
@@ -116,18 +122,19 @@ class _BodyState extends ConsumerState<Body> {
                 ),
                 itemCount: 4,
                 itemBuilder: (BuildContext context, int index) =>
-                    serviceProvider(index))
+                    serviceProvider(index, serviceProviderNames))
           ],
         ),
       ),
     );
   }
 
-  GestureDetector serviceProvider(int index) {
+  GestureDetector serviceProvider(int index, List serviceProviderName) {
+    print('assets/images/home/pic$index.jpg');
     index += 1;
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, ServiceProvider.routeName,
-          arguments: ['assets/images/home/pic$index.png']),
+          arguments: ['assets/images/home/pic$index.jpg']),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -145,12 +152,12 @@ class _BodyState extends ConsumerState<Body> {
                 child: CircleAvatar(
                   radius: 30,
                   foregroundImage:
-                      AssetImage('assets/images/home/pic$index.png'),
+                      AssetImage('assets/images/home/pic$index.jpg'),
                 ),
               ),
               SizedBox(height: getProportionateScreenHeight(5)),
               Text(
-                "John Joshua",
+                serviceProviderName[index - 1],
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(17),
