@@ -24,6 +24,7 @@ class RecoverPasswordService implements RecoverPasswordRepository {
       if (data.data['success'] == true) {
         return Right(ApiResponseModel.fromMap(data.data));
       }
+      print(data.data);
       return Left(data.data['message'] ?? 'Something Happend contact Support');
     } on DioException catch (e) {
       print(e.stackTrace);
