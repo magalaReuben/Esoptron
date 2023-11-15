@@ -11,7 +11,7 @@ class CategoriesScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     return Scaffold(
       appBar: AppBar(title: Text(arguments[0]), centerTitle: true),
-      body: Body(categories: arguments[1]),
+      body: Body(categories: arguments),
     );
   }
 }
