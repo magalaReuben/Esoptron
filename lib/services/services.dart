@@ -21,7 +21,7 @@ class ServicesService implements ServiceRepository {
       log('*************************************');
       //log('Response getting documents ${data.data}');
       if (data.data['success'] == true) {
-        print(data.data);
+        //print(data.data);
         return Right(ApiResponseModel.fromMap(data.data));
       }
       log(data.data['all-services']['data']);

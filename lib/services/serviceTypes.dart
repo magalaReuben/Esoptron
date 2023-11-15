@@ -4,18 +4,18 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
-import 'package:esoptron_salon/repositories/service.dart';
+import 'package:esoptron_salon/repositories/serviceType.dart';
 import 'package:esoptron_salon/utils/dio_helper.dart';
 import 'package:esoptron_salon/utils/env.dart';
 
-class ServicesService implements ServiceRepository {
+class ServiceTypesService implements ServiceTypeRepository {
   @override
-  Future<Either<String, ApiResponseModel>> getServices(
+  Future<Either<String, ApiResponseModel>> getServiceTypes(
       APIRequestModel requestModel) async {
     try {
       final request = requestModel.toMap();
       final data = await DioApi.dio.get(
-        ENV.getAllServices,
+        ENV.getServiceTypes,
         data: request,
       );
       log('*************************************');
