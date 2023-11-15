@@ -9,9 +9,10 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    print(arguments);
     return Scaffold(
       appBar: AppBar(title: Text(arguments[0]), centerTitle: true),
-      body: Body(categories: arguments),
+      body: Body(id: arguments[1]),
     );
   }
 }

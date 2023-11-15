@@ -3,21 +3,24 @@ import 'dart:developer';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/controllers/getCategoriesUnderServiceType.dart';
+import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Body extends StatefulWidget {
-  final List categories;
-  const Body({super.key, required this.categories});
+class Body extends ConsumerStatefulWidget {
+  final int id;
+  const Body({super.key, required this.id});
 
   @override
-  State<Body> createState() => _BodyState();
+  ConsumerState<Body> createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyState extends ConsumerState<Body> {
   @override
   Widget build(BuildContext context) {
-    log(widget.categories.toString());
+    log(widget.id.toString());
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
@@ -44,6 +47,80 @@ class _BodyState extends State<Body> {
             ),
           ),
         ),
+        Builder(builder: (context) {
+          // ref.invalidate(documentsProvider);
+          final categoriesUnderService =
+              ref.watch(GetCategoriesUnderServiceProvider);
+          switch (categoriesUnderService.status) {
+            case Status.initial:
+            case Status.loading:
+              return const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: kPrimaryColor,
+                    ),
+                  ],
+                ),
+              );
+            case Status.loaded:
+              var serviceTypes = [];
+
+              ///log(categoriesUnderService.data!.data.toString());
+              // for (var element
+              //     in categoriesUnderService.data!.data['categories']) {
+              //   serviceTypes.add(element);
+              // }
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    // for (int i = 1; i < serviceTypes.length; i++)
+                    //   GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.pushNamed(
+                    //           context, CategoriesScreen.routeName, arguments: [
+                    //         serviceTypes[i]['name'],
+                    //         serviceTypes[i]['id']
+                    //       ]);
+                    //     },
+                    //     child: Column(
+                    //       children: [
+                    //         Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: ClipRRect(
+                    //             borderRadius:
+                    //                 const BorderRadius.all(Radius.circular(8)),
+                    //             child: Image(
+                    //                 height: 120,
+                    //                 width: 120,
+                    //                 image: NetworkImage(
+                    //                     "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
+                    //                 fit: BoxFit.cover),
+                    //           ),
+                    //         ),
+                    //         Text(
+                    //           serviceTypes[i]['name'],
+                    //           style: TextStyle(
+                    //               color: Colors.black,
+                    //               fontSize: getProportionateScreenWidth(15),
+                    //               fontWeight: FontWeight.w500,
+                    //               fontFamily: 'krona'),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // SizedBox(
+                    //   width: getProportionateScreenWidth(15),
+                    // )
+                  ],
+                ),
+              );
+            case Status.error:
+              return const SizedBox();
+          }
+        }),
         // widget.categories.isNotEmpty
         //     ? Container()
         //     : Column(
