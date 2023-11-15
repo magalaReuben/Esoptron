@@ -5,6 +5,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/category.dart';
 import 'package:esoptron_salon/controllers/service.dart';
+import 'package:esoptron_salon/controllers/serviceType.dart';
 import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
@@ -172,64 +173,71 @@ class _BodyState extends ConsumerState<Body> {
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(8)),
-          Builder(
-            builder: (context) {
-              final categoryState = ref.watch(categoriesProvider);
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    for (int i = 1; i < 8; i++)
-                      GestureDetector(
-                        onTap: () {
-                          var categories = [];
-                          //log(servicesState.data!.data.toString());
-                          for (var element in categoryState
-                              .data!.data['all-categories']['data']) {
-                            //log(element['service_type_id'].toString());
-                            if (element['service_type_id'] == i) {
-                              log(element.toString());
-                              categories.add(element);
-                            }
-                          }
-                          Navigator.pushNamed(
-                              context, CategoriesScreen.routeName,
-                              arguments: [serviceTypeName[i - 1], categories]);
-                        },
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                child: Image(
-                                    height: 120,
-                                    width: 120,
-                                    image: AssetImage(
-                                        "assets/images/services/${serviceTypeName[i - 1]}.jpeg"),
-                                    fit: BoxFit.cover),
+          Builder(builder: (context) {
+            // ref.invalidate(documentsProvider);
+            final serviceTypesState = ref.watch(serviceTypesProvider);
+            switch (serviceTypesState.status) {
+              case Status.initial:
+              case Status.loading:
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: kPrimaryColor,
+                  ),
+                );
+              case Status.loaded:
+                var serviceTypes = [];
+                log(serviceTypesState.data!.data.toString());
+                for (var element
+                    in serviceTypesState.data!.data['all-serviceTypes']) {
+                  serviceTypes.add(element);
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (int i = 1; i < serviceTypes.length; i++)
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.pushNamed(
+                            //     context, CategoriesScreen.routeName,
+                            //     arguments: [serviceTypeName[i - 1], categories]);
+                          },
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8)),
+                                  child: Image(
+                                      height: 120,
+                                      width: 120,
+                                      image: NetworkImage(
+                                          "assets/images/services/${serviceTypeName[i - 1]}.jpeg"),
+                                      fit: BoxFit.cover),
+                                ),
                               ),
-                            ),
-                            Text(
-                              "${serviceTypeName[i - 1]}",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(15),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'krona'),
-                            ),
-                          ],
+                              Text(
+                                serviceTypes[i]['name'],
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getProportionateScreenWidth(15),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'krona'),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    SizedBox(
-                      width: getProportionateScreenWidth(15),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(15),
+                      )
+                    ],
+                  ),
+                );
+              case Status.error:
+                return const SizedBox();
+            }
+          }),
           SizedBox(height: getProportionateScreenHeight(8)),
           Padding(
             padding: const EdgeInsets.all(8.0),
