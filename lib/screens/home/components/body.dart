@@ -198,9 +198,12 @@ class _BodyState extends ConsumerState<Body> {
                       for (int i = 1; i < serviceTypes.length; i++)
                         GestureDetector(
                           onTap: () {
-                            // Navigator.pushNamed(
-                            //     context, CategoriesScreen.routeName,
-                            //     arguments: [serviceTypeName[i - 1], categories]);
+                            Navigator.pushNamed(
+                                context, CategoriesScreen.routeName,
+                                arguments: [
+                                  serviceTypes[i]['name'],
+                                  serviceTypes[i]['id']
+                                ]);
                           },
                           child: Column(
                             children: [

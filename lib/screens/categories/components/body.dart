@@ -44,49 +44,49 @@ class _BodyState extends State<Body> {
             ),
           ),
         ),
-        widget.categories.isNotEmpty
-            ? Container()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: getProportionateScreenHeight(50)),
-                  Center(
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/images/services/unavailable.png",
-                          height: getProportionateScreenHeight(280),
-                          width: getProportionateScreenWidth(280),
-                        ),
-                        SizedBox(height: getProportionateScreenHeight(20)),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Categories not available for this service",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: getProportionateScreenWidth(18)),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-        for (int i = 0; i < widget.categories.length; i++)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text(widget.categories[i]['name']),
-              subtitle: Text("Available: ${widget.categories[i]['is_active']}"),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "http://admin.esoptronsalon.com/${widget.categories[i]['image']}"),
-                radius: 25,
-              ),
-            ),
-          )
+        // widget.categories.isNotEmpty
+        //     ? Container()
+        //     : Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: [
+        //           SizedBox(height: getProportionateScreenHeight(50)),
+        //           Center(
+        //             child: Column(
+        //               children: [
+        //                 Image.asset(
+        //                   "assets/images/services/unavailable.png",
+        //                   height: getProportionateScreenHeight(280),
+        //                   width: getProportionateScreenWidth(280),
+        //                 ),
+        //                 SizedBox(height: getProportionateScreenHeight(20)),
+        //                 Padding(
+        //                   padding: const EdgeInsets.all(8.0),
+        //                   child: Text(
+        //                     "Categories not available for this service",
+        //                     style: TextStyle(
+        //                         color: Colors.black,
+        //                         fontWeight: FontWeight.bold,
+        //                         fontSize: getProportionateScreenWidth(18)),
+        //                   ),
+        //                 )
+        //               ],
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        // for (int i = 0; i < widget.categories.length; i++)
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: ListTile(
+        //       title: Text(widget.categories[i]['name']),
+        //       subtitle: Text("Available: ${widget.categories[i]['is_active']}"),
+        //       leading: CircleAvatar(
+        //         backgroundImage: NetworkImage(
+        //             "http://admin.esoptronsalon.com/${widget.categories[i]['image']}"),
+        //         radius: 25,
+        //       ),
+        //     ),
+        //   )
       ]),
     );
   }
