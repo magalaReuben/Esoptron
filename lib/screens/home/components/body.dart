@@ -213,7 +213,7 @@ class _BodyState extends ConsumerState<Body> {
                                       height: 120,
                                       width: 120,
                                       image: NetworkImage(
-                                          "assets/images/services/${serviceTypeName[i - 1]}.jpeg"),
+                                          "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
                                       fit: BoxFit.cover),
                                 ),
                               ),
@@ -284,8 +284,6 @@ class _BodyState extends ConsumerState<Body> {
                           padding: const EdgeInsets.all(8.0),
                           child: ratingCard(
                               topRated[i],
-                              //"http://admin.esoptronsalon.com/${services[i]["logo"]}",
-                              //services[i]["name"],
                               names[i],
                               services[i]["ratings_count"].toString(),
                               services[i]["description"],
