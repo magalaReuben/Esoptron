@@ -13,9 +13,9 @@ class GetCategoriesUnderService implements GetCategoriesUnderServiceRepository {
   @override
   Future<Either<String, ApiResponseModel>> getCategoriesUnderService(
       APIRequestModel requestModel) async {
-    print("Hello world");
     try {
       final request = requestModel.toMap();
+      print("Hello world");
       log(requestModel.toString());
       print(requestModel.toString());
       final data = await DioApi.dio.post(

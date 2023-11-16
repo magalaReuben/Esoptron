@@ -1,9 +1,7 @@
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
 import 'package:esoptron_salon/repositories/getCategoriesUnderService.dart';
-import 'package:esoptron_salon/repositories/recoverPassword.dart';
 import 'package:esoptron_salon/services/getCategoriesUnderService.dart';
-import 'package:esoptron_salon/services/recoverPassword.dart';
 import 'package:esoptron_salon/states/global_state.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
