@@ -34,7 +34,6 @@ class Body extends StatelessWidget {
           SizedBox(
             height: getProportionateScreenHeight(100),
           ),
-          // buildTimer(),
           Container(
             decoration: const BoxDecoration(
                 color: Colors.white,
