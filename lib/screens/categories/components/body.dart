@@ -18,8 +18,14 @@ class Body extends ConsumerStatefulWidget {
 }
 
 class _BodyState extends ConsumerState<Body> {
+  bool isLoaded = false;
   @override
   Widget build(BuildContext context) {
+    !isLoaded ? ref.invalidate(getCategoriesUnderServiceProvider) : null;
+    final categoriesUnderService = ref.watch(getCategoriesUnderServiceProvider);
+    setState(() {
+      isLoaded = true;
+    });
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
@@ -47,8 +53,6 @@ class _BodyState extends ConsumerState<Body> {
           ),
         ),
         Builder(builder: (context) {
-          final categoriesUnderService =
-              ref.watch(getCategoriesUnderServiceProvider);
           switch (categoriesUnderService.status) {
             case Status.initial:
             case Status.loading:

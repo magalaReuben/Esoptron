@@ -13,6 +13,7 @@ final _getCategoriesUnderServiceProvider =
 
 final getCategoriesUnderServiceProvider = StateNotifierProvider<
     GetCategoriesUnderServiceNotifier, AppState<ApiResponseModel>>((ref) {
+  print("This is great great");
   return GetCategoriesUnderServiceNotifier(
       ref.watch(_getCategoriesUnderServiceProvider), ref);
 });
@@ -31,6 +32,7 @@ class GetCategoriesUnderServiceNotifier
 
   getCategoriesUnderService() async {
     state = AppState(status: Status.loading);
+    print("This is great");
     final data = await repository.getCategoriesUnderService(APIRequestModel());
     data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
         (r) => state = AppState(status: Status.loaded, data: r));
