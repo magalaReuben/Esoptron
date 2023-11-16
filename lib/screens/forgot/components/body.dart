@@ -10,6 +10,7 @@ import 'package:esoptron_salon/helper/form_errors.dart';
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
 import 'package:esoptron_salon/screens/login/components/no_account_text.dart';
+import 'package:esoptron_salon/screens/otp/otp_screen.dart';
 import 'package:esoptron_salon/states/global_state.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
@@ -95,8 +96,12 @@ class _ForgotPassFormState extends ConsumerState<ForgotPassForm> {
           setState(() {
             isLoading = false;
           });
-        // Navigator.of(context).pushReplacement(
-        //     MaterialPageRoute(builder: (_) => const LandingScreen()));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(next.data!.message),
+            backgroundColor: kPrimaryColor,
+            padding: const EdgeInsets.all(25),
+          ));
+          Navigator.pushNamed(context, OtpScreen.routeName);
         case Status.error:
           setState(() {
             isLoading = false;

@@ -13,6 +13,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      reverse: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -32,9 +33,10 @@ class Body extends StatelessWidget {
             fontSize: getProportionateScreenWidth(13),
           ),
           SizedBox(
-            height: getProportionateScreenHeight(20),
+            height: getProportionateScreenHeight(30),
           ),
           // buildTimer(),
+          Expanded(child: Container()),
           Container(
             decoration: const BoxDecoration(
                 color: Colors.white,
@@ -45,7 +47,7 @@ class Body extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const OtpForm(),
-                  SizedBox(height: SizeConfig.screenHeight * 0.03),
+                  Expanded(child: Container()),
                   GestureDetector(
                     onTap: () {
                       // OTP code resend

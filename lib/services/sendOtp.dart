@@ -26,8 +26,8 @@ class OtpService implements OtpRepository {
         // since the response is not standard we need to convert it to our standard
         return Right(ApiResponseModel.fromMap({
           "success": data.data['success'],
-          "data": data.data['message'],
-          "message": data.data['message']
+          "message": data.data['message'],
+          "data": {"message": data.data['message']}
         }));
       }
       return Left(data.data['message'] ?? 'Something Happend contact Support');

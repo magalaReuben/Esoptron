@@ -26,6 +26,7 @@ class AuthenticationService implements AuthenticationRepository {
       );
       log('*************************************');
       log('Response login user ${json.encode(data.data)}');
+      log('Response login user ${data.data}');
       if (data.data['success'] == true) {
         return Right(ApiResponseModel.fromMap(data.data));
       }

@@ -26,7 +26,7 @@ class OtpNotifier extends StateNotifier<AppState<ApiResponseModel>> {
   getOtpCode(APIRequestModel apiRequestModel) async {
     state = AppState(status: Status.loading);
     final data = await repository.getOtp(apiRequestModel);
-    print("hello this is our $data");
+    print("hello this is our ${data}");
     data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
         (r) => state = AppState(status: Status.loaded, data: r));
   }
