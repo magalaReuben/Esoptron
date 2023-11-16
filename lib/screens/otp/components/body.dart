@@ -32,10 +32,9 @@ class Body extends StatelessWidget {
             fontSize: getProportionateScreenWidth(13),
           ),
           SizedBox(
-            height: getProportionateScreenHeight(30),
+            height: getProportionateScreenHeight(20),
           ),
           // buildTimer(),
-          Expanded(child: Container()),
           Container(
             decoration: const BoxDecoration(
                 color: Colors.white,
@@ -46,7 +45,7 @@ class Body extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const OtpForm(),
-                  Expanded(child: Container()),
+                  SizedBox(height: SizeConfig.screenHeight * 0.03),
                   GestureDetector(
                     onTap: () {
                       // OTP code resend
