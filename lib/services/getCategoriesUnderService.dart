@@ -18,8 +18,8 @@ class GetCategoriesUnderService implements GetCategoriesUnderServiceRepository {
       print("Hello world");
       log(requestModel.toString());
       print(requestModel.toString());
-      final data = await DioApi.dio.post(
-        ENV.recoverPassword(requestModel.data),
+      final data = await DioApi.dio.get(
+        ENV.getCategoriesUnderServiceType,
         data: request,
       );
       log('*************************************');

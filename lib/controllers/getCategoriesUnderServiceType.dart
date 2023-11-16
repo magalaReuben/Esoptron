@@ -11,7 +11,7 @@ final _getCategoriesUnderServiceProvider =
   return GetCategoriesUnderService();
 });
 
-final GetCategoriesUnderServiceProvider = StateNotifierProvider<
+final getCategoriesUnderServiceProvider = StateNotifierProvider<
     GetCategoriesUnderServiceNotifier, AppState<ApiResponseModel>>((ref) {
   return GetCategoriesUnderServiceNotifier(
       ref.watch(_getCategoriesUnderServiceProvider), ref);
@@ -25,11 +25,13 @@ class GetCategoriesUnderServiceNotifier
   GetCategoriesUnderServiceNotifier(
     this.repository,
     this.ref,
-  ) : super(AppState(status: Status.initial));
+  ) : super(AppState(status: Status.initial)) {
+    getCategoriesUnderService();
+  }
 
-  getCategoriesUnderService(APIRequestModel apiRequestModel) async {
+  getCategoriesUnderService() async {
     state = AppState(status: Status.loading);
-    final data = await repository.getCategoriesUnderService(apiRequestModel);
+    final data = await repository.getCategoriesUnderService(APIRequestModel());
     data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
         (r) => state = AppState(status: Status.loaded, data: r));
   }

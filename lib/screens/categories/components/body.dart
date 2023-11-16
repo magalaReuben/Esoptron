@@ -48,17 +48,15 @@ class _BodyState extends ConsumerState<Body> {
         ),
         Builder(builder: (context) {
           final categoriesUnderService =
-              ref.watch(GetCategoriesUnderServiceProvider);
+              ref.watch(getCategoriesUnderServiceProvider);
           switch (categoriesUnderService.status) {
             case Status.initial:
             case Status.loading:
-              return Container();
-              break;
-            // return const Center(
-            //   child: CircularProgressIndicator(
-            //     color: kPrimaryColor,
-            //   ),
-            // );
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: kPrimaryColor,
+                ),
+              );
             case Status.loaded:
               print('Loaded');
               var serviceTypes = [];
