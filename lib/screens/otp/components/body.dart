@@ -13,7 +13,6 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      reverse: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -47,7 +46,7 @@ class Body extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const OtpForm(),
-                  Expanded(child: Container()),
+                  Expanded(child: Container())),
                   GestureDetector(
                     onTap: () {
                       // OTP code resend
