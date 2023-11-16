@@ -13,9 +13,11 @@ class GetCategoriesUnderService implements GetCategoriesUnderServiceRepository {
   @override
   Future<Either<String, ApiResponseModel>> getCategoriesUnderService(
       APIRequestModel requestModel) async {
+    print("Hello world");
     try {
       final request = requestModel.toMap();
       log(requestModel.toString());
+      print(requestModel.toString());
       final data = await DioApi.dio.post(
         ENV.recoverPassword(requestModel.data),
         data: request,

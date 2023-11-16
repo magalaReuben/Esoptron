@@ -20,7 +20,6 @@ class Body extends ConsumerStatefulWidget {
 class _BodyState extends ConsumerState<Body> {
   @override
   Widget build(BuildContext context) {
-    log(widget.id.toString());
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
@@ -55,13 +54,8 @@ class _BodyState extends ConsumerState<Body> {
             case Status.initial:
             case Status.loading:
               return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: kPrimaryColor,
-                    ),
-                  ],
+                child: CircularProgressIndicator(
+                  color: kPrimaryColor,
                 ),
               );
             case Status.loaded:
