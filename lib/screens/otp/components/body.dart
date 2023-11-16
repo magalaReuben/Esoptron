@@ -46,7 +46,7 @@ class Body extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const OtpForm(),
-                  Expanded(child: Container())),
+                  Expanded(child: Container()),
                   GestureDetector(
                     onTap: () {
                       // OTP code resend
