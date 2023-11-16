@@ -21,9 +21,14 @@ class OtpService implements OtpRepository {
         data: requestModel.data,
       );
       log('*************************************');
-      log('Response getting documents ${data.data}');
+      log('Response getting documents ${data.data['success']}');
       if (data.data['success'] == true) {
-        return Right(ApiResponseModel.fromMap(data.data));
+        // since the response is not standard we need to convert it to our standard
+        return Right(ApiResponseModel.fromMap({
+          "success": data.data['success'],
+          "data": data.data['message'],
+          "message": data.data['message']
+        }));
       }
       return Left(data.data['message'] ?? 'Something Happend contact Support');
     } on DioException catch (e) {
