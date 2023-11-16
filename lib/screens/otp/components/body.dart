@@ -32,7 +32,7 @@ class Body extends StatelessWidget {
             fontSize: getProportionateScreenWidth(13),
           ),
           SizedBox(
-            height: getProportionateScreenHeight(20),
+            height: getProportionateScreenHeight(100),
           ),
           // buildTimer(),
           Container(
