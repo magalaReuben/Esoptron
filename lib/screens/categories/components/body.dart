@@ -5,6 +5,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getCategoriesUnderServiceType.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
+import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -66,110 +67,64 @@ class _BodyState extends ConsumerState<Body> {
                 ),
               );
             case Status.loaded:
+              log(categoriesUnderService.data!.data.toString());
               var serviceTypes = [];
-
-              ///log(categoriesUnderService.data!.data.toString());
-              // for (var element
-              //     in categoriesUnderService.data!.data['categories']) {
-              //   serviceTypes.add(element);
-              // }
+              for (var element
+                  in categoriesUnderService.data!.data['categories']) {
+                serviceTypes.add(element);
+              }
               return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+                child: Column(
                   children: [
-                    // for (int i = 1; i < serviceTypes.length; i++)
-                    //   GestureDetector(
-                    //     onTap: () {
-                    //       Navigator.pushNamed(
-                    //           context, CategoriesScreen.routeName, arguments: [
-                    //         serviceTypes[i]['name'],
-                    //         serviceTypes[i]['id']
-                    //       ]);
-                    //     },
-                    //     child: Column(
-                    //       children: [
-                    //         Padding(
-                    //           padding: const EdgeInsets.all(8.0),
-                    //           child: ClipRRect(
-                    //             borderRadius:
-                    //                 const BorderRadius.all(Radius.circular(8)),
-                    //             child: Image(
-                    //                 height: 120,
-                    //                 width: 120,
-                    //                 image: NetworkImage(
-                    //                     "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
-                    //                 fit: BoxFit.cover),
-                    //           ),
-                    //         ),
-                    //         Text(
-                    //           serviceTypes[i]['name'],
-                    //           style: TextStyle(
-                    //               color: Colors.black,
-                    //               fontSize: getProportionateScreenWidth(15),
-                    //               fontWeight: FontWeight.w500,
-                    //               fontFamily: 'krona'),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // SizedBox(
-                    //   width: getProportionateScreenWidth(15),
-                    // )
+                    for (int i = 0; i < serviceTypes.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(serviceTypes[i]['name']),
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
+                            radius: 25,
+                          ),
+                        ),
+                      ),
+                    SizedBox(
+                      width: getProportionateScreenWidth(15),
+                    )
                   ],
                 ),
               );
             case Status.error:
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(categoriesUnderService.errorMessage),
-                backgroundColor: kPrimaryColor,
-                padding: const EdgeInsets.all(25),
-              ));
-              return Container();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: getProportionateScreenHeight(50)),
+                  Center(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/images/services/unavailable.png",
+                          height: getProportionateScreenHeight(280),
+                          width: getProportionateScreenWidth(280),
+                        ),
+                        SizedBox(height: getProportionateScreenHeight(20)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Categories not available for this service",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: getProportionateScreenWidth(18)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              );
           }
         }),
-        // widget.categories.isNotEmpty
-        //     ? Container()
-        //     : Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           SizedBox(height: getProportionateScreenHeight(50)),
-        //           Center(
-        //             child: Column(
-        //               children: [
-        //                 Image.asset(
-        //                   "assets/images/services/unavailable.png",
-        //                   height: getProportionateScreenHeight(280),
-        //                   width: getProportionateScreenWidth(280),
-        //                 ),
-        //                 SizedBox(height: getProportionateScreenHeight(20)),
-        //                 Padding(
-        //                   padding: const EdgeInsets.all(8.0),
-        //                   child: Text(
-        //                     "Categories not available for this service",
-        //                     style: TextStyle(
-        //                         color: Colors.black,
-        //                         fontWeight: FontWeight.bold,
-        //                         fontSize: getProportionateScreenWidth(18)),
-        //                   ),
-        //                 )
-        //               ],
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        // for (int i = 0; i < widget.categories.length; i++)
-        //   Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: ListTile(
-        //       title: Text(widget.categories[i]['name']),
-        //       subtitle: Text("Available: ${widget.categories[i]['is_active']}"),
-        //       leading: CircleAvatar(
-        //         backgroundImage: NetworkImage(
-        //             "http://admin.esoptronsalon.com/${widget.categories[i]['image']}"),
-        //         radius: 25,
-        //       ),
-        //     ),
-        //   )
       ]),
     );
   }

@@ -17,7 +17,6 @@ class GetCategoriesUnderService implements GetCategoriesUnderServiceRepository {
     while (id == null) {
       await Future.delayed(Duration(seconds: 1));
     }
-    print("This is our id: $id");
     try {
       final request = requestModel.toMap();
       final data = await DioApi.dio.get(
