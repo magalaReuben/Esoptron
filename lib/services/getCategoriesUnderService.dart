@@ -14,6 +14,9 @@ class GetCategoriesUnderService implements GetCategoriesUnderServiceRepository {
   Future<Either<String, ApiResponseModel>> getCategoriesUnderService(
       APIRequestModel requestModel) async {
     final id = requestModel.data!['data'];
+    while (id == null) {
+      await Future.delayed(Duration(seconds: 1));
+    }
     print("This is our id: $id");
     try {
       final request = requestModel.toMap();

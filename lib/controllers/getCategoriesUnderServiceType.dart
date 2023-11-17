@@ -34,7 +34,7 @@ class GetCategoriesUnderServiceNotifier
     state = AppState(status: Status.loading);
     final data = await repository
         .getCategoriesUnderService(APIRequestModel(data: {"data": id}));
-    // data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
-    //     (r) => state = AppState(status: Status.loaded, data: r));
+    data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
+        (r) => state = AppState(status: Status.loaded, data: r));
   }
 }
