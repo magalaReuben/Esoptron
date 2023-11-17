@@ -248,7 +248,7 @@ class _BodyState extends ConsumerState<Body> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Top Rated Services",
+                  "Top Rated Categories",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
@@ -261,8 +261,8 @@ class _BodyState extends ConsumerState<Body> {
           //SizedBox(height: getProportionateScreenHeight(8)),
           Builder(builder: (context) {
             // ref.invalidate(documentsProvider);
-            final servicesState = ref.watch(servicesProvider);
-            switch (servicesState.status) {
+            final categoriesState = ref.watch(categoriesProvider);
+            switch (categoriesState.status) {
               case Status.initial:
               case Status.loading:
                 return const Center(
@@ -273,7 +273,7 @@ class _BodyState extends ConsumerState<Body> {
               case Status.loaded:
                 var services = [];
                 //log(servicesState.data!.data.toString());
-                for (var element in servicesState.data!.data['all-services']
+                for (var element in categoriesState.data!.data['all-categories']
                     ['data']) {
                   //log(element.toString());
                   services.add(element);
@@ -286,11 +286,12 @@ class _BodyState extends ConsumerState<Body> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ratingCard(
-                              topRated[i],
-                              names[i],
-                              services[i]["ratings_count"].toString(),
-                              services[i]["description"],
-                              services[i]["service_provider"]),
+                            services[i]['image'],
+                            services[i]['name'],
+                            //services[i]["ratings_count"].toString(),
+                            //services[i]["description"],
+                            //services[i]["service_provider"]
+                          ),
                           // names[i]
                           //),
                         )
@@ -435,11 +436,10 @@ class _BodyState extends ConsumerState<Body> {
     );
   }
 
-  GestureDetector ratingCard(String image, String text, String rating,
-      String description, Map<dynamic, dynamic> serviceProvider) {
+  GestureDetector ratingCard(String image, String text) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, ServiceDetails.routeName,
-          arguments: [text, image, description, serviceProvider]),
+      // onTap: () => Navigator.pushNamed(context, ServiceDetails.routeName,
+      //     arguments: [text, image, description, serviceProvider]),
       child: Container(
         width: getProportionateScreenWidth(160),
         decoration: BoxDecoration(
@@ -454,8 +454,9 @@ class _BodyState extends ConsumerState<Body> {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: Image(
-                    image: AssetImage(image),
-                    //image: NetworkImage(image),
+                    //image: NetImage(image),
+                    image:
+                        NetworkImage("http://admin.esoptronsalon.com/$image"),
                     height: getProportionateScreenHeight(200),
                     //width: getProportionateScreenWidth(440),
                     fit: BoxFit.cover),
@@ -467,39 +468,39 @@ class _BodyState extends ConsumerState<Body> {
                 text,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: getProportionateScreenWidth(13),
+                    fontSize: getProportionateScreenWidth(14),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'krona'),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    rating,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(10),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'krona'),
-                  ),
-                  for (int i = 0; i < 4; i++)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(
-                        FontAwesomeIcons.solidStar,
-                        size: 13,
-                        color: Colors.black.withOpacity(0.4),
-                      ),
-                    ),
-                  // SizedBox(
-                  //   width: getProportionateScreenWidth(10),
-                  // )
-                ],
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         rating,
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: getProportionateScreenWidth(10),
+            //             fontWeight: FontWeight.bold,
+            //             fontFamily: 'krona'),
+            //       ),
+            //       for (int i = 0; i < 4; i++)
+            //         Padding(
+            //           padding: const EdgeInsets.all(4.0),
+            //           child: Icon(
+            //             FontAwesomeIcons.solidStar,
+            //             size: 13,
+            //             color: Colors.black.withOpacity(0.4),
+            //           ),
+            //         ),
+            //       // SizedBox(
+            //       //   width: getProportionateScreenWidth(10),
+            //       // )
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
