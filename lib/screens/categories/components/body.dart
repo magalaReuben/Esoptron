@@ -4,6 +4,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getCategoriesUnderServiceType.dart';
+import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ class _BodyState extends ConsumerState<Body> {
   bool isLoaded = false;
   @override
   Widget build(BuildContext context) {
+    Future(() {
+      ref.read(categoriesUnderServiceIdProvider.notifier).state = widget.id;
+    });
     !isLoaded ? ref.invalidate(getCategoriesUnderServiceProvider) : null;
     final categoriesUnderService = ref.watch(getCategoriesUnderServiceProvider);
     setState(() {
@@ -62,7 +66,6 @@ class _BodyState extends ConsumerState<Body> {
                 ),
               );
             case Status.loaded:
-              print('Loaded');
               var serviceTypes = [];
 
               ///log(categoriesUnderService.data!.data.toString());
@@ -116,7 +119,12 @@ class _BodyState extends ConsumerState<Body> {
                 ),
               );
             case Status.error:
-              return const SizedBox();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(categoriesUnderService.errorMessage),
+                backgroundColor: kPrimaryColor,
+                padding: const EdgeInsets.all(25),
+              ));
+              return Container();
           }
         }),
         // widget.categories.isNotEmpty

@@ -88,14 +88,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
           actions: [
-            // GestureDetector(
-            //   onTap: () =>
-            //       Navigator.pushNamed(context, FavoriteScreen.routeName),
-            //   child: const Icon(
-            //     FontAwesomeIcons.solidBookmark,
-            //     color: kPrimaryColor,
-            //   ),
-            // ),
             SizedBox(
               width: getProportionateScreenWidth(5),
             ),

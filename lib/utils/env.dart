@@ -7,7 +7,8 @@ class ENV {
 
   static const String getAllServices = 'services/all';
   static const String getServiceTypes = 'service_types/all';
-  static String getCategoriesUnderServiceType = "service_type/2/categories";
+  static String getCategoriesUnderServiceType(id) =>
+      "service_type/$id/categories";
 
   static String getOtp = 'auth/reset_password/send_otp';
   static String recoverPassword(phoneNumber) =>
