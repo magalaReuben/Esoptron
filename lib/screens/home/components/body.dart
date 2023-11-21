@@ -287,7 +287,7 @@ class _BodyState extends ConsumerState<Body> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ratingCard(services[i]['image'],
-                              services[i]['name'], services[i]['id'].toString()
+                              services[i]['name'], services[i]['id']
                               //services[i]["ratings_count"].toString(),
                               //services[i]["description"],
                               //services[i]["service_provider"]
@@ -436,7 +436,7 @@ class _BodyState extends ConsumerState<Body> {
     );
   }
 
-  GestureDetector ratingCard(String image, String text, String id) {
+  GestureDetector ratingCard(String image, String text, int id) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, SubCategories.routeName,

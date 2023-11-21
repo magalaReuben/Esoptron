@@ -43,34 +43,87 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                       ),
                     );
                   case Status.loaded:
-                    var subCategories = [];
-                    print(subCategories);
-                    return Container();
-                  // for (var element
-                  //     in subCategories.data!.data['categories']) {
-                  //   subCategories.add(element);
-                  // }
-                  // return SingleChildScrollView(
-                  //   child: Column(
-                  //     children: [
-                  // for (int i = 0; i < serviceTypes.length; i++)
-                  //   Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: ListTile(
-                  //       title: Text(serviceTypes[i]['name']),
-                  //       leading: CircleAvatar(
-                  //         backgroundImage: NetworkImage(
-                  //             "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
-                  //         radius: 25,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // SizedBox(
-                  //   width: getProportionateScreenWidth(15),
-                  // )
-                  //     ],
-                  //   ),
-                  // );
+                    var subCategoriesList = [];
+                    for (var element
+                        in subCategories.data!.data['sub_categories']) {
+                      subCategoriesList.add(element);
+                    }
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (int i = 0; i < subCategoriesList.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: getProportionateScreenHeight(150),
+                                width: getProportionateScreenWidth(360),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: kPrimaryColor,
+                                    )),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                        "assets/images/favorites/image1.png"),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            "Classic Manicure",
+                                            style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        18),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'krona'),
+                                          ),
+                                          Text(
+                                            "Manicure & Pedicure",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        15),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'krona'),
+                                          ),
+                                          FilledButton(
+                                              onPressed: () {},
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(13.0),
+                                                child: Text("Service Details"),
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.favorite,
+                                              color: kPrimaryColor)
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          SizedBox(
+                            width: getProportionateScreenWidth(15),
+                          )
+                        ],
+                      ),
+                    );
                   case Status.error:
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,

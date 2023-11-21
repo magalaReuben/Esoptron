@@ -14,7 +14,6 @@ class GetSubCategoryService implements GetSubCategoriesRepository {
   @override
   Future<Either<String, ApiResponseModel>> getSubCategories(
       APIRequestModel requestModel) async {
-    print("Hello world");
     final id = requestModel.data!['data'];
     while (id == null) {
       await Future.delayed(Duration(seconds: 1));
@@ -27,7 +26,6 @@ class GetSubCategoryService implements GetSubCategoriesRepository {
       );
       log('*************************************');
       log('Response getting documents ${data.data}');
-      print(data.data);
       if (data.data['success'] == true) {
         return Right(ApiResponseModel.fromMap(data.data));
       }
