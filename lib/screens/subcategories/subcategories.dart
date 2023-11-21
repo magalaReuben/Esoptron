@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getSubCategory.dart';
@@ -37,10 +39,15 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                 switch (subCategories.status) {
                   case Status.initial:
                   case Status.loading:
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: kPrimaryColor,
-                      ),
+                    return const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                      ],
                     );
                   case Status.loaded:
                     var subCategoriesList = [];
@@ -69,7 +76,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                     Image(
                                         //image: NetImage(image),
                                         image: NetworkImage(
-                                            subCategoriesList[i]["image"]),
+                                            "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}"),
                                         fit: BoxFit.cover),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -78,7 +85,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            "Classic Manicure",
+                                            "${subCategoriesList[i]["name"]} \n ${subCategoriesList[i]["charge"].toString()}",
                                             style: TextStyle(
                                                 color: kPrimaryColor,
                                                 fontSize:
@@ -87,36 +94,15 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: 'krona'),
                                           ),
-                                          Text(
-                                            "Manicure & Pedicure",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize:
-                                                    getProportionateScreenWidth(
-                                                        15),
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'krona'),
-                                          ),
                                           FilledButton(
                                               onPressed: () {},
                                               child: const Padding(
                                                 padding: EdgeInsets.all(13.0),
-                                                child: Text("Service Details"),
+                                                child: Text("Make Order"),
                                               ))
                                         ],
                                       ),
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.favorite,
-                                              color: kPrimaryColor)
-                                        ],
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),

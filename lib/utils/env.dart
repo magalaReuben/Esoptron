@@ -11,6 +11,8 @@ class ENV {
       "service_type/$id/categories";
   static String getSubCategory(id) => "category/$id/sub_categories";
 
+  static String getServices(id) => "sub_category/$id/services";
+
   static String getOtp = 'auth/reset_password/send_otp';
   static String recoverPassword(phoneNumber) =>
       "auth/verify_otp/$phoneNumber/update_password";
