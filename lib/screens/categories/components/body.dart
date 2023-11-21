@@ -81,7 +81,11 @@ class _BodyState extends ConsumerState<Body> {
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(
                             context, ServicesList.routeName,
-                            arguments: [serviceTypes[i]['id']]),
+                            arguments: [
+                              serviceTypes[i]['id'],
+                              "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}",
+                              serviceTypes[i]['name']
+                            ]),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(

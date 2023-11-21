@@ -102,7 +102,10 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                                       ServicesList.routeName,
                                                       arguments: [
                                                         subCategoriesList[i]
-                                                            ['id']
+                                                            ['id'],
+                                                        "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}",
+                                                        subCategoriesList[i]
+                                                            ["name"]
                                                       ]),
                                               child: const Padding(
                                                 padding: EdgeInsets.all(13.0),

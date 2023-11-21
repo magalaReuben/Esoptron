@@ -103,7 +103,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Center(
                       child: Text(
-                        arguments[5] ? "Available" : "UnAvailable",
+                        arguments[5] ? "Available" : "Unavailable",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: getProportionateScreenWidth(12),
@@ -142,12 +142,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         fontFamily: 'krona'),
                   ),
                   for (int i = 0; i < arguments[6]; i++)
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
+                    const Padding(
+                      padding: EdgeInsets.all(4.0),
                       child: Icon(
                         FontAwesomeIcons.solidStar,
                         size: 13,
-                        color: Colors.yellow.withOpacity(0.4),
+                        color: Colors.yellow,
                       ),
                     ),
                   for (int i = 0; i < 5 - arguments[6]; i++)
@@ -236,7 +236,45 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ),
                         )),
                   )
-                : Container(),
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: getProportionateScreenHeight(150),
+                      width: getProportionateScreenWidth(360),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(
+                            width: 2,
+                            color: kPrimaryColor,
+                          )),
+                      child: Row(
+                        children: [
+                          Image(
+                              //image: NetImage(image),
+                              image: NetworkImage(arguments[8]),
+                              fit: BoxFit.cover),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  arguments[9],
+                                  style: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: getProportionateScreenWidth(18),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
             // Padding(
             //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             //   child: Row(
@@ -331,7 +369,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               ? Align(
                   alignment: Alignment.bottomCenter,
                   child: DraggableScrollableSheet(
-                      initialChildSize: 0.40,
+                      initialChildSize: arguments[5] ? 0.30 : 0.40,
                       minChildSize: 0.3,
                       maxChildSize: 0.85,
                       builder: (_, ScrollController scrollController) =>

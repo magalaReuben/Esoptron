@@ -2,6 +2,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getService.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
+import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,26 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                                         FilledButton(
                                             onPressed: () =>
                                                 Navigator.pushNamed(context,
-                                                    ServicesList.routeName),
+                                                    ServiceDetails.routeName,
+                                                    arguments: [
+                                                      servicesList[i]["name"],
+                                                      "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
+                                                      servicesList[i]
+                                                          ["description"],
+                                                      {},
+                                                      servicesList[i]
+                                                          ["ratings_count"],
+                                                      servicesList[i][
+                                                                  "is_available"] ==
+                                                              0
+                                                          ? false
+                                                          : true,
+                                                      servicesList[i]
+                                                          ["ratings_count"],
+                                                      false,
+                                                      arguments[1],
+                                                      arguments[2]
+                                                    ]),
                                             child: const Padding(
                                               padding: EdgeInsets.all(13.0),
                                               child: Text("Select"),
