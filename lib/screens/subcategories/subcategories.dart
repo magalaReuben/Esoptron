@@ -17,6 +17,7 @@ class _SubCategoriesState extends State<SubCategories> {
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(arguments[0]),
       ),
     );

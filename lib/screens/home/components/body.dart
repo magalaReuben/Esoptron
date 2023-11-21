@@ -10,6 +10,7 @@ import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
+import 'package:esoptron_salon/screens/subcategories/subcategories.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -438,8 +439,8 @@ class _BodyState extends ConsumerState<Body> {
 
   GestureDetector ratingCard(String image, String text) {
     return GestureDetector(
-      // onTap: () => Navigator.pushNamed(context, ServiceDetails.routeName,
-      //     arguments: [text, image, description, serviceProvider]),
+      onTap: () => Navigator.pushNamed(context, SubCategories.routeName,
+          arguments: [text]),
       child: Container(
         width: getProportionateScreenWidth(160),
         decoration: BoxDecoration(
