@@ -66,8 +66,11 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                     )),
                                 child: Row(
                                   children: [
-                                    Image.asset(
-                                        "assets/images/favorites/image1.png"),
+                                    Image(
+                                        //image: NetImage(image),
+                                        image: NetworkImage(
+                                            subCategoriesList[i]["image"]),
+                                        fit: BoxFit.cover),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
