@@ -286,13 +286,12 @@ class _BodyState extends ConsumerState<Body> {
                       for (int i = 0; i < services.length; i++)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: ratingCard(
-                            services[i]['image'],
-                            services[i]['name'],
-                            //services[i]["ratings_count"].toString(),
-                            //services[i]["description"],
-                            //services[i]["service_provider"]
-                          ),
+                          child: ratingCard(services[i]['image'],
+                              services[i]['name'], services[i]['id'].toString()
+                              //services[i]["ratings_count"].toString(),
+                              //services[i]["description"],
+                              //services[i]["service_provider"]
+                              ),
                           // names[i]
                           //),
                         )
@@ -437,10 +436,12 @@ class _BodyState extends ConsumerState<Body> {
     );
   }
 
-  GestureDetector ratingCard(String image, String text) {
+  GestureDetector ratingCard(String image, String text, String id) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, SubCategories.routeName,
-          arguments: [text]),
+      onTap: () {
+        Navigator.pushNamed(context, SubCategories.routeName,
+            arguments: [text, id]);
+      },
       child: Container(
         width: getProportionateScreenWidth(160),
         decoration: BoxDecoration(
