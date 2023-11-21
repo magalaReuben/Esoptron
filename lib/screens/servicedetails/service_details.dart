@@ -307,16 +307,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   child: Column(children: [
                                     ListTile(
                                       leading: FutureBuilder<List<dynamic>>(
-                                        future:
-                                            getImage(arguments[3]["avatar"]),
+                                        future: getSubCategories(19),
                                         builder: (context, snapshot) {
                                           //print(snapshot);
                                           if (snapshot.connectionState ==
                                               ConnectionState.done) {
-                                            return CircleAvatar(
-                                              radius: 25,
-                                              backgroundImage: snapshot.data,
-                                            );
+                                            return Container();
+                                            // return CircleAvatar(
+                                            //   radius: 25,
+                                            //   backgroundImage: snapshot.data,
+                                            // );
                                           } else {
                                             // You can return a placeholder or loading indicator while the image is loading
                                             return const CircularProgressIndicator();
