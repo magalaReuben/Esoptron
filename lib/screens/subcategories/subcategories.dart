@@ -4,6 +4,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getSubCategory.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
+import 'package:esoptron_salon/screens/servicesList/services_list.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                     return const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(height: 50),
                         Center(
                           child: CircularProgressIndicator(
                             color: kPrimaryColor,
@@ -95,7 +97,13 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                                 fontFamily: 'krona'),
                                           ),
                                           FilledButton(
-                                              onPressed: () {},
+                                              onPressed: () =>
+                                                  Navigator.pushNamed(context,
+                                                      ServicesList.routeName,
+                                                      arguments: [
+                                                        subCategoriesList[i]
+                                                            ['id']
+                                                      ]),
                                               child: const Padding(
                                                 padding: EdgeInsets.all(13.0),
                                                 child: Text("Make Order"),

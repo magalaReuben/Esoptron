@@ -25,6 +25,7 @@ class GetServices implements GetServicesRepository {
         ENV.getServices(id),
         data: request,
       );
+      //print('Response getting documents ${data.data}');
       log('*************************************');
       log('Response getting documents ${data.data}');
       if (data.data['success'] == true) {

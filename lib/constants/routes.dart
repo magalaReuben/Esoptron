@@ -14,6 +14,7 @@ import 'package:esoptron_salon/screens/serviceBooking/service_booking.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/serviceSpecification/service_specification.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
+import 'package:esoptron_salon/screens/servicesList/services_list.dart';
 import 'package:esoptron_salon/screens/servicesbooked/services_booked.dart';
 import 'package:esoptron_salon/screens/signup/signup_screen.dart';
 import 'package:esoptron_salon/screens/splash/splash_screen.dart';
@@ -41,4 +42,5 @@ final Map<String, WidgetBuilder> routes = {
   ScheduleService.routeName: (context) => const ScheduleService(),
   AddPaymentMethod.routeName: (context) => const AddPaymentMethod(),
   SubCategories.routeName: (context) => const SubCategories(),
+  ServicesList.routeName: (context) => const ServicesList(),
 };
