@@ -77,6 +77,7 @@ class _BodyState extends ConsumerState<Body> {
                     log(element.toString());
                     services.add(element);
                   }
+                  print(services[0]);
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -85,11 +86,14 @@ class _BodyState extends ConsumerState<Body> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ratingCard(
-                                "http://admin.esoptronsalon.com/${services[i]["logo"]}",
-                                services[i]["name"],
-                                services[i]["ratings_count"].toString(),
-                                services[i]["description"],
-                                services[i]["service_provider"]),
+                              "http://admin.esoptronsalon.com/${services[i]["logo"]}",
+                              services[i]["name"],
+                              services[i]["ratings_count"].toString(),
+                              services[i]["description"],
+                              services[i]['is_available'],
+                              services[i]['ratings_count'],
+                              services[i]["service_provider"],
+                            ),
                           )
                       ],
                     ),
@@ -262,11 +266,28 @@ class _BodyState extends ConsumerState<Body> {
   //   );
   // }
 
-  GestureDetector ratingCard(String image, String text, String rating,
-      String description, Map<dynamic, dynamic> serviceProvider) {
+  GestureDetector ratingCard(
+      String image,
+      String text,
+      String rating,
+      String description,
+      bool isAvailable,
+      ratingsCount,
+      Map<dynamic, dynamic> serviceProvider) {
+    // this boolean stores if you are coming from service page or not
+    bool direct = true;
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, ServiceDetails.routeName,
-          arguments: [text, image, description, serviceProvider]),
+      onTap: () =>
+          Navigator.pushNamed(context, ServiceDetails.routeName, arguments: [
+        text,
+        image,
+        description,
+        serviceProvider,
+        rating,
+        isAvailable,
+        ratingsCount,
+        direct
+      ]),
       child: Container(
         width: getProportionateScreenWidth(160),
         decoration: BoxDecoration(

@@ -52,6 +52,7 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                   for (var element in services.data!.data['services']['data']) {
                     servicesList.add(element);
                   }
+                  print(servicesList[0]);
                   return SingleChildScrollView(
                     child: Column(
                       children: [

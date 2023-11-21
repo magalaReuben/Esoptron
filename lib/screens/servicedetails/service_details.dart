@@ -39,6 +39,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     CarouselController buttonCarouselController = CarouselController();
+    print(arguments);
     return Scaffold(
         //bottomNavigationBar: Container(),
         appBar: AppBar(
@@ -58,8 +59,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         SizedBox(
                           //height: getProportionateScreenHeight(100),
                           child: Image(
-                              image: const AssetImage(
-                                  "assets/images/serviceDetails/waxingWoman.png"),
+                              image: NetworkImage("${arguments[1]}"),
                               //height: getProportionateScreenHeight(300),
                               width: getProportionateScreenWidth(450),
                               fit: BoxFit.cover),
@@ -70,20 +70,20 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           autoPlay: false,
                           enlargeCenterPage: true,
                           viewportFraction: 1,
-                          aspectRatio: 2.3,
+                          aspectRatio: 2.1,
                           initialPage: 1)),
                 ),
-                Positioned(
-                  left: getProportionateScreenWidth(450) / 2.8,
-                  bottom: 25,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      3,
-                      (index) => buildDot(index: index),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   left: getProportionateScreenWidth(450) / 2.8,
+                //   bottom: 25,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: List.generate(
+                //       3,
+                //       (index) => buildDot(index: index),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             Padding(
@@ -103,7 +103,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Center(
                       child: Text(
-                        "Available",
+                        arguments[5] ? "Available" : "UnAvailable",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: getProportionateScreenWidth(12),
@@ -134,14 +134,23 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               child: Row(
                 children: [
                   Text(
-                    "4.9",
+                    "${arguments[6]}",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: getProportionateScreenWidth(13),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'krona'),
                   ),
-                  for (int i = 0; i < 4; i++)
+                  for (int i = 0; i < arguments[6]; i++)
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(
+                        FontAwesomeIcons.solidStar,
+                        size: 13,
+                        color: Colors.yellow.withOpacity(0.4),
+                      ),
+                    ),
+                  for (int i = 0; i < 5 - arguments[6]; i++)
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Icon(
@@ -153,226 +162,236 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  height: getProportionateScreenHeight(100),
-                  width: getProportionateScreenWidth(360),
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                        width: 2,
-                        color: kPrimaryColor.withOpacity(0.2),
-                      )),
-                  child: Center(
-                    child: ListTile(
-                      leading: FutureBuilder<NetworkImage>(
-                        future: getImage(arguments[3]["avatar"]),
-                        builder: (context, snapshot) {
-                          //print(snapshot);
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            return CircleAvatar(
-                              radius: 25,
-                              backgroundImage: snapshot.data,
-                            );
-                          } else {
-                            // You can return a placeholder or loading indicator while the image is loading
-                            return const CircularProgressIndicator();
-                          }
-                        },
-                      ),
-                      title: Text("Service Provider",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: getProportionateScreenWidth(18),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'krona')),
-                      subtitle: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(arguments[3]["name"],
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: getProportionateScreenWidth(18),
-                                      fontWeight: FontWeight.normal,
-                                      fontFamily: 'krona')),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(
-                                Icons.location_pin,
-                                size: 15,
-                                color: kPrimaryColor,
-                              ),
-                              Text(
-                                "Mengo",
+            arguments[7]
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        height: getProportionateScreenHeight(100),
+                        width: getProportionateScreenWidth(360),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            border: Border.all(
+                              width: 2,
+                              color: kPrimaryColor.withOpacity(0.2),
+                            )),
+                        child: Center(
+                          child: ListTile(
+                            leading: FutureBuilder<NetworkImage>(
+                              future: getImage(arguments[3]["avatar"]),
+                              builder: (context, snapshot) {
+                                //print(snapshot);
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage: snapshot.data,
+                                  );
+                                } else {
+                                  // You can return a placeholder or loading indicator while the image is loading
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                            title: Text("Service Provider",
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(13),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: 'krona'),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  )),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Row(
-                children: [
-                  Text("Service Types",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(18),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'krona')),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          chip1tapped = true;
-                          chip2tapped = false;
-                          chip3tapped = false;
-                        });
-                      },
-                      child: Chip(
-                          elevation: 5,
-                          side: BorderSide(
-                              color:
-                                  chip1tapped ? kPrimaryColor : Colors.white),
-                          backgroundColor: chip1tapped
-                              ? kPrimaryColor.withOpacity(0.7)
-                              : Colors.white,
-                          label: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text("Waxing"),
-                          )),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          chip1tapped = false;
-                          chip2tapped = true;
-                          chip3tapped = false;
-                        });
-                      },
-                      child: Chip(
-                          elevation: 5,
-                          side: BorderSide(
-                              color:
-                                  chip2tapped ? kPrimaryColor : Colors.white),
-                          backgroundColor: chip2tapped
-                              ? kPrimaryColor.withOpacity(0.7)
-                              : Colors.white,
-                          label: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text("Nails"),
-                          )),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          chip1tapped = false;
-                          chip2tapped = false;
-                          chip3tapped = true;
-                        });
-                      },
-                      child: Chip(
-                          elevation: 5,
-                          side: BorderSide(
-                              color:
-                                  chip3tapped ? kPrimaryColor : Colors.white),
-                          backgroundColor: chip3tapped
-                              ? kPrimaryColor.withOpacity(0.7)
-                              : Colors.white,
-                          label: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text("Hair Styling"),
-                          )),
-                    )
-                  ],
-                ),
-              ),
-            ),
+                                    fontSize: getProportionateScreenWidth(18),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'krona')),
+                            subtitle: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(arguments[3]["name"],
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                getProportionateScreenWidth(18),
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'krona')),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(
+                                      Icons.location_pin,
+                                      size: 15,
+                                      color: kPrimaryColor,
+                                    ),
+                                    Text(
+                                      "Mengo",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenWidth(13),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'krona'),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )),
+                  )
+                : Container(),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            //   child: Row(
+            //     children: [
+            //       Text("Service Types",
+            //           style: TextStyle(
+            //               color: Colors.black,
+            //               fontSize: getProportionateScreenWidth(18),
+            //               fontWeight: FontWeight.bold,
+            //               fontFamily: 'krona')),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: SingleChildScrollView(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               chip1tapped = true;
+            //               chip2tapped = false;
+            //               chip3tapped = false;
+            //             });
+            //           },
+            //           child: Chip(
+            //               elevation: 5,
+            //               side: BorderSide(
+            //                   color:
+            //                       chip1tapped ? kPrimaryColor : Colors.white),
+            //               backgroundColor: chip1tapped
+            //                   ? kPrimaryColor.withOpacity(0.7)
+            //                   : Colors.white,
+            //               label: const Padding(
+            //                 padding: EdgeInsets.all(8.0),
+            //                 child: Text("Waxing"),
+            //               )),
+            //         ),
+            //         GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               chip1tapped = false;
+            //               chip2tapped = true;
+            //               chip3tapped = false;
+            //             });
+            //           },
+            //           child: Chip(
+            //               elevation: 5,
+            //               side: BorderSide(
+            //                   color:
+            //                       chip2tapped ? kPrimaryColor : Colors.white),
+            //               backgroundColor: chip2tapped
+            //                   ? kPrimaryColor.withOpacity(0.7)
+            //                   : Colors.white,
+            //               label: const Padding(
+            //                 padding: EdgeInsets.all(8.0),
+            //                 child: Text("Nails"),
+            //               )),
+            //         ),
+            //         GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               chip1tapped = false;
+            //               chip2tapped = false;
+            //               chip3tapped = true;
+            //             });
+            //           },
+            //           child: Chip(
+            //               elevation: 5,
+            //               side: BorderSide(
+            //                   color:
+            //                       chip3tapped ? kPrimaryColor : Colors.white),
+            //               backgroundColor: chip3tapped
+            //                   ? kPrimaryColor.withOpacity(0.7)
+            //                   : Colors.white,
+            //               label: const Padding(
+            //                 padding: EdgeInsets.all(8.0),
+            //                 child: Text("Hair Styling"),
+            //               )),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
             // SizedBox(
             //   height: getProportionateScreenHeight(300),
             // )
           ]),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: DraggableScrollableSheet(
-                  initialChildSize: 0.25,
-                  minChildSize: 0.25,
-                  maxChildSize: 0.85,
-                  builder: (_, ScrollController scrollController) => Scaffold(
-                        body: SingleChildScrollView(
-                            controller: scrollController,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(children: [
-                                ListTile(
-                                  leading: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.5),
-                                          border: Border.all(
-                                              color: kPrimaryColor
-                                                  .withOpacity(0.5))),
-                                      child: Image.asset(
-                                          "assets/images/serviceDetails/wax3.png")),
-                                  title: const Text("Full brazilian waxing",
-                                      style: TextStyle(color: Colors.black)),
-                                  subtitle: const Padding(
-                                    padding: EdgeInsets.only(top: 8.0),
-                                    child: Text("UGX 20000",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                  trailing: Checkbox(
-                                      value: selected1,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          selected1 = value!;
-                                        });
-                                      }),
+          arguments[7]
+              ? Align(
+                  alignment: Alignment.bottomCenter,
+                  child: DraggableScrollableSheet(
+                      initialChildSize: 0.40,
+                      minChildSize: 0.3,
+                      maxChildSize: 0.85,
+                      builder: (_, ScrollController scrollController) =>
+                          Scaffold(
+                            body: SingleChildScrollView(
+                                controller: scrollController,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(children: [
+                                    ListTile(
+                                      leading: Container(
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withOpacity(0.5),
+                                              border: Border.all(
+                                                  color: kPrimaryColor
+                                                      .withOpacity(0.5))),
+                                          child: Image.asset(
+                                              "assets/images/serviceDetails/wax3.png")),
+                                      title: const Text("Full brazilian waxing",
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                      subtitle: const Padding(
+                                        padding: EdgeInsets.only(top: 8.0),
+                                        child: Text("UGX 20000",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      trailing: Checkbox(
+                                          value: selected1,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              selected1 = value!;
+                                            });
+                                          }),
+                                    ),
+                                  ]),
+                                )),
+                            appBar: AppBar(
+                              centerTitle: true,
+                              actions: const [
+                                Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 30,
+                                  color: kPrimaryColor,
                                 ),
-                              ]),
-                            )),
-                        appBar: AppBar(
-                          centerTitle: true,
-                          actions: const [
-                            Icon(
-                              Icons.keyboard_arrow_up,
-                              size: 30,
-                              color: kPrimaryColor,
+                              ],
+                              automaticallyImplyLeading: false,
+                              shadowColor: Colors.transparent,
+                              backgroundColor: Colors.white,
+                              title: Text("Brazillian Waxing",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(18),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona')),
                             ),
-                          ],
-                          automaticallyImplyLeading: false,
-                          shadowColor: Colors.transparent,
-                          backgroundColor: Colors.white,
-                          title: Text("Brazillian Waxing",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona')),
-                        ),
-                      ))),
+                          )))
+              : Container(),
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
