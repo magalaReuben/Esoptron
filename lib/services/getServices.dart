@@ -22,7 +22,7 @@ class GetServices implements GetServicesRepository {
     try {
       final request = requestModel.toMap();
       final data = await DioApi.dio.get(
-        ENV.getSubCategory(id),
+        ENV.getServices(id),
         data: request,
       );
       log('*************************************');
