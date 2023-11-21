@@ -114,7 +114,8 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                                                           ["ratings_count"],
                                                       false,
                                                       arguments[1],
-                                                      arguments[2]
+                                                      arguments[2],
+                                                      servicesList[i]["id"]
                                                     ]),
                                             child: const Padding(
                                               padding: EdgeInsets.all(13.0),

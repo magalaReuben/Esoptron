@@ -286,7 +286,8 @@ class _BodyState extends ConsumerState<Body> {
         rating,
         isAvailable,
         ratingsCount,
-        direct
+        direct,
+        serviceProvider['id'],
       ]),
       child: Container(
         width: getProportionateScreenWidth(160),
