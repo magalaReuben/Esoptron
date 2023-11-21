@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:esoptron_salon/constants/constants.dart';
@@ -34,12 +36,23 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     }
   }
 
+  Future<List<dynamic>> getSubCategories(id) async {
+    final response = await http.get(Uri.parse(
+        "http://admin.esoptronsalon.com/api/service/19/sub_categories"));
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print(response.body);
+      return [response.body, response.statusCode];
+    } else {
+      return ["", response.statusCode];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     CarouselController buttonCarouselController = CarouselController();
-    print(arguments);
+    log(arguments.toString());
     return Scaffold(
         //bottomNavigationBar: Container(),
         appBar: AppBar(
@@ -215,13 +228,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    const Icon(
-                                      Icons.location_pin,
-                                      size: 15,
-                                      color: kPrimaryColor,
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.email,
+                                        size: 15,
+                                        color: kPrimaryColor,
+                                      ),
                                     ),
                                     Text(
-                                      "Mengo",
+                                      arguments[3]["email"],
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
@@ -274,96 +290,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       ),
                     ),
                   ),
-
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            //   child: Row(
-            //     children: [
-            //       Text("Service Types",
-            //           style: TextStyle(
-            //               color: Colors.black,
-            //               fontSize: getProportionateScreenWidth(18),
-            //               fontWeight: FontWeight.bold,
-            //               fontFamily: 'krona')),
-            //     ],
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: SingleChildScrollView(
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         GestureDetector(
-            //           onTap: () {
-            //             setState(() {
-            //               chip1tapped = true;
-            //               chip2tapped = false;
-            //               chip3tapped = false;
-            //             });
-            //           },
-            //           child: Chip(
-            //               elevation: 5,
-            //               side: BorderSide(
-            //                   color:
-            //                       chip1tapped ? kPrimaryColor : Colors.white),
-            //               backgroundColor: chip1tapped
-            //                   ? kPrimaryColor.withOpacity(0.7)
-            //                   : Colors.white,
-            //               label: const Padding(
-            //                 padding: EdgeInsets.all(8.0),
-            //                 child: Text("Waxing"),
-            //               )),
-            //         ),
-            //         GestureDetector(
-            //           onTap: () {
-            //             setState(() {
-            //               chip1tapped = false;
-            //               chip2tapped = true;
-            //               chip3tapped = false;
-            //             });
-            //           },
-            //           child: Chip(
-            //               elevation: 5,
-            //               side: BorderSide(
-            //                   color:
-            //                       chip2tapped ? kPrimaryColor : Colors.white),
-            //               backgroundColor: chip2tapped
-            //                   ? kPrimaryColor.withOpacity(0.7)
-            //                   : Colors.white,
-            //               label: const Padding(
-            //                 padding: EdgeInsets.all(8.0),
-            //                 child: Text("Nails"),
-            //               )),
-            //         ),
-            //         GestureDetector(
-            //           onTap: () {
-            //             setState(() {
-            //               chip1tapped = false;
-            //               chip2tapped = false;
-            //               chip3tapped = true;
-            //             });
-            //           },
-            //           child: Chip(
-            //               elevation: 5,
-            //               side: BorderSide(
-            //                   color:
-            //                       chip3tapped ? kPrimaryColor : Colors.white),
-            //               backgroundColor: chip3tapped
-            //                   ? kPrimaryColor.withOpacity(0.7)
-            //                   : Colors.white,
-            //               label: const Padding(
-            //                 padding: EdgeInsets.all(8.0),
-            //                 child: Text("Hair Styling"),
-            //               )),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: getProportionateScreenHeight(300),
-            // )
           ]),
           arguments[7]
               ? Align(
@@ -380,33 +306,53 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(children: [
                                     ListTile(
-                                      leading: Container(
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.5),
-                                              border: Border.all(
-                                                  color: kPrimaryColor
-                                                      .withOpacity(0.5))),
-                                          child: Image.asset(
-                                              "assets/images/serviceDetails/wax3.png")),
-                                      title: const Text("Full brazilian waxing",
-                                          style:
-                                              TextStyle(color: Colors.black)),
-                                      subtitle: const Padding(
-                                        padding: EdgeInsets.only(top: 8.0),
-                                        child: Text("UGX 20000",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold)),
+                                      leading: FutureBuilder<List<dynamic>>(
+                                        future:
+                                            getImage(arguments[3]["avatar"]),
+                                        builder: (context, snapshot) {
+                                          //print(snapshot);
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                            return CircleAvatar(
+                                              radius: 25,
+                                              backgroundImage: snapshot.data,
+                                            );
+                                          } else {
+                                            // You can return a placeholder or loading indicator while the image is loading
+                                            return const CircularProgressIndicator();
+                                          }
+                                        },
                                       ),
-                                      trailing: Checkbox(
-                                          value: selected1,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              selected1 = value!;
-                                            });
-                                          }),
-                                    ),
+                                    )
+                                    // ListTile(
+                                    //   leading:
+                                    //   Container(
+                                    //       decoration: BoxDecoration(
+                                    //           color:
+                                    //               Colors.white.withOpacity(0.5),
+                                    //           border: Border.all(
+                                    //               color: kPrimaryColor
+                                    //                   .withOpacity(0.5))),
+                                    //       child: Image.asset(
+                                    //           "assets/images/serviceDetails/wax3.png")),
+                                    //   title: const Text("Full brazilian waxing",
+                                    //       style:
+                                    //           TextStyle(color: Colors.black)),
+                                    //   subtitle: const Padding(
+                                    //     padding: EdgeInsets.only(top: 8.0),
+                                    //     child: Text("UGX 20000",
+                                    //         style: TextStyle(
+                                    //             color: Colors.black,
+                                    //             fontWeight: FontWeight.bold)),
+                                    //   ),
+                                    //   trailing: Checkbox(
+                                    //       value: selected1,
+                                    //       onChanged: (bool? value) {
+                                    //         setState(() {
+                                    //           selected1 = value!;
+                                    //         });
+                                    //       }),
+                                    // ),
                                   ]),
                                 )),
                             appBar: AppBar(
@@ -421,7 +367,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               automaticallyImplyLeading: false,
                               shadowColor: Colors.transparent,
                               backgroundColor: Colors.white,
-                              title: Text("Brazillian Waxing",
+                              title: Text("",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: getProportionateScreenWidth(18),
