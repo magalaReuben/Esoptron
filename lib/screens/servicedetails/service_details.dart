@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:awesome_icons/awesome_icons.dart';
@@ -40,10 +41,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     final response = await http.get(Uri.parse(
         "http://admin.esoptronsalon.com/api/service/19/sub_categories"));
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print(response.body);
-      return [response.body, response.statusCode];
+      final responseData = json.decode(response.body);
+      return responseData['data']['sub_categories'];
     } else {
-      return ["", response.statusCode];
+      return [];
     }
   }
 
@@ -295,7 +296,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               ? Align(
                   alignment: Alignment.bottomCenter,
                   child: DraggableScrollableSheet(
-                      initialChildSize: arguments[5] ? 0.30 : 0.40,
+                      initialChildSize: arguments[5] ? 0.25 : 0.40,
                       minChildSize: 0.3,
                       maxChildSize: 0.85,
                       builder: (_, ScrollController scrollController) =>
@@ -307,16 +308,57 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   child: Column(children: [
                                     ListTile(
                                       leading: FutureBuilder<List<dynamic>>(
-                                        future: getSubCategories(19),
+                                        future: getSubCategories(arguments[9]),
                                         builder: (context, snapshot) {
                                           //print(snapshot);
                                           if (snapshot.connectionState ==
                                               ConnectionState.done) {
-                                            return Container();
-                                            // return CircleAvatar(
-                                            //   radius: 25,
-                                            //   backgroundImage: snapshot.data,
-                                            // );
+                                            return SingleChildScrollView(
+                                                child: Column(
+                                              children: [
+                                                for (var element
+                                                    in snapshot.data!)
+                                                  ListTile(
+                                                    leading: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white
+                                                                .withOpacity(
+                                                                    0.5),
+                                                            border: Border.all(
+                                                                color: kPrimaryColor
+                                                                    .withOpacity(
+                                                                        0.5))),
+                                                        child: Image.asset(
+                                                            "http://admin.esoptronsalon.com/${element["image"]}")),
+                                                    title: Text(
+                                                        "${element["name"]}",
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.black)),
+                                                    subtitle: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8.0),
+                                                      child: Text(
+                                                          "${element["charge"]}",
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                    ),
+                                                    trailing: Checkbox(
+                                                        value: selected1,
+                                                        onChanged:
+                                                            (bool? value) {
+                                                          setState(() {
+                                                            selected1 = value!;
+                                                          });
+                                                        }),
+                                                  )
+                                              ],
+                                            ));
                                           } else {
                                             // You can return a placeholder or loading indicator while the image is loading
                                             return const CircularProgressIndicator();
@@ -324,35 +366,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         },
                                       ),
                                     )
-                                    // ListTile(
-                                    //   leading:
-                                    //   Container(
-                                    //       decoration: BoxDecoration(
-                                    //           color:
-                                    //               Colors.white.withOpacity(0.5),
-                                    //           border: Border.all(
-                                    //               color: kPrimaryColor
-                                    //                   .withOpacity(0.5))),
-                                    //       child: Image.asset(
-                                    //           "assets/images/serviceDetails/wax3.png")),
-                                    //   title: const Text("Full brazilian waxing",
-                                    //       style:
-                                    //           TextStyle(color: Colors.black)),
-                                    //   subtitle: const Padding(
-                                    //     padding: EdgeInsets.only(top: 8.0),
-                                    //     child: Text("UGX 20000",
-                                    //         style: TextStyle(
-                                    //             color: Colors.black,
-                                    //             fontWeight: FontWeight.bold)),
-                                    //   ),
-                                    //   trailing: Checkbox(
-                                    //       value: selected1,
-                                    //       onChanged: (bool? value) {
-                                    //         setState(() {
-                                    //           selected1 = value!;
-                                    //         });
-                                    //       }),
-                                    // ),
                                   ]),
                                 )),
                             appBar: AppBar(
