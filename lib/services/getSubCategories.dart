@@ -14,6 +14,7 @@ class GetSubCategoryService implements GetSubCategoriesRepository {
   @override
   Future<Either<String, ApiResponseModel>> getSubCategories(
       APIRequestModel requestModel) async {
+    print("Hello world");
     final id = requestModel.data!['data'];
     while (id == null) {
       await Future.delayed(Duration(seconds: 1));

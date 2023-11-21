@@ -1,5 +1,6 @@
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
+import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/repositories/category.dart';
 import 'package:esoptron_salon/repositories/getSubCategories.dart';
 import 'package:esoptron_salon/services/category.dart';
@@ -29,9 +30,10 @@ class SubCategoryNotifier extends StateNotifier<AppState<ApiResponseModel>> {
     _getsubCategories();
   }
   _getsubCategories() async {
-    //final countryDevice = ref.watch(countryAndDeviceProvider);
+    final id = ref.watch(subCategoriesIdProvider);
     state = AppState(status: Status.loading);
-    final data = await repository.getSubCategories(APIRequestModel());
+    final data =
+        await repository.getSubCategories(APIRequestModel(data: {"data": id}));
     data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
         (r) => state = AppState(status: Status.loaded, data: r));
   }
