@@ -6,6 +6,7 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getCategoriesUnderServiceType.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
+import 'package:esoptron_salon/screens/servicesList/services_list.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -77,14 +78,19 @@ class _BodyState extends ConsumerState<Body> {
                 child: Column(
                   children: [
                     for (int i = 0; i < serviceTypes.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text(serviceTypes[i]['name']),
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
-                            radius: 25,
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                            context, ServicesList.routeName,
+                            arguments: [serviceTypes[i]['id']]),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text(serviceTypes[i]['name']),
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
+                              radius: 25,
+                            ),
                           ),
                         ),
                       ),
