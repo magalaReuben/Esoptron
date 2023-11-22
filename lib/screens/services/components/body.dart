@@ -120,7 +120,6 @@ class _BodyState extends ConsumerState<Body> {
               ),
             ),
             Builder(builder: (context) {
-              // ref.invalidate(documentsProvider);
               final servicesProvidersState =
                   ref.watch(serviceProvidersProvider);
               switch (servicesProvidersState.status) {
@@ -151,27 +150,8 @@ class _BodyState extends ConsumerState<Body> {
                           serviceProvider(
                               serviceProviders[index]["username"],
                               serviceProviders[index]["phone"],
-                              serviceProviders[index]["avatar"]));
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
-                //     children: [
-                //       for (int i = 0; i < services.length; i++)
-                //         Padding(
-                //           padding: const EdgeInsets.all(8.0),
-                //           child: ratingCard(
-                //             "http://admin.esoptronsalon.com/${services[i]["logo"]}",
-                //             services[i]["name"],
-                //             services[i]["ratings_count"].toString(),
-                //             services[i]["description"],
-                //             services[i]['is_available'],
-                //             services[i]['ratings_count'],
-                //             services[i]["service_provider"],
-                //           ),
-                //         )
-                //     ],
-                //   ),
-                // );
+                              serviceProviders[index]["avatar"],
+                              serviceProviders[index]["id"]));
                 case Status.error:
                   return const SizedBox();
               }
@@ -183,10 +163,10 @@ class _BodyState extends ConsumerState<Body> {
   }
 
   GestureDetector serviceProvider(
-      String serviceProviderName, String phoneNumber, String image) {
+      String serviceProviderName, String phoneNumber, String image, int id) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, ServiceProvider.routeName,
-          arguments: ['http://admin.esoptronsalon.com/$image']),
+          arguments: ['http://admin.esoptronsalon.com/$image', id]),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
