@@ -4,6 +4,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/service.dart';
+import 'package:esoptron_salon/controllers/serviceProviders.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
@@ -118,27 +119,74 @@ class _BodyState extends ConsumerState<Body> {
                 ],
               ),
             ),
-            GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 1,
-                  crossAxisCount: 2,
-                ),
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) =>
-                    serviceProvider(index, serviceProviderNames))
+            Builder(builder: (context) {
+              // ref.invalidate(documentsProvider);
+              final servicesProvidersState =
+                  ref.watch(serviceProvidersProvider);
+              switch (servicesProvidersState.status) {
+                case Status.initial:
+                case Status.loading:
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: kPrimaryColor,
+                    ),
+                  );
+                case Status.loaded:
+                  var serviceProviders = [];
+                  //log(servicesState.data!.data.toString());
+                  for (var element in servicesProvidersState
+                      .data!.data['service_providers']) {
+                    log(element.toString());
+                    serviceProviders.add(element);
+                  }
+                  return GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1,
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: serviceProviders.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          serviceProvider(
+                              serviceProviders[index]["username"],
+                              serviceProviders[index]["phone"],
+                              serviceProviders[index]["avatar"]));
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //     children: [
+                //       for (int i = 0; i < services.length; i++)
+                //         Padding(
+                //           padding: const EdgeInsets.all(8.0),
+                //           child: ratingCard(
+                //             "http://admin.esoptronsalon.com/${services[i]["logo"]}",
+                //             services[i]["name"],
+                //             services[i]["ratings_count"].toString(),
+                //             services[i]["description"],
+                //             services[i]['is_available'],
+                //             services[i]['ratings_count'],
+                //             services[i]["service_provider"],
+                //           ),
+                //         )
+                //     ],
+                //   ),
+                // );
+                case Status.error:
+                  return const SizedBox();
+              }
+            }),
           ],
         ),
       ),
     );
   }
 
-  GestureDetector serviceProvider(int index, List serviceProviderName) {
-    print('assets/images/home/pic$index.jpg');
-    index += 1;
+  GestureDetector serviceProvider(
+      String serviceProviderName, String phoneNumber, String image) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, ServiceProvider.routeName,
-          arguments: ['assets/images/home/pic$index.jpg']),
+          arguments: ['http://admin.esoptronsalon.com/$image']),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -155,13 +203,13 @@ class _BodyState extends ConsumerState<Body> {
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   radius: 30,
-                  foregroundImage:
-                      AssetImage('assets/images/home/pic$index.jpg'),
+                  foregroundImage: NetworkImage(
+                      "http://admin.esoptronsalon.com/storage/service_providers/${image}"),
                 ),
               ),
               SizedBox(height: getProportionateScreenHeight(5)),
               Text(
-                serviceProviderName[index - 1],
+                serviceProviderName,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(17),
@@ -170,7 +218,7 @@ class _BodyState extends ConsumerState<Body> {
               ),
               SizedBox(height: getProportionateScreenHeight(5)),
               Text(
-                "G&B Beauty Services",
+                phoneNumber,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(12),

@@ -5,3 +5,5 @@ final categoriesUnderServiceIdProvider = StateProvider<int?>((ref) => null);
 final subCategoriesIdProvider = StateProvider<int?>((ref) => null);
 
 final getServiceIdProvider = StateProvider<int?>((ref) => null);
+
+final getServiceProviderDetailsIdProvider = StateProvider<int?>((ref) => null);

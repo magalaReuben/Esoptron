@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _ServiceProvidersRepositoryProvider =
     Provider<ServiceProviderRepository>((ref) {
-  return ServiceProvidersService();
+  return ServiceProviderDetailsService();
 });
 
 final serviceProvidersProvider =
@@ -32,7 +32,6 @@ class ServiceProvidersNotifier
     _getServiceProviders();
   }
   _getServiceProviders() async {
-    //final countryDevice = ref.watch(countryAndDeviceProvider);
     state = AppState(status: Status.loading);
     final data = await repository.getServiceProviders(APIRequestModel());
     data.fold((l) => state = AppState(status: Status.error, errorMessage: l),

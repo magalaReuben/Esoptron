@@ -19,5 +19,8 @@ class ENV {
 
   static String serviceProviders = 'users/service_providers';
 
+  static String serviceProviderDetails(id) =>
+      '/users/service_provider/$id/details';
+
   static String uploadPic = 'user/profileUpload';
 }
