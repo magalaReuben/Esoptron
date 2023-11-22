@@ -17,5 +17,7 @@ class ENV {
   static String recoverPassword(phoneNumber) =>
       "auth/verify_otp/$phoneNumber/update_password";
 
+  static String serviceProviders = 'users/service_providers';
+
   static String uploadPic = 'user/profileUpload';
 }

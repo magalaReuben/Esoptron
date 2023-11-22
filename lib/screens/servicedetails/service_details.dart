@@ -395,17 +395,74 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              color: Colors.white,
-              height: getProportionateScreenHeight(85),
-              child: Padding(
-                padding: const EdgeInsets.all(13.0),
-                child: DefaultButton(
-                  press: () =>
-                      Navigator.pushNamed(context, ServiceBooking.routeName),
-                  text: "Book Now",
+                color: Colors.white,
+                height: getProportionateScreenHeight(85),
+                child: Padding(
+                    padding: const EdgeInsets.all(13.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: getProportionateScreenHeight(56),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: arguments[7]
+                                    ? selected1
+                                        ? [kPrimaryColor, kPrimaryColor]
+                                        : [Colors.grey, Colors.grey]
+                                    : [kPrimaryColor, kPrimaryColor]),
+                            borderRadius: BorderRadius.circular(15.0)),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            primary: Colors.transparent,
+                          ),
+                          onPressed: () {
+                            if (arguments[7]) {
+                              if (selected1) {
+                                Navigator.pushNamed(
+                                    context, ServiceBooking.routeName);
+                              } else {
+                                () => {};
+                              }
+                            } else {
+                              Navigator.pushNamed(
+                                  context, ServiceBooking.routeName);
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              arguments[7]
+                                  ? Text(
+                                      selected1 ? "Proceed" : "Select Category",
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenWidth(18),
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Proceed",
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenWidth(18),
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ))
+                // DefaultButton(
+                //   press: () =>
+                //       Navigator.pushNamed(context, ServiceBooking.routeName),
+                //   text: "Book Now",
+                // ),
                 ),
-              ),
-            ),
           ),
         ]));
   }
