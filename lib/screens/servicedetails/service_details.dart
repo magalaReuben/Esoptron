@@ -306,19 +306,20 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(children: [
-                                    ListTile(
-                                      leading: FutureBuilder<List<dynamic>>(
-                                        future: getSubCategories(arguments[9]),
-                                        builder: (context, snapshot) {
-                                          //print(snapshot);
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            return SingleChildScrollView(
-                                                child: Column(
-                                              children: [
-                                                for (var element
-                                                    in snapshot.data!)
-                                                  ListTile(
+                                    FutureBuilder<List<dynamic>>(
+                                      future: getSubCategories(arguments[8]),
+                                      builder: (context, snapshot) {
+                                        print(arguments);
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          return Column(
+                                            children: [
+                                              for (var element
+                                                  in snapshot.data!)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(5.0),
+                                                  child: ListTile(
                                                     leading: Container(
                                                         decoration: BoxDecoration(
                                                             color: Colors.white
@@ -328,8 +329,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                                 color: kPrimaryColor
                                                                     .withOpacity(
                                                                         0.5))),
-                                                        child: Image.asset(
-                                                            "http://admin.esoptronsalon.com/${element["image"]}")),
+                                                        child: Image(
+                                                          image: NetworkImage(
+                                                              "http://admin.esoptronsalon.com/${element["image"]}"),
+                                                        )),
                                                     title: Text(
                                                         "${element["name"]}",
                                                         style: const TextStyle(
@@ -356,16 +359,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                             selected1 = value!;
                                                           });
                                                         }),
-                                                  )
-                                              ],
-                                            ));
-                                          } else {
-                                            // You can return a placeholder or loading indicator while the image is loading
-                                            return const CircularProgressIndicator();
-                                          }
-                                        },
-                                      ),
-                                    )
+                                                  ),
+                                                )
+                                            ],
+                                          );
+                                        } else {
+                                          // You can return a placeholder or loading indicator while the image is loading
+                                          return const CircularProgressIndicator();
+                                        }
+                                      },
+                                    ),
                                   ]),
                                 )),
                             appBar: AppBar(
