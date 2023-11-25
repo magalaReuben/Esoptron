@@ -25,7 +25,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   bool chip2tapped = false;
   bool chip3tapped = false;
   bool selected1 = false;
+  List favorites = [];
+  List<dynamic> favoritesServiceId = [];
   PageController? pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    getFavorites();
+  }
 
   Future<NetworkImage> getImage(profileUrl) async {
     final response = await http
@@ -42,7 +50,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
-      Uri.parse("http://admin.esoptronsalon.com/api/service/19/sub_categories"),
+      Uri.parse(
+          "http://admin.esoptronsalon.com/api/service/$id/sub_categories"),
       headers: {
         'Authorization': 'Bearer $authorizationToken',
         'Content-Type':
@@ -52,6 +61,32 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       return responseData['data']['sub_categories'];
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> getFavorites() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse("http://admin.esoptronsalon.com/api/user/favourites/services"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseData = json.decode(response.body);
+      setState(() {
+        favorites = responseData['data']['favourite_services'];
+      });
+      for (var element in favorites) {
+        favoritesServiceId.add(element["service_id"]);
+      }
+      //print("This is our data: $favoritesServiceId");
+      return responseData['data']['favourite_services'];
     } else {
       return [];
     }
@@ -96,27 +131,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           aspectRatio: 2.1,
                           initialPage: 1)),
                 ),
-                // Positioned(
-                //   left: getProportionateScreenWidth(450) / 2.8,
-                //   bottom: 25,
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: List.generate(
-                //       3,
-                //       (index) => buildDot(index: index),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
               child: Row(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.favorite_outline,
-                        color: kPrimaryColor, size: 25),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      child: const Icon(Icons.favorite_outline,
+                          color: kPrimaryColor, size: 25),
+                    ),
                   ),
                   Container(
                     height: getProportionateScreenHeight(30),

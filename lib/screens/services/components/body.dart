@@ -5,6 +5,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/service.dart';
 import 'package:esoptron_salon/controllers/serviceProviders.dart';
+import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
@@ -151,7 +152,8 @@ class _BodyState extends ConsumerState<Body> {
                               serviceProviders[index]["username"],
                               serviceProviders[index]["phone"],
                               serviceProviders[index]["avatar"],
-                              serviceProviders[index]["id"]));
+                              serviceProviders[index]["id"],
+                              ref));
                 case Status.error:
                   return const SizedBox();
               }
@@ -162,11 +164,14 @@ class _BodyState extends ConsumerState<Body> {
     );
   }
 
-  GestureDetector serviceProvider(
-      String serviceProviderName, String phoneNumber, String image, int id) {
+  GestureDetector serviceProvider(String serviceProviderName,
+      String phoneNumber, String image, int id, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, ServiceProvider.routeName,
-          arguments: ['http://admin.esoptronsalon.com/$image', id]),
+      onTap: () {
+        ref.read(getServiceProviderDetailsIdProvider.notifier).state = id;
+        Navigator.pushNamed(context, ServiceProvider.routeName,
+            arguments: ['http://admin.esoptronsalon.com/$image', id]);
+      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
