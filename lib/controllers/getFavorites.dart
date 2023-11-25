@@ -26,6 +26,7 @@ class FavoritesNotifier extends StateNotifier<AppState<ApiResponseModel>> {
   ) : super(AppState(status: Status.initial)) {
     _getFavorites();
   }
+
   _getFavorites() async {
     //final countryDevice = ref.watch(countryAndDeviceProvider);
     state = AppState(status: Status.loading);
