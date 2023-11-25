@@ -29,7 +29,7 @@ class GetServiceProviderDetails implements ServiceProviderDetailsRepository {
               headers: {'authorization': 'Bearer $authorizationToken'}));
       log('*************************************');
       log('Response getting documents ${data.data}');
-      print(data.data);
+      print("This is our data {data.data}");
       if (data.data['success'] == true) {
         return Right(ApiResponseModel.fromMap(data.data));
       }

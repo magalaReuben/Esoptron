@@ -9,6 +9,7 @@ import 'package:esoptron_salon/screens/serviceBooking/service_booking.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceDetails extends StatefulWidget {
   static String routeName = "/service_details";
@@ -38,8 +39,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Future<List<dynamic>> getSubCategories(id) async {
-    final response = await http.get(Uri.parse(
-        "http://admin.esoptronsalon.com/api/service/19/sub_categories"));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse("http://admin.esoptronsalon.com/api/service/19/sub_categories"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       return responseData['data']['sub_categories'];

@@ -35,6 +35,7 @@ class ServiceProviderDetailsNotifier
   }
   _getserviceProviderDetails() async {
     final id = ref.watch(getServiceProviderDetailsIdProvider);
+    print("This is our id: $id");
     state = AppState(status: Status.loading);
     final data = await repository
         .getServiceProviderDetails(APIRequestModel(data: {"data": id}));

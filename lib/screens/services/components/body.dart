@@ -184,7 +184,7 @@ class _BodyState extends ConsumerState<Body> {
                 child: CircleAvatar(
                   radius: 30,
                   foregroundImage: NetworkImage(
-                      "http://admin.esoptronsalon.com/storage/service_providers/${image}"),
+                      "http://admin.esoptronsalon.com/storage/users/${image}"),
                 ),
               ),
               SizedBox(height: getProportionateScreenHeight(5)),
