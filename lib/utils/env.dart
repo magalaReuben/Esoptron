@@ -23,4 +23,6 @@ class ENV {
       '/users/service_provider/$id/details';
 
   static String uploadPic = 'user/profileUpload';
+
+  static String getFavorites = 'user/favorites';
 }

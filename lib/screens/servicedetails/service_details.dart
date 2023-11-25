@@ -26,6 +26,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   bool chip3tapped = false;
   bool selected1 = false;
   List favorites = [];
+  bool isLoading = false;
   List<dynamic> favoritesServiceId = [];
   PageController? pageController = PageController();
 
@@ -96,6 +97,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    print("These are our arguments: ${arguments[8]}");
     CarouselController buttonCarouselController = CarouselController();
     log(arguments.toString());
     return Scaffold(
@@ -139,10 +141,84 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      child: const Icon(Icons.favorite_outline,
-                          color: kPrimaryColor, size: 25),
-                    ),
+                    child: favoritesServiceId.contains(arguments[9])
+                        ? GestureDetector(
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String? authorizationToken =
+                                  prefs.getString("auth_token");
+                              final response = await http.post(
+                                Uri.parse(
+                                    "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/remove"),
+                                headers: {
+                                  'Authorization': 'Bearer $authorizationToken',
+                                  'Content-Type':
+                                      'application/json', // You may need to adjust the content type based on your API requirements
+                                },
+                              );
+                              print(response.body);
+                              if (response.statusCode >= 200 &&
+                                  response.statusCode < 300) {
+                                // ignore: use_build_context_synchronously
+                                favoritesServiceId.remove(arguments[9]);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content:
+                                      Text("Service removed from favorites"),
+                                  backgroundColor: kPrimaryColor,
+                                  padding: EdgeInsets.all(25),
+                                ));
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text("Something wrong happened"),
+                                  backgroundColor: kPrimaryColor,
+                                  padding: EdgeInsets.all(25),
+                                ));
+                              }
+                            },
+                            child: const Icon(Icons.favorite,
+                                color: kPrimaryColor, size: 25),
+                          )
+                        : GestureDetector(
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String? authorizationToken =
+                                  prefs.getString("auth_token");
+                              final response = await http.post(
+                                Uri.parse(
+                                    "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/add_favourites"),
+                                headers: {
+                                  'Authorization': 'Bearer $authorizationToken',
+                                  'Content-Type':
+                                      'application/json', // You may need to adjust the content type based on your API requirements
+                                },
+                              );
+                              print(response.body);
+                              if (response.statusCode >= 200 &&
+                                  response.statusCode < 300) {
+                                // ignore: use_build_context_synchronously
+                                favoritesServiceId.add(arguments[9]);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text("Service Added to favorites"),
+                                  backgroundColor: kPrimaryColor,
+                                  padding: EdgeInsets.all(25),
+                                ));
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text("Something wrong happened"),
+                                  backgroundColor: kPrimaryColor,
+                                  padding: EdgeInsets.all(25),
+                                ));
+                              }
+                            },
+                            child: const Icon(Icons.favorite_outline)),
                   ),
                   Container(
                     height: getProportionateScreenHeight(30),

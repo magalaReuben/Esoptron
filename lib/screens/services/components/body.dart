@@ -49,7 +49,7 @@ class _BodyState extends ConsumerState<Body> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "New Service",
+                    "Trending Service",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: getProportionateScreenWidth(18),
@@ -95,6 +95,7 @@ class _BodyState extends ConsumerState<Body> {
                               services[i]['is_available'],
                               services[i]['ratings_count'],
                               services[i]["service_provider"],
+                              services[i]["id"],
                             ),
                           )
                       ],
@@ -306,7 +307,8 @@ class _BodyState extends ConsumerState<Body> {
       String description,
       bool isAvailable,
       ratingsCount,
-      Map<dynamic, dynamic> serviceProvider) {
+      Map<dynamic, dynamic> serviceProvider,
+      int id) {
     // this boolean stores if you are coming from service page or not
     bool direct = true;
     return GestureDetector(
@@ -321,6 +323,7 @@ class _BodyState extends ConsumerState<Body> {
         ratingsCount,
         direct,
         serviceProvider['id'],
+        id
       ]),
       child: Container(
         width: getProportionateScreenWidth(160),
