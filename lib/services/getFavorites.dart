@@ -17,13 +17,9 @@ class FavoritesService implements FavoritesRepository {
       APIRequestModel requestModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
-    final id = requestModel.data!['data'];
-    while (id == null) {
-      await Future.delayed(Duration(seconds: 1));
-    }
     try {
       final request = requestModel.toMap();
-      final data = await DioApi.dio.get(ENV.getCategoriesUnderServiceType(id),
+      final data = await DioApi.dio.get(ENV.getFavorites,
           data: request,
           options: Options(
               headers: {'authorization': 'Bearer $authorizationToken'}));
