@@ -63,7 +63,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                         //   serviceProviders.add(element);
                         // }
                         print(
-                            "This is our data ${servicesProviderDetailsState.data}");
+                            "This is our data ${servicesProviderDetailsState.data!.data}");
                         return Container();
                       // GridView.builder(
                       //     shrinkWrap: true,
