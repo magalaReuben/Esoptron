@@ -2,6 +2,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getServiceProviderDetails.dart';
+import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,10 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    Future(() {
+      ref.read(getServiceProviderDetailsIdProvider.notifier).state =
+          arguments[1];
+    });
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
