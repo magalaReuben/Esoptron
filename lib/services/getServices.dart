@@ -10,21 +10,24 @@ import 'package:esoptron_salon/repositories/getSubCategories.dart';
 import 'package:esoptron_salon/repositories/recoverPassword.dart';
 import 'package:esoptron_salon/utils/dio_helper.dart';
 import 'package:esoptron_salon/utils/env.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetServices implements GetServicesRepository {
   @override
   Future<Either<String, ApiResponseModel>> getServices(
       APIRequestModel requestModel) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
     final id = requestModel.data!['data'];
     while (id == null) {
       await Future.delayed(Duration(seconds: 1));
     }
     try {
       final request = requestModel.toMap();
-      final data = await DioApi.dio.get(
-        ENV.getServices(id),
-        data: request,
-      );
+      final data = await DioApi.dio.get(ENV.getServices(id),
+          data: request,
+          options: Options(
+              headers: {'authorization': 'Bearer $authorizationToken'}));
       //print('Response getting documents ${data.data}');
       log('*************************************');
       log('Response getting documents ${data.data}');

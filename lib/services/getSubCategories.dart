@@ -9,21 +9,24 @@ import 'package:esoptron_salon/repositories/getSubCategories.dart';
 import 'package:esoptron_salon/repositories/recoverPassword.dart';
 import 'package:esoptron_salon/utils/dio_helper.dart';
 import 'package:esoptron_salon/utils/env.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetSubCategoryService implements GetSubCategoriesRepository {
   @override
   Future<Either<String, ApiResponseModel>> getSubCategories(
       APIRequestModel requestModel) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
     final id = requestModel.data!['data'];
     while (id == null) {
       await Future.delayed(Duration(seconds: 1));
     }
     try {
       final request = requestModel.toMap();
-      final data = await DioApi.dio.get(
-        ENV.getSubCategory(id),
-        data: request,
-      );
+      final data = await DioApi.dio.get(ENV.getSubCategory(id),
+          data: request,
+          options: Options(
+              headers: {'authorization': 'Bearer $authorizationToken'}));
       log('*************************************');
       log('Response getting documents ${data.data}');
       if (data.data['success'] == true) {

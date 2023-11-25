@@ -52,6 +52,7 @@ class AuthenticationService implements AuthenticationRepository {
         data: requestModel.data,
       );
       log('*************************************');
+      print('Response login user ${json.encode(data.data)}');
       log('Response login user ${json.encode(data.data)}');
       if (data.data['success'] == true) {
         SharedPreferences prefs = await SharedPreferences.getInstance();

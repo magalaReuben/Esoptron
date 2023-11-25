@@ -148,11 +148,12 @@ class _SignFormState extends ConsumerState<SignForm> {
               : DefaultButton(
                   text: "Login",
                   press: () async {
-                    setState(() {
-                      loading = true;
-                    });
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
+                      setState(() {
+                        loading = true;
+                      });
+
                       KeyboardUtil.hideKeyboard(context);
                       APIRequestModel requestModel = APIRequestModel(
                         data: {
