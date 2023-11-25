@@ -24,5 +24,5 @@ class ENV {
 
   static String uploadPic = 'user/profileUpload';
 
-  static String getFavorites = 'user/favorites';
+  static String getFavorites = 'user/favourites/services';
 }
