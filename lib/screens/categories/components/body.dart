@@ -75,7 +75,6 @@ class _BodyState extends ConsumerState<Body> {
                   in categoriesUnderService.data!.data['categories']) {
                 serviceCategories.add(element);
               }
-              print(serviceCategories);
               return SingleChildScrollView(
                 child: Column(
                   children: [

@@ -460,7 +460,11 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                               arguments[2],
                               arguments[3],
                               scheduledDate,
-                              scheduledTime
+                              scheduledTime,
+                              arguments[4],
+                              _currentPosition!.latitude,
+                              _currentPosition!.longitude,
+                              _currentAddress
                             ]);
                       }
                     }

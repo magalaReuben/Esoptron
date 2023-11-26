@@ -24,14 +24,15 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
   Widget build(BuildContext context) {
     List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    print("These are our arguments: $arguments");
     Future(() {
-      ref.read(subCategoriesIdProvider.notifier).state = arguments[1];
+      ref.read(subCategoriesIdProvider.notifier).state = arguments[0];
     });
     final subCategories = ref.watch(subCategoriesProvider);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("${arguments[0]}"),
+          title: Text("${arguments[2]}"),
         ),
         body: SingleChildScrollView(
           child: Column(

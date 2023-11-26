@@ -539,7 +539,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       arguments[0],
                                       arguments[8],
                                       arguments[9],
-                                      arguments[10]
+                                      arguments[10],
+                                      arguments[11]
                                     ]);
                               } else {
                                 () => {};
@@ -551,7 +552,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     arguments[0],
                                     arguments[8],
                                     arguments[9],
-                                    arguments[10]
+                                    arguments[10],
+                                    arguments[11]
                                   ]);
                             }
                           },
