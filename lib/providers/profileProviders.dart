@@ -9,3 +9,7 @@ final phoneNumberProvider = StateProvider<String?>((ref) => 'Loading..');
 final emailProvider = StateProvider<String?>((ref) => 'Loading..');
 
 final profilePicProvider = StateProvider<String?>((ref) => '');
+
+final scheduledTimeProvider = StateProvider<String?>((ref) => '');
+
+final scheduledDateProvider = StateProvider<String?>((ref) => '');

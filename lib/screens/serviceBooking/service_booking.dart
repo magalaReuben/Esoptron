@@ -1,16 +1,76 @@
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/providers/profileProviders.dart';
+import 'package:esoptron_salon/screens/scheduleService/schedule_service.dart';
 import 'package:esoptron_salon/screens/serviceSpecification/service_specification.dart';
+import 'package:esoptron_salon/services/location.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
-class ServiceBooking extends StatelessWidget {
+class ServiceBooking extends ConsumerStatefulWidget {
   static String routeName = '/service_booking';
   const ServiceBooking({super.key});
 
   @override
+  ConsumerState<ServiceBooking> createState() => _ServiceBookingState();
+}
+
+class _ServiceBookingState extends ConsumerState<ServiceBooking> {
+  String? _currentAddress;
+  Position? _currentPosition;
+  bool _isInstantSelected = false;
+  bool _isScheduleSelected = false;
+  TextEditingController phoneNumberController = TextEditingController();
+
+  void getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> getCurrentPosition() async {
+    final hasPermission =
+        await LocationService.handleLocationPermission(context);
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentPosition();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final List<dynamic> arguments =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    final scheduledDate = ref.watch(scheduledDateProvider);
+    final scheduledTime = ref.watch(scheduledTimeProvider);
+    print("These are our arguments: ${arguments}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -48,48 +108,50 @@ class ServiceBooking extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
                 child: Card(
                   elevation: 2,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: TextField(
+                      readOnly: true,
                       decoration: InputDecoration(
-                          hintText: "Ply",
+                          hintText: _currentAddress ?? "Getting Address...",
+                          hintStyle: const TextStyle(color: Colors.black)),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: TextFormField(
+                      controller: phoneNumberController,
+                      decoration: const InputDecoration(
+                          hintText: "Enter Phone Number",
                           hintStyle: TextStyle(color: Colors.black)),
                     ),
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Phone Number",
-                          hintStyle: TextStyle(color: Colors.black)),
-                    ),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Others",
-                          hintStyle: TextStyle(color: Colors.black)),
-                    ),
-                  ),
-                ),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.only(top: 4.0),
+              //   child: Card(
+              //     elevation: 2,
+              //     child: Padding(
+              //       padding: EdgeInsets.only(left: 8.0),
+              //       child: TextField(
+              //         decoration: InputDecoration(
+              //             hintText: "Others",
+              //             hintStyle: TextStyle(color: Colors.black)),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -131,48 +193,50 @@ class ServiceBooking extends StatelessWidget {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
                 child: Card(
                   elevation: 2,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: TextField(
+                      readOnly: true,
                       decoration: InputDecoration(
-                          hintText: "Name of the service provider",
-                          hintStyle: TextStyle(color: Colors.black)),
+                          hintText: arguments[0],
+                          hintStyle: const TextStyle(color: Colors.black)),
                     ),
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
                 child: Card(
                   elevation: 2,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: TextField(
+                      readOnly: true,
                       decoration: InputDecoration(
-                          hintText: "Service booked",
-                          hintStyle: TextStyle(color: Colors.black)),
+                          hintText: arguments[2],
+                          hintStyle: const TextStyle(color: Colors.black)),
                     ),
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Expected Time",
-                          hintStyle: TextStyle(color: Colors.black)),
-                    ),
-                  ),
-                ),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.only(top: 4.0),
+              //   child: Card(
+              //     elevation: 2,
+              //     child: Padding(
+              //       padding: EdgeInsets.only(left: 8.0),
+              //       child: TextField(
+              //         decoration: InputDecoration(
+              //             hintText: "Expected Time",
+              //             hintStyle: TextStyle(color: Colors.black)),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -193,88 +257,214 @@ class ServiceBooking extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      // shape: Border.fromBorderSide(BorderSide()),
-                      elevation: 3,
-                      // width: getProportionateScreenWidth(130),
-                      // height: getProportionateScreenHeight(150),
-                      // decoration: BoxDecoration(
-                      //     border: Border.all(
-                      //       color: kPrimaryColor,
-                      //     ),
-                      //     borderRadius:
-                      //         const BorderRadius.all(Radius.circular(15))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(
-                                FontAwesomeIcons.solidClock,
-                                color: kPrimaryColor,
+                  _isInstantSelected
+                      ? GestureDetector(
+                          onTap: () => setState(() {
+                            _isInstantSelected = false;
+                            _isScheduleSelected = true;
+                          }),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              color: kPrimaryColor,
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesomeIcons.solidClock,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(5)),
+                                    Text(
+                                      "Instant Service",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'krona'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            SizedBox(height: getProportionateScreenHeight(5)),
-                            Text(
-                              "Instant Service",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(17),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      // shape: Border.fromBorderSide(BorderSide()),
-                      elevation: 3,
-                      // width: getProportionateScreenWidth(130),
-                      // height: getProportionateScreenHeight(150),
-                      // decoration: BoxDecoration(
-                      //     border: Border.all(
-                      //       color: kPrimaryColor,
-                      //     ),
-                      //     borderRadius:
-                      //         const BorderRadius.all(Radius.circular(15))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(
-                                FontAwesomeIcons.calendar,
-                                color: kPrimaryColor,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isInstantSelected = true;
+                              _isScheduleSelected = false;
+                            });
+                            ref.read(scheduledTimeProvider.notifier).state =
+                                "${DateTime.now().hour}:${DateTime.now().minute}";
+                            ref.read(scheduledDateProvider.notifier).state =
+                                "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesomeIcons.solidClock,
+                                        color: kPrimaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(5)),
+                                    Text(
+                                      "Instant Service",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'krona'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            SizedBox(height: getProportionateScreenHeight(5)),
-                            Text(
-                              "Schedule Service",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(17),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
+                  _isScheduleSelected
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isInstantSelected = false;
+                              _isScheduleSelected = true;
+                            });
+                            Navigator.pushNamed(
+                                context, ScheduleService.routeName,
+                                arguments: arguments);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              color: kPrimaryColor,
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesomeIcons.calendar,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(5)),
+                                    Text(
+                                      "Schedule Service",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'krona'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isInstantSelected = false;
+                              _isScheduleSelected = true;
+                            });
+                            Navigator.pushNamed(
+                                context, ScheduleService.routeName,
+                                arguments: arguments);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        FontAwesomeIcons.calendar,
+                                        color: kPrimaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(5)),
+                                    Text(
+                                      "Schedule Service",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'krona'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
                 ],
               ),
               DefaultButton(
                   text: "Continue",
-                  press: () => Navigator.pushNamed(
-                      context, ServiceSpecification.routeName))
+                  press: () {
+                    if (phoneNumberController.text.isEmpty ||
+                        phoneNumberController.text == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          backgroundColor: kPrimaryColor,
+                          content: Text(
+                            'Enter Phone Number',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )));
+                    } else {
+                      if (scheduledDate == '' || scheduledTime == '') {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                                backgroundColor: kPrimaryColor,
+                                content: Text(
+                                  'Select Booking Time',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                )));
+                      } else {
+                        Navigator.pushNamed(
+                            context, ServiceSpecification.routeName,
+                            arguments: [
+                              arguments[1],
+                              arguments[2],
+                              arguments[3],
+                              scheduledDate,
+                              scheduledTime
+                            ]);
+                      }
+                    }
+                  })
             ],
           ),
         ),

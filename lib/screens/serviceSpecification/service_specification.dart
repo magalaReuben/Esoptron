@@ -10,6 +10,8 @@ class ServiceSpecification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> arguments = ModalRoute.of(context)!.settings.arguments
+        as List<dynamic>; //get arguments from previous screen
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -18,10 +20,10 @@ class ServiceSpecification extends StatelessWidget {
             height: getProportionateScreenHeight(50),
           ),
           SizedBox(
-            child: Image.asset(
-              "assets/images/serviceBooking/specification.png",
-              height: getProportionateScreenHeight(400),
-            ),
+            child: Image(
+                image: NetworkImage("${arguments[0]}"),
+                height: getProportionateScreenHeight(400),
+                fit: BoxFit.cover),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -29,7 +31,7 @@ class ServiceSpecification extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
                 child: Text(
-                  "Dreadlock maintenance for medium hair",
+                  "${arguments[1]}",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(15),
@@ -53,11 +55,11 @@ class ServiceSpecification extends StatelessWidget {
                 padding:
                     const EdgeInsets.only(left: 6.0, top: 6.0, bottom: 6.0),
                 child: Text(
-                  "2 Hours Service",
+                  "${arguments[3]} ${arguments[4]}",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(15),
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.w400,
                       fontFamily: 'krona'),
                 ),
               ),
@@ -108,23 +110,23 @@ class ServiceSpecification extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                FilledButton(
-                    style: ButtonStyle(
-                        side: MaterialStateBorderSide.resolveWith(
-                            (states) => const BorderSide(color: kPrimaryColor)),
-                        textStyle: MaterialStateProperty.resolveWith(
-                            (states) => const TextStyle(color: Colors.black)),
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.white)),
-                    onPressed: () {},
-                    child: const Padding(
-                      padding: EdgeInsets.all(13.0),
-                      child: Text(
-                        "Service Details",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    )),
+                // FilledButton(
+                //     style: ButtonStyle(
+                //         side: MaterialStateBorderSide.resolveWith(
+                //             (states) => const BorderSide(color: kPrimaryColor)),
+                //         textStyle: MaterialStateProperty.resolveWith(
+                //             (states) => const TextStyle(color: Colors.black)),
+                //         backgroundColor: MaterialStateColor.resolveWith(
+                //             (states) => Colors.white)),
+                //     onPressed: () {},
+                //     child: const Padding(
+                //       padding: EdgeInsets.all(13.0),
+                //       child: Text(
+                //         "Service Details",
+                //         style: TextStyle(
+                //             color: Colors.black, fontWeight: FontWeight.bold),
+                //       ),
+                //     )),
                 FilledButton(
                     style: ButtonStyle(
                         side: MaterialStateBorderSide.resolveWith(
@@ -137,10 +139,13 @@ class ServiceSpecification extends StatelessWidget {
                         Navigator.pushNamed(context, ScheduleService.routeName),
                     child: const Padding(
                       padding: EdgeInsets.all(13.0),
-                      child: Text(
-                        "Proceed to Pay",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 14.0, right: 14.0),
+                        child: Text(
+                          "Proceed to Pay",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ))
               ],

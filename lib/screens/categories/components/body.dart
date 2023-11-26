@@ -6,7 +6,8 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getCategoriesUnderServiceType.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
-import 'package:esoptron_salon/screens/servicesList/services_list.dart';
+import 'package:esoptron_salon/screens/subcategories/subcategories.dart';
+import 'package:esoptron_salon/screens/subcaregoriesFromServiceType/subcategoriesFromServiceType.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -69,31 +70,44 @@ class _BodyState extends ConsumerState<Body> {
               );
             case Status.loaded:
               log(categoriesUnderService.data!.data.toString());
-              var serviceTypes = [];
+              var serviceCategories = [];
               for (var element
                   in categoriesUnderService.data!.data['categories']) {
-                serviceTypes.add(element);
+                serviceCategories.add(element);
               }
+              print(serviceCategories);
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    for (int i = 0; i < serviceTypes.length; i++)
+                    for (int i = 0; i < serviceCategories.length; i++)
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(
-                            context, ServicesList.routeName,
+                            context, SubCategories.routeName,
                             arguments: [
-                              serviceTypes[i]['id'],
-                              "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}",
-                              serviceTypes[i]['name']
+                              serviceCategories[i]['id'],
+                              "http://admin.esoptronsalon.com/${serviceCategories[i]['image']}",
+                              serviceCategories[i]['name']
                             ]),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(serviceTypes[i]['name']),
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  "http://admin.esoptronsalon.com/${serviceTypes[i]['image']}"),
-                              radius: 25,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                tileColor: Colors.white.withOpacity(0.8),
+                                title: Text(
+                                  serviceCategories[i]['name'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize:
+                                          getProportionateScreenWidth(14)),
+                                ),
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      "http://admin.esoptronsalon.com/${serviceCategories[i]['image']}"),
+                                  radius: 25,
+                                ),
+                              ),
                             ),
                           ),
                         ),

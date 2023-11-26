@@ -97,7 +97,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    print("These are our arguments: ${arguments[8]}");
+    print("These are our arguments: ${arguments}");
     CarouselController buttonCarouselController = CarouselController();
     log(arguments.toString());
     return Scaffold(
@@ -272,7 +272,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       child: Icon(
                         FontAwesomeIcons.solidStar,
                         size: 13,
-                        color: Colors.yellow,
+                        color: Colors.orangeAccent,
                       ),
                     ),
                   for (int i = 0; i < 5 - arguments[6]; i++)
@@ -534,13 +534,25 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             if (arguments[7]) {
                               if (selected1) {
                                 Navigator.pushNamed(
-                                    context, ServiceBooking.routeName);
+                                    context, ServiceBooking.routeName,
+                                    arguments: [
+                                      arguments[0],
+                                      arguments[8],
+                                      arguments[9],
+                                      arguments[10]
+                                    ]);
                               } else {
                                 () => {};
                               }
                             } else {
                               Navigator.pushNamed(
-                                  context, ServiceBooking.routeName);
+                                  context, ServiceBooking.routeName,
+                                  arguments: [
+                                    arguments[0],
+                                    arguments[8],
+                                    arguments[9],
+                                    arguments[10]
+                                  ]);
                             }
                           },
                           child: Row(
