@@ -28,7 +28,6 @@ class FavoritesNotifier extends StateNotifier<AppState<ApiResponseModel>> {
   }
 
   _getFavorites() async {
-    //final countryDevice = ref.watch(countryAndDeviceProvider);
     state = AppState(status: Status.loading);
     final data = await repository.getFavorites(APIRequestModel());
     data.fold((l) => state = AppState(status: Status.error, errorMessage: l),
