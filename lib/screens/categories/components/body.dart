@@ -7,7 +7,7 @@ import 'package:esoptron_salon/controllers/getCategoriesUnderServiceType.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/subcategories/subcategories.dart';
-import 'package:esoptron_salon/screens/subcaregoriesFromServiceType/subcategoriesFromServiceType.dart';
+import 'package:esoptron_salon/screens/servicesFromSubCategories/servicesFromSubCategories.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';

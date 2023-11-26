@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
@@ -31,6 +33,7 @@ class SubCategoryNotifier extends StateNotifier<AppState<ApiResponseModel>> {
   }
   _getsubCategories() async {
     final id = ref.watch(subCategoriesIdProvider);
+    print("This is our id: $id");
     state = AppState(status: Status.loading);
     final data =
         await repository.getSubCategories(APIRequestModel(data: {"data": id}));

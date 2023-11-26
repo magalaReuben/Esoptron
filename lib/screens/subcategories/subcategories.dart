@@ -4,7 +4,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getSubCategory.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
-import 'package:esoptron_salon/screens/subcaregoriesFromServiceType/subcategoriesFromServiceType.dart';
+import 'package:esoptron_salon/screens/servicesFromSubCategories/servicesFromSubCategories.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Subcategories"),
+          title: Text("${arguments[0]}"),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -99,7 +99,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                           FilledButton(
                                               onPressed: () =>
                                                   Navigator.pushNamed(context,
-                                                      SubCategories.routeName,
+                                                      ServicesList.routeName,
                                                       arguments: [
                                                         subCategoriesList[i]
                                                             ['id'],
