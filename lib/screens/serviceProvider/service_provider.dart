@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
@@ -6,6 +8,8 @@ import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceProvider extends ConsumerStatefulWidget {
   static String routeName = "service_provider";
@@ -17,6 +21,29 @@ class ServiceProvider extends ConsumerStatefulWidget {
 }
 
 class _ServiceProviderState extends ConsumerState<ServiceProvider> {
+  Future<List<dynamic>> getReviews(id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse(
+          "http://admin.esoptronsalon.com/api/service/$id/user_review_ratings"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    //print(response.body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseBody = json.decode(response.body);
+      //print(responseBody['data']['review_ratings']);
+      //print(responseBody);
+      return responseBody['data']['review_ratings'];
+    } else {
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
@@ -59,6 +86,10 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                         dynamic serviceProvider = {};
                         serviceProvider =
                             servicesProviderDetailsState.data!.data;
+                        Future(() {
+                          ref.read(getServiceIdProvider.notifier).state =
+                              serviceProvider['service']['id'];
+                        });
                         print("Our data: ${serviceProvider}");
                         return Column(children: [
                           Stack(
@@ -198,7 +229,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                   height: getProportionateScreenHeight(5),
                                 ),
                                 Text(
-                                  "M",
+                                  "${serviceProvider['gender']}",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: getProportionateScreenWidth(15),
@@ -238,119 +269,90 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: getProportionateScreenHeight(80),
-                  width: getProportionateScreenWidth(360),
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                        width: 2,
-                        color: kPrimaryColor.withOpacity(0.2),
-                      )),
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          radius: 30,
-                          foregroundImage: AssetImage(
-                              "assets/images/serviceDetails/review.png"),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Mrs Bimbo",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'krona')),
-                            Text("Right on time",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'krona')),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: getProportionateScreenWidth(30),
-                      ),
-                      for (int i = 0; i < 5; i++)
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Icon(
-                            FontAwesomeIcons.solidStar,
-                            size: 8,
-                            color: kPrimaryColor.withOpacity(0.4),
+              FutureBuilder<List<dynamic>>(
+                future: getReviews(ref.watch(getServiceIdProvider)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    print(snapshot.data);
+                    return Column(
+                      children: [
+                        for (int i = 0; i < snapshot.data!.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: getProportionateScreenHeight(80),
+                              width: getProportionateScreenWidth(360),
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: kPrimaryColor.withOpacity(0.2),
+                                  )),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      radius: 30,
+                                      foregroundImage: NetworkImage(
+                                          'http://admin.esoptronsalon.com/${snapshot.data![i]['avatar']}'),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("${snapshot.data![i]['name']}",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        18),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'krona')),
+                                        Row(
+                                          children: [
+                                            Text(
+                                                "${snapshot.data![i]['comment']}",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize:
+                                                        getProportionateScreenWidth(
+                                                            18),
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontFamily: 'krona')),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(30),
+                                  ),
+                                  for (int i = 0; i < 5; i++)
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Icon(
+                                        FontAwesomeIcons.solidStar,
+                                        size: 8,
+                                        color: kPrimaryColor.withOpacity(0.4),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: getProportionateScreenHeight(80),
-                  width: getProportionateScreenWidth(360),
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                        width: 2,
-                        color: kPrimaryColor.withOpacity(0.2),
-                      )),
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          radius: 30,
-                          foregroundImage: AssetImage(
-                              "assets/images/serviceDetails/review.png"),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Gentle Ibe",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'krona')),
-                            Text("Right on time",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: 'krona')),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: getProportionateScreenWidth(30),
-                      ),
-                      for (int i = 0; i < 5; i++)
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Icon(
-                            FontAwesomeIcons.solidStar,
-                            size: 8,
-                            color: kPrimaryColor.withOpacity(0.4),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
+                      ],
+                    );
+                  } else {
+                    // You can return a placeholder or loading indicator while the image is loading
+                    return const CircularProgressIndicator();
+                  }
+                },
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
