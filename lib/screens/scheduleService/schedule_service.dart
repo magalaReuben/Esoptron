@@ -6,6 +6,7 @@ import 'package:esoptron_salon/screens/addPaymentmethod/add_payment.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class ScheduleService extends ConsumerStatefulWidget {
   static String routeName = "schedule_service";
@@ -217,12 +218,32 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     current.compareTo(_dates[0]!) < 0) {
                   if (time1 || time2 || time3 || time4) {
                     ref.read(scheduledTimeProvider.notifier).state = time1
-                        ? "10:00"
+                        ? DateFormat('hh:mm a').format(DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            10,
+                            00))
                         : time2
-                            ? "12:00"
+                            ? DateFormat('hh:mm a').format(DateTime(
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                                12,
+                                00))
                             : time3
-                                ? "15:30"
-                                : "17:00";
+                                ? DateFormat('hh:mm a').format(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    15,
+                                    30))
+                                : DateFormat('hh:mm a').format(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    17,
+                                    00));
                     ref.read(scheduledDateProvider.notifier).state =
                         "${_dates[0]!.day}/${_dates[0]!.month}/${_dates[0]!.year}";
                     Navigator.pop(context);

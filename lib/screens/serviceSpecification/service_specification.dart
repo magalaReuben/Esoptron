@@ -201,7 +201,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 'latitude': ' ${arguments[6]}',
                                 'longitude': '${arguments[7]}',
                                 'address': '${arguments[8]}',
-                                'service_sub_categories': '${arguments[5]}',
+                                'service_sub_categories': ['${arguments[5]}'],
                                 'service_id': '${arguments[2]}'
                               });
                               final response = await http.post(
@@ -215,28 +215,27 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                       'XMLHttpRequest' // You may need to adjust the content type based on your API requirements
                                 },
                               );
-                              print(response.body);
+                              final responseData = json.decode(response.body);
                               if (response.statusCode >= 200 &&
                                   response.statusCode < 300) {
-                                final responseData = json.decode(response.body);
                                 // ignore: use_build_context_synchronously
                                 Navigator.pushNamed(
                                     context, AddPaymentMethod.routeName);
-                                print(responseData['data']);
+                                //print(responseData['data']);
                               } else {
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text("Something is wrong"),
+                                    .showSnackBar(SnackBar(
+                                  content: Text("${responseData['message']}"),
                                   backgroundColor: kPrimaryColor,
-                                  padding: EdgeInsets.all(25),
+                                  padding: const EdgeInsets.all(25),
                                 ));
                               }
                               setState(() {
                                 isLoading = false;
                               });
-                              // print(
-                              //     "date: ${arguments[3]} time: ${arguments[4]} latitude:  ${arguments[6]} longitude: ${arguments[7]} address: ${arguments[8]} serviceSubCategory: ${arguments[5]} serviceId: ${arguments[2]} ");
+                              print(
+                                  "date: ${arguments[3]} time: ${arguments[4]} latitude:  ${arguments[6]} longitude: ${arguments[7]} address: ${arguments[8]} serviceSubCategory: ${arguments[5]} serviceId: ${arguments[2]} ");
                             },
                             child: const Padding(
                               padding: EdgeInsets.all(13.0),

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 class ServiceBooking extends ConsumerStatefulWidget {
   static String routeName = '/service_booking';
@@ -123,21 +124,21 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextFormField(
-                      controller: phoneNumberController,
-                      decoration: const InputDecoration(
-                          hintText: "Enter Phone Number",
-                          hintStyle: TextStyle(color: Colors.black)),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 4.0),
+              //   child: Card(
+              //     elevation: 2,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(left: 8.0),
+              //       child: TextFormField(
+              //         controller: phoneNumberController,
+              //         decoration: const InputDecoration(
+              //             hintText: "Enter Phone Number",
+              //             hintStyle: TextStyle(color: Colors.black)),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               // const Padding(
               //   padding: EdgeInsets.only(top: 4.0),
               //   child: Card(
@@ -304,7 +305,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                               _isScheduleSelected = false;
                             });
                             ref.read(scheduledTimeProvider.notifier).state =
-                                "${DateTime.now().hour}:${DateTime.now().minute}";
+                                DateFormat('hh:mm a').format(DateTime.now());
                             ref.read(scheduledDateProvider.notifier).state =
                                 "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
                           },
@@ -431,17 +432,14 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                         )
                 ],
               ),
+              const SizedBox(
+                height: 40,
+              ),
               DefaultButton(
                   text: "Continue",
                   press: () {
-                    if (phoneNumberController.text.isEmpty ||
-                        phoneNumberController.text == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: kPrimaryColor,
-                          content: Text(
-                            'Enter Phone Number',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )));
+                    // ignore: dead_code
+                    if (false) {
                     } else {
                       if (scheduledDate == '' || scheduledTime == '') {
                         ScaffoldMessenger.of(context)
