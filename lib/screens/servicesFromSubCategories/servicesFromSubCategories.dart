@@ -95,35 +95,49 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                                               fontWeight: FontWeight.bold,
                                               fontFamily: 'krona'),
                                         ),
-                                        FilledButton(
-                                            onPressed: () =>
-                                                Navigator.pushNamed(context,
-                                                    ServiceDetails.routeName,
-                                                    arguments: [
-                                                      servicesList[i]["name"],
-                                                      "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
-                                                      servicesList[i]
-                                                          ["description"],
-                                                      {},
-                                                      servicesList[i]
-                                                          ["ratings_count"],
-                                                      servicesList[i][
-                                                                  "is_available"] ==
-                                                              0
-                                                          ? false
-                                                          : true,
-                                                      servicesList[i]
-                                                          ["ratings_count"],
-                                                      false,
-                                                      arguments[1],
-                                                      arguments[2],
-                                                      servicesList[i]["id"],
-                                                      arguments[0]
-                                                    ]),
-                                            child: const Padding(
-                                              padding: EdgeInsets.all(13.0),
-                                              child: Text("Select"),
-                                            ))
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            FilledButton(
+                                                onPressed: () =>
+                                                    Navigator.pushNamed(
+                                                        context,
+                                                        ServiceDetails
+                                                            .routeName,
+                                                        arguments: [
+                                                          servicesList[i]
+                                                              ["name"],
+                                                          "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
+                                                          servicesList[i]
+                                                              ["description"],
+                                                          {},
+                                                          servicesList[i]
+                                                              ["ratings_count"],
+                                                          servicesList[i][
+                                                                      "is_available"] ==
+                                                                  0
+                                                              ? false
+                                                              : true,
+                                                          servicesList[i]
+                                                              ["ratings_count"],
+                                                          false,
+                                                          arguments[1],
+                                                          arguments[2],
+                                                          servicesList[i]["id"],
+                                                          arguments[0]
+                                                        ]),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(13.0),
+                                                  child: Text("Select"),
+                                                )),
+                                            SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      40),
+                                            )
+                                          ],
+                                        )
                                       ],
                                     ),
                                   ),
