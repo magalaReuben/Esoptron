@@ -67,6 +67,27 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     }
   }
 
+  Future<List<dynamic>> getServiceImages(id) async {
+    print(id);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse("http://admin.esoptronsalon.com/api/service/$id/images"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    print(response.body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseData = json.decode(response.body);
+      return responseData['data']['images'];
+    } else {
+      return [];
+    }
+  }
+
   Future<List<dynamic>> getFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
@@ -109,306 +130,350 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           ),
         ),
         body: Stack(children: [
-          Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: CarouselSlider(
-                      items: [
-                        SizedBox(
-                          //height: getProportionateScreenHeight(100),
-                          child: Image(
-                              image: NetworkImage("${arguments[1]}"),
-                              //height: getProportionateScreenHeight(300),
-                              width: getProportionateScreenWidth(450),
-                              fit: BoxFit.cover),
-                        ),
-                      ],
-                      carouselController: buttonCarouselController,
-                      options: CarouselOptions(
-                          autoPlay: false,
-                          enlargeCenterPage: true,
-                          viewportFraction: 1,
-                          aspectRatio: 2.1,
-                          initialPage: 1)),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-              child: Row(
+          SingleChildScrollView(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: favoritesServiceId.contains(arguments[9])
-                        ? GestureDetector(
-                            onTap: () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              String? authorizationToken =
-                                  prefs.getString("auth_token");
-                              final response = await http.post(
-                                Uri.parse(
-                                    "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/remove"),
-                                headers: {
-                                  'Authorization': 'Bearer $authorizationToken',
-                                  'Content-Type':
-                                      'application/json', // You may need to adjust the content type based on your API requirements
-                                },
-                              );
-                              print(response.body);
-                              if (response.statusCode >= 200 &&
-                                  response.statusCode < 300) {
-                                // ignore: use_build_context_synchronously
-                                favoritesServiceId.remove(arguments[9]);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content:
-                                      Text("Service removed from favorites"),
-                                  backgroundColor: kPrimaryColor,
-                                  padding: EdgeInsets.all(25),
-                                ));
-                              } else {
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text("Something wrong happened"),
-                                  backgroundColor: kPrimaryColor,
-                                  padding: EdgeInsets.all(25),
-                                ));
-                              }
-                            },
-                            child: const Icon(Icons.favorite,
-                                color: kPrimaryColor, size: 25),
-                          )
-                        : GestureDetector(
-                            onTap: () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              String? authorizationToken =
-                                  prefs.getString("auth_token");
-                              final response = await http.post(
-                                Uri.parse(
-                                    "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/add_favourites"),
-                                headers: {
-                                  'Authorization': 'Bearer $authorizationToken',
-                                  'Content-Type':
-                                      'application/json', // You may need to adjust the content type based on your API requirements
-                                },
-                              );
-                              print(response.body);
-                              if (response.statusCode >= 200 &&
-                                  response.statusCode < 300) {
-                                // ignore: use_build_context_synchronously
-                                favoritesServiceId.add(arguments[9]);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text("Service Added to favorites"),
-                                  backgroundColor: kPrimaryColor,
-                                  padding: EdgeInsets.all(25),
-                                ));
-                              } else {
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text("Something wrong happened"),
-                                  backgroundColor: kPrimaryColor,
-                                  padding: EdgeInsets.all(25),
-                                ));
-                              }
-                            },
-                            child: const Icon(Icons.favorite_outline)),
-                  ),
-                  Container(
-                    height: getProportionateScreenHeight(30),
-                    width: getProportionateScreenWidth(80),
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(175, 250, 140, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        arguments[5] ? "Available" : "Unavailable",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: getProportionateScreenWidth(12),
-                            fontWeight: FontWeight.bold),
-                      ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: FutureBuilder<List<dynamic>>(
+                      future: getServiceImages(arguments[9]),
+                      builder: (context, snapshot) {
+                        print('This is our data: ${snapshot.data}');
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          //print(snapshot.data);
+                          return CarouselSlider(
+                              items: [
+                                for (int i = 0; i < snapshot.data!.length; i++)
+                                  SizedBox(
+                                    //height: getProportionateScreenHeight(100),
+                                    child: Image(
+                                        image: NetworkImage(
+                                            "http://admin.esoptronsalon.com/${snapshot.data![i]['url']}"),
+                                        //height: getProportionateScreenHeight(300),
+                                        width: getProportionateScreenWidth(450),
+                                        fit: BoxFit.cover),
+                                  ),
+                              ],
+                              carouselController: buttonCarouselController,
+                              options: CarouselOptions(
+                                  autoPlay: false,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 1,
+                                  aspectRatio: 1.5,
+                                  initialPage: 1));
+                        } else {
+                          // You can return a placeholder or loading indicator while the image is loading
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: getProportionateScreenHeight(30),
+                              ),
+                              const CircularProgressIndicator(),
+                            ],
+                          );
+                        }
+                      },
                     ),
-                  )
+                  ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                //padding: const EdgeInsets.only(top: 8.0),
-                child: Text(arguments[2],
-                    softWrap: true,
-                    maxLines: 3,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(15),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'krona')),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Row(
-                children: [
-                  Text(
-                    "${arguments[6]}",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(13),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'krona'),
-                  ),
-                  for (int i = 0; i < arguments[6]; i++)
-                    const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Icon(
-                        FontAwesomeIcons.solidStar,
-                        size: 13,
-                        color: Colors.orangeAccent,
-                      ),
-                    ),
-                  for (int i = 0; i < 5 - arguments[6]; i++)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+                child: Row(
+                  children: [
                     Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(
-                        FontAwesomeIcons.solidStar,
-                        size: 13,
-                        color: Colors.black.withOpacity(0.4),
-                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: favoritesServiceId.contains(arguments[9])
+                          ? GestureDetector(
+                              onTap: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                String? authorizationToken =
+                                    prefs.getString("auth_token");
+                                final response = await http.post(
+                                  Uri.parse(
+                                      "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/remove"),
+                                  headers: {
+                                    'Authorization':
+                                        'Bearer $authorizationToken',
+                                    'Content-Type':
+                                        'application/json', // You may need to adjust the content type based on your API requirements
+                                  },
+                                );
+                                print(response.body);
+                                if (response.statusCode >= 200 &&
+                                    response.statusCode < 300) {
+                                  // ignore: use_build_context_synchronously
+                                  favoritesServiceId.remove(arguments[9]);
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content:
+                                        Text("Service removed from favorites"),
+                                    backgroundColor: kPrimaryColor,
+                                    padding: EdgeInsets.all(25),
+                                  ));
+                                } else {
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("Something wrong happened"),
+                                    backgroundColor: kPrimaryColor,
+                                    padding: EdgeInsets.all(25),
+                                  ));
+                                }
+                              },
+                              child: const Icon(Icons.favorite,
+                                  color: kPrimaryColor, size: 25),
+                            )
+                          : GestureDetector(
+                              onTap: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                String? authorizationToken =
+                                    prefs.getString("auth_token");
+                                final response = await http.post(
+                                  Uri.parse(
+                                      "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/add_favourites"),
+                                  headers: {
+                                    'Authorization':
+                                        'Bearer $authorizationToken',
+                                    'Content-Type':
+                                        'application/json', // You may need to adjust the content type based on your API requirements
+                                  },
+                                );
+                                print(response.body);
+                                if (response.statusCode >= 200 &&
+                                    response.statusCode < 300) {
+                                  // ignore: use_build_context_synchronously
+                                  favoritesServiceId.add(arguments[9]);
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("Service Added to favorites"),
+                                    backgroundColor: kPrimaryColor,
+                                    padding: EdgeInsets.all(25),
+                                  ));
+                                } else {
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("Something wrong happened"),
+                                    backgroundColor: kPrimaryColor,
+                                    padding: EdgeInsets.all(25),
+                                  ));
+                                }
+                              },
+                              child: const Icon(Icons.favorite_outline)),
                     ),
-                ],
+                    Container(
+                      height: getProportionateScreenHeight(30),
+                      width: getProportionateScreenWidth(80),
+                      decoration: const BoxDecoration(
+                          color: Color.fromRGBO(175, 250, 140, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          arguments[5] ? "Available" : "Unavailable",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenWidth(12),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            arguments[7]
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        height: getProportionateScreenHeight(100),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  //padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(arguments[2],
+                      softWrap: true,
+                      maxLines: 3,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(15),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'krona')),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      "${arguments[6]}",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(13),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'krona'),
+                    ),
+                    for (int i = 0; i < arguments[6]; i++)
+                      const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Icon(
+                          FontAwesomeIcons.solidStar,
+                          size: 13,
+                          color: Colors.orangeAccent,
+                        ),
+                      ),
+                    for (int i = 0; i < 5 - arguments[6]; i++)
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          FontAwesomeIcons.solidStar,
+                          size: 13,
+                          color: Colors.black.withOpacity(0.4),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              arguments[7]
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          height: getProportionateScreenHeight(100),
+                          width: getProportionateScreenWidth(360),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                width: 2,
+                                color: kPrimaryColor.withOpacity(0.2),
+                              )),
+                          child: Center(
+                            child: ListTile(
+                              leading: FutureBuilder<NetworkImage>(
+                                future: getImage(arguments[3]["avatar"]),
+                                builder: (context, snapshot) {
+                                  //print(snapshot);
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: snapshot.data,
+                                    );
+                                  } else {
+                                    // You can return a placeholder or loading indicator while the image is loading
+                                    return const CircularProgressIndicator();
+                                  }
+                                },
+                              ),
+                              title: Text("Service Provider",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(18),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona')),
+                              subtitle: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(arguments[3]["name"],
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      18),
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'krona')),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.email,
+                                          size: 15,
+                                          color: kPrimaryColor,
+                                        ),
+                                      ),
+                                      Text(
+                                        arguments[3]["email"],
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                getProportionateScreenWidth(13),
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'krona'),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: getProportionateScreenHeight(150),
                         width: getProportionateScreenWidth(360),
                         decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
                             border: Border.all(
                               width: 2,
-                              color: kPrimaryColor.withOpacity(0.2),
+                              color: kPrimaryColor,
                             )),
-                        child: Center(
-                          child: ListTile(
-                            leading: FutureBuilder<NetworkImage>(
-                              future: getImage(arguments[3]["avatar"]),
-                              builder: (context, snapshot) {
-                                //print(snapshot);
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return CircleAvatar(
-                                    radius: 25,
-                                    backgroundImage: snapshot.data,
-                                  );
-                                } else {
-                                  // You can return a placeholder or loading indicator while the image is loading
-                                  return const CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                            title: Text("Service Provider",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'krona')),
-                            subtitle: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(arguments[3]["name"],
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize:
-                                                getProportionateScreenWidth(18),
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'krona')),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.email,
-                                        size: 15,
+                        child: Row(
+                          children: [
+                            Image(
+                                //image: NetImage(image),
+                                image: NetworkImage(arguments[8]),
+                                fit: BoxFit.cover),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    arguments[9],
+                                    style: TextStyle(
                                         color: kPrimaryColor,
-                                      ),
-                                    ),
-                                    Text(
-                                      arguments[3]["email"],
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenWidth(13),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'krona'),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                        fontSize:
+                                            getProportionateScreenWidth(18),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'krona'),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        )),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: getProportionateScreenHeight(150),
-                      width: getProportionateScreenWidth(360),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(
-                            width: 2,
-                            color: kPrimaryColor,
-                          )),
-                      child: Row(
-                        children: [
-                          Image(
-                              //image: NetImage(image),
-                              image: NetworkImage(arguments[8]),
-                              fit: BoxFit.cover),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  arguments[9],
-                                  style: TextStyle(
-                                      color: kPrimaryColor,
-                                      fontSize: getProportionateScreenWidth(18),
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'krona'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-          ]),
+              // const SizedBox(height: 10),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Text("Service Images",
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: getProportionateScreenWidth(18),
+              //             fontWeight: FontWeight.bold,
+              //             fontFamily: 'krona')),
+              //   ],
+              // )
+            ]),
+          ),
           arguments[7]
               ? Align(
                   alignment: Alignment.bottomCenter,
                   child: DraggableScrollableSheet(
-                      initialChildSize: arguments[5] ? 0.25 : 0.40,
-                      minChildSize: 0.3,
+                      initialChildSize: arguments[5] ? 0.2 : 0.25,
+                      minChildSize: 0.2,
                       maxChildSize: 0.85,
                       builder: (_, ScrollController scrollController) =>
                           Scaffold(
@@ -589,6 +654,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 // ),
                 ),
           ),
+          //const SizedBox(height: 30)
         ]));
   }
 

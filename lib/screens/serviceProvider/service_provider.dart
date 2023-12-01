@@ -5,6 +5,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getServiceProviderDetails.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
+import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,6 +42,27 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
       return responseBody['data']['review_ratings'];
     } else {
       return [];
+    }
+  }
+
+  Future<dynamic> getService(id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse("http://admin.esoptronsalon.com/api/service/$id/details"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    //print('This is our response: ${response.body}');
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseBody = json.decode(response.body);
+      print('This is our response: ${responseBody['data']['service']}');
+      return responseBody['data']['service'];
+    } else {
+      return {};
     }
   }
 
@@ -273,7 +295,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                 future: getReviews(ref.watch(getServiceIdProvider)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    print(snapshot.data);
+                    //print(snapshot.data);
                     return Column(
                       children: [
                         for (int i = 0; i < snapshot.data!.length; i++)
@@ -305,14 +327,61 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text("${snapshot.data![i]['name']}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize:
-                                                    getProportionateScreenWidth(
-                                                        18),
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'krona')),
+                                        Row(
+                                          children: [
+                                            Text("${snapshot.data![i]['name']}",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize:
+                                                        getProportionateScreenWidth(
+                                                            18),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'krona')),
+                                            const SizedBox(width: 10),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Row(
+                                                children: [
+                                                  for (int j = 0;
+                                                      j <
+                                                          snapshot.data![i]
+                                                              ['star_rating'];
+                                                      j++)
+                                                    const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(4.0),
+                                                      child: Icon(
+                                                        FontAwesomeIcons
+                                                            .solidStar,
+                                                        size: 10,
+                                                        color:
+                                                            Colors.orangeAccent,
+                                                      ),
+                                                    ),
+                                                  for (int j = 0;
+                                                      j <
+                                                          5 -
+                                                              snapshot.data![i][
+                                                                  'star_rating'];
+                                                      j++)
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              4.0),
+                                                      child: Icon(
+                                                        FontAwesomeIcons
+                                                            .solidStar,
+                                                        size: 10,
+                                                        color: Colors.black
+                                                            .withOpacity(0.4),
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                         Row(
                                           children: [
                                             Text(
@@ -325,23 +394,15 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontFamily: 'krona')),
+                                            SizedBox(
+                                                width: 800 /
+                                                    snapshot.data![i]['comment']
+                                                        .length)
                                           ],
                                         ),
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: getProportionateScreenWidth(30),
-                                  ),
-                                  for (int i = 0; i < 5; i++)
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Icon(
-                                        FontAwesomeIcons.solidStar,
-                                        size: 8,
-                                        color: kPrimaryColor.withOpacity(0.4),
-                                      ),
-                                    ),
                                 ],
                               ),
                             ),
@@ -354,30 +415,30 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                   }
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "View More",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: kPrimaryColor,
-                          fontSize: getProportionateScreenWidth(15),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'krona'),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: [
+              //       Text(
+              //         "View More",
+              //         style: TextStyle(
+              //             decoration: TextDecoration.underline,
+              //             color: kPrimaryColor,
+              //             fontSize: getProportionateScreenWidth(15),
+              //             fontWeight: FontWeight.bold,
+              //             fontFamily: 'krona'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Service Images",
+                      "Services",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: getProportionateScreenWidth(17),
@@ -387,6 +448,79 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                   ],
                 ),
               ),
+              FutureBuilder<dynamic>(
+                future: getService(ref.watch(getServiceIdProvider)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    print(snapshot.data);
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: getProportionateScreenHeight(150),
+                        width: getProportionateScreenWidth(360),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            border: Border.all(
+                              width: 2,
+                              color: kPrimaryColor,
+                            )),
+                        child: Row(
+                          children: [
+                            Image(
+                                //image: NetImage(image),
+                                image: NetworkImage(
+                                    "http://admin.esoptronsalon.com/${snapshot.data!['logo']}"),
+                                fit: BoxFit.cover),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "${snapshot.data!['name']}",
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize:
+                                            getProportionateScreenWidth(18),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'krona'),
+                                  ),
+                                  FilledButton(
+                                      onPressed: () => Navigator.pushNamed(
+                                              context, ServiceDetails.routeName,
+                                              arguments: [
+                                                snapshot.data!['name'],
+                                                "http://admin.esoptronsalon.com/${snapshot.data!['logo']}",
+                                                snapshot.data!['description'],
+                                                snapshot
+                                                    .data!['service_provider'],
+                                                4,
+                                                snapshot.data!['is_available'],
+                                                0,
+                                                true,
+                                                snapshot.data![
+                                                    'service_provider']['id'],
+                                                snapshot.data!['id']
+                                              ]),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(13.0),
+                                        child: Text("Select"),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    // You can return a placeholder or loading indicator while the image is loading
+                    return const CircularProgressIndicator();
+                  }
+                },
+              )
             ]),
           ),
         ]));
