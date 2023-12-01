@@ -34,10 +34,10 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
-    print(response.body);
+    //print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
-      print(responseData['data']);
+      // print(responseData['data']);
       return [
         responseData['data']['charge_unit'],
         responseData['data']['charge'],
@@ -182,8 +182,6 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 side: MaterialStateBorderSide.resolveWith(
                                     (states) =>
                                         const BorderSide(color: kPrimaryColor)),
-                                // textStyle: MaterialStateProperty.resolveWith(
-                                //     (states) => const TextStyle(color: Colors.black)),
                                 backgroundColor: MaterialStateColor.resolveWith(
                                     (states) => kPrimaryColor)),
                             onPressed: () async {
@@ -196,14 +194,13 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                   await SharedPreferences.getInstance();
                               String? authorizationToken =
                                   prefs.getString("auth_token");
-                              //print("this is the time ${arguments[4]}");
                               final data = jsonEncode({
                                 'date': '${arguments[3]}',
                                 'time': '${arguments[4]}',
                                 'latitude': ' ${arguments[6]}',
                                 'longitude': '${arguments[7]}',
                                 'address': '${arguments[8]}',
-                                'service_sub_categories': ['${arguments[5]}'],
+                                'service_sub_categories': [arguments[5]],
                                 'service_id': '${arguments[2]}'
                               });
                               final response = await http.post(

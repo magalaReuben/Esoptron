@@ -28,6 +28,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   List favorites = [];
   bool isLoading = false;
   List<dynamic> favoritesServiceId = [];
+  Map<int, int> favouritesServiceIdMapper = {};
   PageController? pageController = PageController();
 
   @override
@@ -68,7 +69,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Future<List<dynamic>> getServiceImages(id) async {
-    print('my test id: $id');
+    //print('my test id: $id');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
@@ -79,7 +80,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
-    print(response.body);
+    //print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       return responseData['data']['images'];
@@ -105,9 +106,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         favorites = responseData['data']['favourite_services'];
       });
       for (var element in favorites) {
-        favoritesServiceId.add(element["service_id"]);
+        if (!favoritesServiceId.contains(element["service_id"])) {
+          favoritesServiceId.add(element["service_id"]);
+          favouritesServiceIdMapper[element["service_id"]] =
+              element["favourite_service_id"];
+        }
       }
-      //print("This is our data: $favoritesServiceId");
+      print("This is our favorite data: $favoritesServiceId");
+      print("These are our favorite dics: $favouritesServiceIdMapper");
       return responseData['data']['favourite_services'];
     } else {
       return [];
@@ -141,7 +147,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       future: getServiceImages(
                           arguments[7] ? arguments[9] : arguments[10]),
                       builder: (context, snapshot) {
-                        print('This is our data: ${snapshot.data}');
+                        //print('This is our data: ${snapshot.data}');
                         if (snapshot.connectionState == ConnectionState.done) {
                           //print(snapshot.data);
                           return CarouselSlider(
@@ -187,16 +193,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: favoritesServiceId.contains(arguments[9])
+                      child: favoritesServiceId.contains(
+                              arguments[7] ? arguments[9] : arguments[10])
                           ? GestureDetector(
                               onTap: () async {
+                                await getFavorites();
                                 SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
                                 String? authorizationToken =
                                     prefs.getString("auth_token");
                                 final response = await http.delete(
                                   Uri.parse(
-                                      "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[9]}/remove"),
+                                      "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[9]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
                                   headers: {
                                     'Authorization':
                                         'Bearer $authorizationToken',
@@ -204,12 +212,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         'application/json', // You may need to adjust the content type based on your API requirements
                                   },
                                 );
+                                var test = arguments[7]
+                                    ? favouritesServiceIdMapper[arguments[9]]
+                                    : favouritesServiceIdMapper[arguments[10]];
+                                print(test);
                                 print(response.body);
                                 if (response.statusCode >= 200 &&
                                     response.statusCode < 300) {
                                   // ignore: use_build_context_synchronously
                                   setState(() {
-                                    favoritesServiceId.remove(arguments[9]);
+                                    favoritesServiceId.remove(arguments[7]
+                                        ? arguments[9]
+                                        : arguments[10]);
                                   });
                                   // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context)
@@ -238,9 +252,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     await SharedPreferences.getInstance();
                                 String? authorizationToken =
                                     prefs.getString("auth_token");
+                                await getFavorites();
                                 final response = await http.post(
                                   Uri.parse(
-                                      "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/add_favourites"),
+                                      "http://admin.esoptronsalon.com/api/user/service/${arguments[7] ? arguments[9] : arguments[10]}/add_favourites"),
                                   headers: {
                                     'Authorization':
                                         'Bearer $authorizationToken',
@@ -252,7 +267,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 if (response.statusCode >= 200 &&
                                     response.statusCode < 300) {
                                   // ignore: use_build_context_synchronously
-                                  favoritesServiceId.add(arguments[9]);
+                                  setState(() {
+                                    favoritesServiceId.add(arguments[7]
+                                        ? arguments[9]
+                                        : arguments[10]);
+                                  });
                                   // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
@@ -488,7 +507,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     FutureBuilder<List<dynamic>>(
                                       future: getSubCategories(arguments[8]),
                                       builder: (context, snapshot) {
-                                        print(arguments);
+                                        //print(arguments);
                                         if (snapshot.connectionState ==
                                             ConnectionState.done) {
                                           return Column(

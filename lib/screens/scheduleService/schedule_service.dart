@@ -247,7 +247,6 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     ref.read(scheduledDateProvider.notifier).state =
                         DateFormat("dd/MM/yyyy").format(DateTime(
                             _dates[0]!.year, _dates[0]!.month, _dates[0]!.day));
-                    // "${_dates[0]!.day}/${_dates[0]!.month}/${_dates[0]!.year}";
                     Navigator.pop(context);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
