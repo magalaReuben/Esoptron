@@ -124,21 +124,21 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 4.0),
-              //   child: Card(
-              //     elevation: 2,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(left: 8.0),
-              //       child: TextFormField(
-              //         controller: phoneNumberController,
-              //         decoration: const InputDecoration(
-              //             hintText: "Enter Phone Number",
-              //             hintStyle: TextStyle(color: Colors.black)),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: TextFormField(
+                      controller: phoneNumberController,
+                      decoration: const InputDecoration(
+                          hintText: "Enter Phone Number",
+                          hintStyle: TextStyle(color: Colors.black)),
+                    ),
+                  ),
+                ),
+              ),
               // const Padding(
               //   padding: EdgeInsets.only(top: 4.0),
               //   child: Card(
@@ -307,7 +307,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                             ref.read(scheduledTimeProvider.notifier).state =
                                 DateFormat('hh:mm a').format(DateTime.now());
                             ref.read(scheduledDateProvider.notifier).state =
-                                "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                                DateFormat("dd/MM/yyyy").format(DateTime.now());
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),

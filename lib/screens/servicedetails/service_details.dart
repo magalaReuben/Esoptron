@@ -68,7 +68,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Future<List<dynamic>> getServiceImages(id) async {
-    print(id);
+    print('my test id: $id');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
@@ -138,7 +138,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: FutureBuilder<List<dynamic>>(
-                      future: getServiceImages(arguments[9]),
+                      future: getServiceImages(
+                          arguments[7] ? arguments[9] : arguments[10]),
                       builder: (context, snapshot) {
                         print('This is our data: ${snapshot.data}');
                         if (snapshot.connectionState == ConnectionState.done) {
@@ -193,9 +194,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     await SharedPreferences.getInstance();
                                 String? authorizationToken =
                                     prefs.getString("auth_token");
-                                final response = await http.post(
+                                final response = await http.delete(
                                   Uri.parse(
-                                      "http://admin.esoptronsalon.com/api/user/service/${arguments[9]}/remove"),
+                                      "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[9]}/remove"),
                                   headers: {
                                     'Authorization':
                                         'Bearer $authorizationToken',
@@ -207,7 +208,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 if (response.statusCode >= 200 &&
                                     response.statusCode < 300) {
                                   // ignore: use_build_context_synchronously
-                                  favoritesServiceId.remove(arguments[9]);
+                                  setState(() {
+                                    favoritesServiceId.remove(arguments[9]);
+                                  });
                                   // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
