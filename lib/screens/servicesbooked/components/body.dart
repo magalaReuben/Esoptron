@@ -1,9 +1,52 @@
+import 'dart:convert';
+
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({super.key});
+
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  Future<List<dynamic>> getServiceBookedDetails() async {
+    List<dynamic> bookedServiceIds = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse("http://admin.esoptronsalon.com/api/bookings/all"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    final responseBody = json.decode(response.body);
+    for (var element in responseBody['data']['bookings']) {
+      bookedServiceIds.add(element['id']);
+    }
+    final bookingDetailsResponse = await http.get(
+      Uri.parse("http://admin.esoptronsalon.com/api/bookings/62/details"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    if (bookingDetailsResponse.statusCode >= 200 &&
+        bookingDetailsResponse.statusCode < 300) {
+      final responseBody = json.decode(bookingDetailsResponse.body);
+      print(responseBody);
+      return [];
+    } else {
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,83 +76,98 @@ class Body extends StatelessWidget {
               thickness: 1.5,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "Add More",
-                  style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: getProportionateScreenWidth(15),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.add_circle_outline,
-                      size: 20, color: kPrimaryColor),
-                )
-              ],
-            ),
+          FutureBuilder<List<dynamic>>(
+            future: getServiceBookedDetails(),
+            builder: (context, snapshot) {
+              print(snapshot);
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  print(snapshot.data);
+                }
+                return Container();
+              } else {
+                // You can return a placeholder or loading indicator while the image is loading
+                return const CircularProgressIndicator();
+              }
+            },
           ),
-          serviceBoooked("Dreadlocks style for Medium hair", ".Dread Service",
-              "20", "assets/images/servicesBooked/image1.png"),
-          serviceBoooked("Classic Manicure", ".Manicure Service", "30",
-              "assets/images/servicesBooked/image2.png"),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: Divider(
-              color: Colors.black.withOpacity(0.9),
-              thickness: 1.5,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text(
-                  "Service Provider",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              serviceProvider('assets/images/servicesBooked/chinoso.png',
-                  "Chinoso", "Kampala,6th street"),
-              serviceProvider('assets/images/servicesBooked/wonder.png',
-                  "Wonder", "Masindi,6th street"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                "Change Specialist",
-                style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: kPrimaryColor,
-                    fontSize: getProportionateScreenWidth(17),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: Divider(
-              color: Colors.black.withOpacity(0.9),
-              thickness: 1.5,
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       Text(
+          //         "Add More",
+          //         style: TextStyle(
+          //             color: kPrimaryColor,
+          //             fontSize: getProportionateScreenWidth(15),
+          //             fontWeight: FontWeight.bold,
+          //             fontFamily: 'krona'),
+          //       ),
+          //       const Padding(
+          //         padding: EdgeInsets.all(8.0),
+          //         child: Icon(Icons.add_circle_outline,
+          //             size: 20, color: kPrimaryColor),
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // serviceBoooked("Dreadlocks style for Medium hair", ".Dread Service",
+          //     "20", "assets/images/servicesBooked/image1.png"),
+          // serviceBoooked("Classic Manicure", ".Manicure Service", "30",
+          //     "assets/images/servicesBooked/image2.png"),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 8, right: 8),
+          //   child: Divider(
+          //     color: Colors.black.withOpacity(0.9),
+          //     thickness: 1.5,
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         "Service Provider",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: getProportionateScreenWidth(17),
+          //             fontWeight: FontWeight.bold,
+          //             fontFamily: 'krona'),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     serviceProvider('assets/images/servicesBooked/chinoso.png',
+          //         "Chinoso", "Kampala,6th street"),
+          //     serviceProvider('assets/images/servicesBooked/wonder.png',
+          //         "Wonder", "Masindi,6th street"),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     Text(
+          //       "Change Specialist",
+          //       style: TextStyle(
+          //           decoration: TextDecoration.underline,
+          //           color: kPrimaryColor,
+          //           fontSize: getProportionateScreenWidth(17),
+          //           fontWeight: FontWeight.bold,
+          //           fontFamily: 'krona'),
+          //     ),
+          //   ],
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 8, right: 8),
+          //   child: Divider(
+          //     color: Colors.black.withOpacity(0.9),
+          //     thickness: 1.5,
+          //   ),
+          // ),
         ],
       ),
     );
