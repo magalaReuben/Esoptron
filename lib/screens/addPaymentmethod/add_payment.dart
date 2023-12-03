@@ -18,6 +18,8 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
   bool isChecked3 = false;
   @override
   Widget build(BuildContext context) {
+    List<dynamic> aruments =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add Payment Method"),

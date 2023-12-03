@@ -439,7 +439,15 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   text: "Continue",
                   press: () {
                     // ignore: dead_code
-                    if (false) {
+                    if (phoneNumberController.text == '') {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          backgroundColor: kPrimaryColor,
+                          content: Text(
+                            'Enter Phone Number',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )));
+
+                      // ignore: dead_codes
                     } else {
                       if (scheduledDate == '' || scheduledTime == '') {
                         ScaffoldMessenger.of(context)
@@ -462,7 +470,8 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                               arguments[4],
                               _currentPosition!.latitude,
                               _currentPosition!.longitude,
-                              _currentAddress
+                              _currentAddress,
+                              phoneNumberController.text,
                             ]);
                       }
                     }

@@ -21,6 +21,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   String? charge;
   String? currency;
   String? description;
+  String? bookingId;
   bool isLoading = false;
 
   Future<List<dynamic>> getSubCategoryDetails(id) async {
@@ -34,10 +35,8 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
-    //print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
-      // print(responseData['data']);
       return [
         responseData['data']['charge_unit'],
         responseData['data']['charge'],
@@ -213,8 +212,8 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 backgroundColor: MaterialStateColor.resolveWith(
                                     (states) => kPrimaryColor)),
                             onPressed: () async {
-                              print(
-                                  "date: ${arguments[3]} time: ${arguments[4]} latitude:  ${arguments[6]} longitude: ${arguments[7]} address: ${arguments[8]} serviceSubCategory: ${arguments[5]} serviceId: ${arguments[2]} ");
+                              // print(
+                              //     "date: ${arguments[3]} time: ${arguments[4]} latitude:  ${arguments[6]} longitude: ${arguments[7]} address: ${arguments[8]} serviceSubCategory: ${arguments[5]} serviceId: ${arguments[2]} ");
                               setState(() {
                                 isLoading = true;
                               });
@@ -244,10 +243,14 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                   'X-Requested-With': 'XMLHttpRequest'
                                 },
                               );
-                              print(response.body);
+                              //print(response.body);
                               final responseData = json.decode(response.body);
                               if (response.statusCode >= 200 &&
                                   response.statusCode < 300) {
+                                final responseData = json.decode(response.body);
+                                setState(() {
+                                  bookingId = responseData['data']['id'];
+                                });
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
@@ -257,7 +260,8 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 ));
                                 // ignore: use_build_context_synchronously
                                 Navigator.pushNamed(
-                                    context, AddPaymentMethod.routeName);
+                                    context, AddPaymentMethod.routeName,
+                                    arguments: [bookingId, arguments[9]]);
                                 //print(responseData['data']);
                               } else {
                                 // ignore: use_build_context_synchronously

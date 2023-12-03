@@ -122,7 +122,42 @@ class _BodyState extends State<Body> {
                             "${snapshot.data![i]['sub_categories'][0]['name']}",
                             "${snapshot.data![i]['status']}",
                             "${snapshot.data![i]['sub_categories'][0]['charge']}",
-                            "${snapshot.data![i]['sub_categories'][0]['image']}")
+                            "${snapshot.data![i]['sub_categories'][0]['image']}"),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Divider(
+                          color: Colors.black.withOpacity(0.9),
+                          thickness: 1.5,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Service Provider",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(17),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'krona'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            for (int i = 0; i < snapshot.data!.length; i++)
+                              serviceProvider(
+                                  '${snapshot.data![i]['service'][0]['logo']}',
+                                  "${snapshot.data![i]['service'][0]['name']}",
+                                  "Kampala,6th street"),
+                          ],
+                        ),
+                      ),
                     ],
                   );
                 } else {
@@ -158,37 +193,6 @@ class _BodyState extends State<Body> {
               }
             },
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8, right: 8),
-          //   child: Divider(
-          //     color: Colors.black.withOpacity(0.9),
-          //     thickness: 1.5,
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         "Service Provider",
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: getProportionateScreenWidth(17),
-          //             fontWeight: FontWeight.bold,
-          //             fontFamily: 'krona'),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     serviceProvider('assets/images/servicesBooked/chinoso.png',
-          //         "Chinoso", "Kampala,6th street"),
-          //     serviceProvider('assets/images/servicesBooked/wonder.png',
-          //         "Wonder", "Masindi,6th street"),
-          //   ],
-          // ),
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.end,
           //   children: [
@@ -227,7 +231,8 @@ class _BodyState extends State<Body> {
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 30,
-                foregroundImage: AssetImage(image),
+                foregroundImage: NetworkImage(
+                    'http://admin.esoptronsalon.com/storage/services/$image'),
               ),
             ),
             SizedBox(height: getProportionateScreenHeight(5)),
@@ -235,50 +240,50 @@ class _BodyState extends State<Body> {
               name,
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: getProportionateScreenWidth(17),
+                  fontSize: getProportionateScreenWidth(14),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'krona'),
             ),
             SizedBox(height: getProportionateScreenHeight(5)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.location_pin,
-                  size: 15,
-                  color: kPrimaryColor,
-                ),
-                Text(
-                  location,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(13),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
-                ),
-              ],
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.phone,
-                    size: 15,
-                    color: kPrimaryColor,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.chat,
-                    size: 15,
-                    color: kPrimaryColor,
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     const Icon(
+            //       Icons.location_pin,
+            //       size: 15,
+            //       color: kPrimaryColor,
+            //     ),
+            //     Text(
+            //       location,
+            //       style: TextStyle(
+            //           color: Colors.black,
+            //           fontSize: getProportionateScreenWidth(13),
+            //           fontWeight: FontWeight.w500,
+            //           fontFamily: 'krona'),
+            //     ),
+            //   ],
+            // ),
+            // const Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Padding(
+            //       padding: EdgeInsets.all(8.0),
+            //       child: Icon(
+            //         Icons.phone,
+            //         size: 15,
+            //         color: kPrimaryColor,
+            //       ),
+            //     ),
+            //     Padding(
+            //       padding: EdgeInsets.all(8.0),
+            //       child: Icon(
+            //         Icons.chat,
+            //         size: 15,
+            //         color: kPrimaryColor,
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -326,12 +331,15 @@ class _BodyState extends State<Body> {
                 fontFamily: 'krona'),
           ),
         ),
-        leading: Image(
-            height: 120,
-            width: 120,
-            image: NetworkImage(
-                "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
-            fit: BoxFit.cover),
+        leading: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          child: Image(
+              height: 200,
+              width: 120,
+              image: NetworkImage(
+                  "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
+              fit: BoxFit.fill),
+        ),
       ),
     );
   }
