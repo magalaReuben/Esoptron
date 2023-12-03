@@ -88,7 +88,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            "${subCategoriesList[i]["name"]} \n ${subCategoriesList[i]["charge"].toString()}",
+                                            "${subCategoriesList[i]["name"]} \n ${subCategoriesList[i]["charge"].toString()} ${subCategoriesList[i]['id']}",
                                             style: TextStyle(
                                                 color: kPrimaryColor,
                                                 fontSize:

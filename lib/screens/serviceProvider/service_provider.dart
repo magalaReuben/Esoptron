@@ -487,27 +487,39 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'krona'),
                                   ),
-                                  FilledButton(
-                                      onPressed: () => Navigator.pushNamed(
-                                              context, ServiceDetails.routeName,
-                                              arguments: [
-                                                snapshot.data!['name'],
-                                                "http://admin.esoptronsalon.com/${snapshot.data!['logo']}",
-                                                snapshot.data!['description'],
-                                                snapshot
-                                                    .data!['service_provider'],
-                                                4,
-                                                snapshot.data!['is_available'],
-                                                0,
-                                                true,
-                                                snapshot.data![
-                                                    'service_provider']['id'],
-                                                snapshot.data!['id']
-                                              ]),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(13.0),
-                                        child: Text("Select"),
-                                      ))
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      FilledButton(
+                                          onPressed: () => Navigator.pushNamed(
+                                                  context,
+                                                  ServiceDetails.routeName,
+                                                  arguments: [
+                                                    snapshot.data!['name'],
+                                                    "http://admin.esoptronsalon.com/${snapshot.data!['logo']}",
+                                                    snapshot
+                                                        .data!['description'],
+                                                    snapshot.data![
+                                                        'service_provider'],
+                                                    4,
+                                                    snapshot
+                                                        .data!['is_available'],
+                                                    0,
+                                                    true,
+                                                    snapshot.data![
+                                                            'service_provider']
+                                                        ['id'],
+                                                    snapshot.data!['id']
+                                                  ]),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(13.0),
+                                            child: Text("Select"),
+                                          )),
+                                      const SizedBox(
+                                        width: 35,
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),

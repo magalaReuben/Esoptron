@@ -202,6 +202,35 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     await SharedPreferences.getInstance();
                                 String? authorizationToken =
                                     prefs.getString("auth_token");
+                                final ApiResponse = await http.get(
+                                  Uri.parse(
+                                      "http://admin.esoptronsalon.com/api/user/favourites/services"),
+                                  headers: {
+                                    'Authorization':
+                                        'Bearer $authorizationToken',
+                                    'Content-Type':
+                                        'application/json', // You may need to adjust the content type based on your API requirements
+                                  },
+                                );
+                                if (ApiResponse.statusCode >= 200 &&
+                                    ApiResponse.statusCode < 300) {
+                                  final responseData =
+                                      json.decode(ApiResponse.body);
+                                  setState(() {
+                                    favorites = responseData['data']
+                                        ['favourite_services'];
+                                  });
+                                  for (var element in favorites) {
+                                    if (!favoritesServiceId
+                                        .contains(element["service_id"])) {
+                                      favoritesServiceId
+                                          .add(element["service_id"]);
+                                    }
+                                    favouritesServiceIdMapper[
+                                            element["service_id"]] =
+                                        element["favourite_service_id"];
+                                  }
+                                } else {}
                                 final response = await http.delete(
                                   Uri.parse(
                                       "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[9]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
@@ -215,6 +244,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 var test = arguments[7]
                                     ? favouritesServiceIdMapper[arguments[9]]
                                     : favouritesServiceIdMapper[arguments[10]];
+                                print(favouritesServiceIdMapper);
                                 print(test);
                                 print(response.body);
                                 if (response.statusCode >= 200 &&
