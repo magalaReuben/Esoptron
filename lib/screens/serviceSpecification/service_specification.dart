@@ -21,7 +21,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   String? charge;
   String? currency;
   String? description;
-  String? bookingId;
+  int? bookingId;
   bool isLoading = false;
 
   Future<List<dynamic>> getSubCategoryDetails(id) async {

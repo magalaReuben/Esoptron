@@ -20,6 +20,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
   Widget build(BuildContext context) {
     List<dynamic> aruments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    print("These are our arguments: $aruments");
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add Payment Method"),
