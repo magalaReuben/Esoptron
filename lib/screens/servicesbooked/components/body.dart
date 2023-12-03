@@ -16,6 +16,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   Future<List<dynamic>> getServiceBookedDetails() async {
     List<dynamic> bookedServiceIds = [];
+    List<dynamic> bookingDetails = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
@@ -30,19 +31,29 @@ class _BodyState extends State<Body> {
     for (var element in responseBody['data']['bookings']) {
       bookedServiceIds.add(element['id']);
     }
-    final bookingDetailsResponse = await http.get(
-      Uri.parse("http://admin.esoptronsalon.com/api/bookings/62/details"),
-      headers: {
-        'Authorization': 'Bearer $authorizationToken',
-        'Content-Type':
-            'application/json', // You may need to adjust the content type based on your API requirements
-      },
-    );
-    if (bookingDetailsResponse.statusCode >= 200 &&
-        bookingDetailsResponse.statusCode < 300) {
-      final responseBody = json.decode(bookingDetailsResponse.body);
-      print(responseBody);
-      return [];
+    for (var id in bookedServiceIds) {
+      final bookingDetailsResponse = await http.get(
+        Uri.parse("http://admin.esoptronsalon.com/api/bookings/$id/details"),
+        headers: {
+          'Authorization': 'Bearer $authorizationToken',
+          'Content-Type':
+              'application/json', // You may need to adjust the content type based on your API requirements
+        },
+      );
+      if (bookingDetailsResponse.statusCode >= 200 &&
+          bookingDetailsResponse.statusCode < 300) {
+        final responseBody = json.decode(bookingDetailsResponse.body);
+        bookingDetails.add({
+          "status": responseBody['data']['status'],
+          'service': responseBody['data']['service'],
+          'sub_categories': responseBody['data']['sub_categories']
+        });
+      } else {
+        return [];
+      }
+    }
+    if (bookingDetails.isNotEmpty) {
+      return bookingDetails;
     } else {
       return [];
     }
@@ -82,40 +93,70 @@ class _BodyState extends State<Body> {
               print(snapshot);
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
-                  print(snapshot.data);
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Add More",
+                              style: TextStyle(
+                                  color: kPrimaryColor,
+                                  fontSize: getProportionateScreenWidth(15),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'krona'),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.add_circle_outline,
+                                  size: 20, color: kPrimaryColor),
+                            )
+                          ],
+                        ),
+                      ),
+                      for (int i = 0; i < snapshot.data!.length; i++)
+                        serviceBoooked(
+                            "${snapshot.data![i]['sub_categories']['name']}",
+                            "${snapshot.data![i]['status']}",
+                            "${snapshot.data![i]['sub_categories']['charge']}",
+                            "${snapshot.data![i]['sub_categories']['logo']}")
+                    ],
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Add More",
+                              style: TextStyle(
+                                  color: kPrimaryColor,
+                                  fontSize: getProportionateScreenWidth(15),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'krona'),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.add_circle_outline,
+                                  size: 20, color: kPrimaryColor),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
                 }
-                return Container();
               } else {
                 // You can return a placeholder or loading indicator while the image is loading
                 return const CircularProgressIndicator();
               }
             },
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       Text(
-          //         "Add More",
-          //         style: TextStyle(
-          //             color: kPrimaryColor,
-          //             fontSize: getProportionateScreenWidth(15),
-          //             fontWeight: FontWeight.bold,
-          //             fontFamily: 'krona'),
-          //       ),
-          //       const Padding(
-          //         padding: EdgeInsets.all(8.0),
-          //         child: Icon(Icons.add_circle_outline,
-          //             size: 20, color: kPrimaryColor),
-          //       )
-          //     ],
-          //   ),
-          // ),
-          // serviceBoooked("Dreadlocks style for Medium hair", ".Dread Service",
-          //     "20", "assets/images/servicesBooked/image1.png"),
-          // serviceBoooked("Classic Manicure", ".Manicure Service", "30",
-          //     "assets/images/servicesBooked/image2.png"),
           // Padding(
           //   padding: const EdgeInsets.only(left: 8, right: 8),
           //   child: Divider(
@@ -282,7 +323,12 @@ class _BodyState extends State<Body> {
                 fontFamily: 'krona'),
           ),
         ),
-        leading: Image.asset(image),
+        leading: Image(
+            height: 120,
+            width: 120,
+            image:
+                NetworkImage("http://admin.esoptronsalon.com/storage/$image"),
+            fit: BoxFit.cover),
       ),
     );
   }
