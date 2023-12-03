@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
@@ -118,10 +119,10 @@ class _BodyState extends State<Body> {
                       ),
                       for (int i = 0; i < snapshot.data!.length; i++)
                         serviceBoooked(
-                            "${snapshot.data![i]['sub_categories']['name']}",
+                            "${snapshot.data![i]['sub_categories'][0]['name']}",
                             "${snapshot.data![i]['status']}",
-                            "${snapshot.data![i]['sub_categories']['charge']}",
-                            "${snapshot.data![i]['sub_categories']['logo']}")
+                            "${snapshot.data![i]['sub_categories'][0]['charge']}",
+                            "${snapshot.data![i]['sub_categories'][0]['logo']}")
                     ],
                   );
                 } else {
@@ -286,6 +287,7 @@ class _BodyState extends State<Body> {
 
   Padding serviceBoooked(
       String title, String subTitle, String price, String image) {
+    log(image);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
@@ -302,6 +304,7 @@ class _BodyState extends State<Body> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'krona'),
             ),
+            SizedBox(width: getProportionateScreenWidth(5)),
             Text(
               subTitle,
               style: TextStyle(
@@ -326,8 +329,8 @@ class _BodyState extends State<Body> {
         leading: Image(
             height: 120,
             width: 120,
-            image:
-                NetworkImage("http://admin.esoptronsalon.com/storage/$image"),
+            image: NetworkImage(
+                "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
             fit: BoxFit.cover),
       ),
     );
