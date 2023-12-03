@@ -48,6 +48,34 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
     }
   }
 
+  Future<List<dynamic>> getServiceSubCategoryIds(
+      serviceid, List<int> subcategoryIdList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    List<int> service_sub_categories = [];
+    final response = await http.get(
+      Uri.parse(
+          "http://admin.esoptronsalon.com/api/service/$serviceid/sub_categories"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseData = json.decode(response.body);
+      for (var element in responseData['data']['sub_categories']) {
+        if (subcategoryIdList.contains(element['id'])) {
+          service_sub_categories.add(element['service_sub_category_id']);
+        }
+        //print(service_sub_categories);
+      }
+      return service_sub_categories;
+    } else {
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<dynamic> arguments = ModalRoute.of(context)!.settings.arguments
@@ -190,6 +218,9 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                               setState(() {
                                 isLoading = true;
                               });
+                              List serviceSubCategoryIds =
+                                  await getServiceSubCategoryIds(
+                                      arguments[2], [arguments[5]]);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               String? authorizationToken =
@@ -200,7 +231,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 'latitude': ' ${arguments[6]}',
                                 'longitude': '${arguments[7]}',
                                 'address': '${arguments[8]}',
-                                'service_sub_categories': [arguments[5]],
+                                'service_sub_categories': serviceSubCategoryIds,
                                 'service_id': '${arguments[2]}'
                               });
                               final response = await http.post(

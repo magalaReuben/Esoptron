@@ -58,6 +58,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                         in subCategories.data!.data['sub_categories']) {
                       subCategoriesList.add(element);
                     }
+                    print(subCategoriesList);
                     return SingleChildScrollView(
                       child: Column(
                         children: [
@@ -88,7 +89,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            "${subCategoriesList[i]["name"]} \n ${subCategoriesList[i]["charge"].toString()} ${subCategoriesList[i]['id']}",
+                                            "${subCategoriesList[i]["name"]} \n ${subCategoriesList[i]["charge"].toString()}",
                                             style: TextStyle(
                                                 color: kPrimaryColor,
                                                 fontSize:

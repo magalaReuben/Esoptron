@@ -287,11 +287,7 @@ class _BodyState extends ConsumerState<Body> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ratingCard(services[i]['image'],
-                              services[i]['name'], services[i]['id']
-                              //services[i]["ratings_count"].toString(),
-                              //services[i]["description"],
-                              //services[i]["service_provider"]
-                              ),
+                              services[i]['name'], services[i]['id']),
                           // names[i]
                           //),
                         )
