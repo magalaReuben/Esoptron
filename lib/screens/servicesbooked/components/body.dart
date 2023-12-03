@@ -122,7 +122,7 @@ class _BodyState extends State<Body> {
                             "${snapshot.data![i]['sub_categories'][0]['name']}",
                             "${snapshot.data![i]['status']}",
                             "${snapshot.data![i]['sub_categories'][0]['charge']}",
-                            "${snapshot.data![i]['sub_categories'][0]['logo']}")
+                            "${snapshot.data![i]['sub_categories'][0]['image']}")
                     ],
                   );
                 } else {
