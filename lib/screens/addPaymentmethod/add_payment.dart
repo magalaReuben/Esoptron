@@ -34,7 +34,14 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        isChecked = !isChecked;
+                        isChecked1 = false;
+                        isChecked2 = false;
+                        isChecked3 = false;
+                      });
+                    },
                     leading: Checkbox(
                         value: isChecked,
                         fillColor: MaterialStateProperty.resolveWith(
@@ -65,7 +72,14 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        isChecked1 = !isChecked1;
+                        isChecked = false;
+                        isChecked2 = false;
+                        isChecked3 = false;
+                      });
+                    },
                     leading: Checkbox(
                         value: isChecked1,
                         fillColor: MaterialStateProperty.resolveWith(
@@ -96,7 +110,14 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        isChecked2 = !isChecked2;
+                        isChecked1 = false;
+                        isChecked = false;
+                        isChecked3 = false;
+                      });
+                    },
                     leading: Checkbox(
                         value: isChecked2,
                         fillColor: MaterialStateProperty.resolveWith(
@@ -127,7 +148,14 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        isChecked3 = !isChecked3;
+                        isChecked1 = false;
+                        isChecked2 = false;
+                        isChecked = false;
+                      });
+                    },
                     leading: Checkbox(
                         value: isChecked3,
                         fillColor: MaterialStateProperty.resolveWith(
