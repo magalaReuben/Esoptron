@@ -87,35 +87,35 @@ class BottomNavWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => onChange(2),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: getProportionateScreenWidth(5)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.wallet,
-                              size: 25,
-                              color: currentIndex == 2
-                                  ? kPrimaryColor
-                                  : Colors.black.withOpacity(0.5),
-                            ),
-                            AppText.small(
-                              'Wallet',
-                              fontSize: 13,
-                              color: currentIndex == 2
-                                  ? kPrimaryColor
-                                  : Colors.black.withOpacity(0.5),
-                              fontWeight: FontWeight.w600,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: InkWell(
+                  //     onTap: () => onChange(2),
+                  //     child: Container(
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: getProportionateScreenWidth(5)),
+                  //       child: Column(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: [
+                  //           Icon(
+                  //             FontAwesomeIcons.wallet,
+                  //             size: 25,
+                  //             color: currentIndex == 2
+                  //                 ? kPrimaryColor
+                  //                 : Colors.black.withOpacity(0.5),
+                  //           ),
+                  //           AppText.small(
+                  //             'Wallet',
+                  //             fontSize: 13,
+                  //             color: currentIndex == 2
+                  //                 ? kPrimaryColor
+                  //                 : Colors.black.withOpacity(0.5),
+                  //             fontWeight: FontWeight.w600,
+                  //           )
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Expanded(
                       child: InkWell(
                           onTap: () => onChange(3),

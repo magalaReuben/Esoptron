@@ -20,7 +20,7 @@ class _LandingScreenState extends State<LandingScreen> {
   final List<Widget> screens = [
     const HomeScreen(),
     const ServiceScreen(),
-    const WalletScreen(),
+    // const WalletScreen(),
     const ProfileScreen()
   ];
   final PageStorageBucket bucket = PageStorageBucket();
@@ -44,13 +44,13 @@ class _LandingScreenState extends State<LandingScreen> {
               case 1:
                 currentScreen = const ServiceScreen();
                 break;
+              // case 2:
+              //   currentScreen = const WalletScreen();
+              //   break;
               case 2:
-                currentScreen = const WalletScreen();
-                break;
-              case 3:
                 currentScreen = const TrackScreen();
                 break;
-              case 4:
+              case 3:
                 currentScreen = const ProfileScreen();
                 break;
             }
