@@ -36,6 +36,7 @@ dependencies:
   dio: ^5.3.2
   file_picker: ^5.5.0
   firebase_auth: ^4.7.3
+  url_launcher: 6.2.2
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.3.7
@@ -70,6 +71,7 @@ flutter:
     - assets/images/servicesBooked/
     - assets/images/favorites/
     - assets/images/serviceDetails/
+    - assets/images/mobilemoney/
     - assets/authentication/icons/
     - assets/authentication/widgets/
     - assets/images/serviceBooking/

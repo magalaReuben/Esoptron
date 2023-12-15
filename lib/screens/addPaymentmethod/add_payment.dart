@@ -1,5 +1,6 @@
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/screens/mobileMoneyPayment/mobile_money_payment.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 
@@ -185,8 +186,13 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
               padding: const EdgeInsets.all(8.0),
               child: DefaultButton(
                 text: "Proceed to pay",
-                press: () =>
-                    Navigator.pushNamed(context, AddPaymentMethod.routeName),
+                press: () {
+                  if (isChecked2 == true) {
+                    Navigator.pushNamed(
+                        context, MobileMoneyPaymentScreen.routeName,
+                        arguments: aruments);
+                  }
+                },
               ),
             )
           ],

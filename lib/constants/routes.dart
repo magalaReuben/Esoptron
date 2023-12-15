@@ -6,6 +6,7 @@ import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
 import 'package:esoptron_salon/screens/forgot/forgot_scren.dart';
 import 'package:esoptron_salon/screens/landing/landing_screen.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
+import 'package:esoptron_salon/screens/mobileMoneyPayment/mobile_money_payment.dart';
 import 'package:esoptron_salon/screens/onboarding/onboarding.dart';
 import 'package:esoptron_salon/screens/otp/otp_screen.dart';
 import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
@@ -43,4 +44,6 @@ final Map<String, WidgetBuilder> routes = {
   AddPaymentMethod.routeName: (context) => const AddPaymentMethod(),
   SubCategories.routeName: (context) => const SubCategories(),
   ServicesList.routeName: (context) => const ServicesList(),
+  MobileMoneyPaymentScreen.routeName: (context) =>
+      const MobileMoneyPaymentScreen(),
 };

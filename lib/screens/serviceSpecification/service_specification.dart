@@ -22,6 +22,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   String? currency;
   String? description;
   int? bookingId;
+  bool isCurrencyLoading = true;
   bool isLoading = false;
 
   Future<List<dynamic>> getSubCategoryDetails(id) async {
@@ -140,6 +141,13 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
               future: getSubCategoryDetails(arguments[5]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
+                  isCurrencyLoading
+                      ? Future(() => setState(() {
+                            charge = snapshot.data![1].toString();
+                            currency = snapshot.data![0].toString();
+                            isCurrencyLoading = false;
+                          }))
+                      : null;
                   return Column(
                     children: [
                       Row(
@@ -261,7 +269,12 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 // ignore: use_build_context_synchronously
                                 Navigator.pushNamed(
                                     context, AddPaymentMethod.routeName,
-                                    arguments: [bookingId, arguments[9]]);
+                                    arguments: [
+                                      bookingId,
+                                      arguments[9],
+                                      currency,
+                                      charge
+                                    ]);
                                 //print(responseData['data']);
                               } else {
                                 // ignore: use_build_context_synchronously
