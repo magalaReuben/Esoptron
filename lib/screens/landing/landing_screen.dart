@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/screens/home/home_screen.dart';
 import 'package:esoptron_salon/screens/profile/profile_screen.dart';
@@ -6,6 +8,7 @@ import 'package:esoptron_salon/screens/track/track.dart';
 import 'package:esoptron_salon/screens/wallet/wallet_screen.dart';
 import 'package:esoptron_salon/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingScreen extends StatefulWidget {
   static String routeName = '/landing';
@@ -20,9 +23,25 @@ class _LandingScreenState extends State<LandingScreen> {
   final List<Widget> screens = [
     const HomeScreen(),
     const ServiceScreen(),
+    const TrackScreen(),
     // const WalletScreen(),
     const ProfileScreen()
   ];
+  bool? isCustomer;
+
+  getClientType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? type = prefs.getString("type");
+    log("This is the type $type");
+    if (type == "Customer") {
+      setState(() {
+        isCustomer = true;
+      });
+    } else {
+      isCustomer = false;
+    }
+  }
+
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomeScreen();
   @override

@@ -100,7 +100,9 @@ class _BodyState extends ConsumerState<Body> {
                               showDialog(
                                   context: context,
                                   builder: (_) => SizedBox(
-                                      height: getProportionateScreenHeight(200),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.6,
                                       width:
                                           MediaQuery.of(context).size.height *
                                               0.5,
@@ -115,7 +117,7 @@ class _BodyState extends ConsumerState<Body> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.5,
+                                              0.7,
                                           clipBehavior: Clip.hardEdge,
                                           decoration: BoxDecoration(
                                               color: Colors.white,

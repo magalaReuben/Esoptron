@@ -25,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
         const Duration(seconds: 6),
         () => prefs.getBool("isLoggedin") == true
-            ? Navigator.pushNamed(context, LandingScreen.routeName)
+            ? Navigator.pushNamed(context, OnBoarding.routeName)
+            //LandingScreen.routeName)
             : Navigator.pushNamed(context, OnBoarding.routeName));
   }
 

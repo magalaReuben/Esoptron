@@ -1,21 +1,32 @@
+import 'dart:developer';
+
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class BottomNavWidget extends ConsumerWidget {
+// ignore: must_be_immutable
+class BottomNavWidget extends ConsumerStatefulWidget {
   const BottomNavWidget({
     super.key,
     required this.onChange,
     required this.currentIndex,
+    required this.isCustomer,
   });
   final ValueChanged<int> onChange;
   final int currentIndex;
+  final bool isCustomer;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BottomNavWidget> createState() => _BottomNavWidgetState();
+}
+
+class _BottomNavWidgetState extends ConsumerState<BottomNavWidget> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
@@ -31,7 +42,7 @@ class BottomNavWidget extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () => onChange(0),
+                      onTap: () => widget.onChange(0),
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             vertical: getProportionateScreenWidth(5)),
@@ -41,14 +52,14 @@ class BottomNavWidget extends ConsumerWidget {
                             Icon(
                               FontAwesomeIcons.home,
                               size: 25,
-                              color: currentIndex == 0
+                              color: widget.currentIndex == 0
                                   ? kPrimaryColor
                                   : Colors.black.withOpacity(0.5),
                             ),
                             AppText.small(
                               'Home',
                               fontSize: 13,
-                              color: currentIndex == 0
+                              color: widget.currentIndex == 0
                                   ? kPrimaryColor
                                   : Colors.black.withOpacity(0.5),
                               fontWeight: FontWeight.w600,
@@ -60,7 +71,7 @@ class BottomNavWidget extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () => onChange(1),
+                      onTap: () => widget.onChange(1),
                       child: Container(
                         padding: EdgeInsets.symmetric(
                             vertical: getProportionateScreenWidth(5)),
@@ -70,14 +81,14 @@ class BottomNavWidget extends ConsumerWidget {
                             Icon(
                               FontAwesomeIcons.userClock,
                               size: 25,
-                              color: currentIndex == 1
+                              color: widget.currentIndex == 1
                                   ? kPrimaryColor
                                   : Colors.black.withOpacity(0.5),
                             ),
                             AppText.small(
                               'Services',
                               fontSize: 13,
-                              color: currentIndex == 1
+                              color: widget.currentIndex == 1
                                   ? kPrimaryColor
                                   : Colors.black.withOpacity(0.5),
                               fontWeight: FontWeight.w600,
@@ -87,65 +98,64 @@ class BottomNavWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  // Expanded(
-                  //   child: InkWell(
-                  //     onTap: () => onChange(2),
-                  //     child: Container(
-                  //       padding: EdgeInsets.symmetric(
-                  //           vertical: getProportionateScreenWidth(5)),
-                  //       child: Column(
-                  //         mainAxisSize: MainAxisSize.min,
-                  //         children: [
-                  //           Icon(
-                  //             FontAwesomeIcons.wallet,
-                  //             size: 25,
-                  //             color: currentIndex == 2
-                  //                 ? kPrimaryColor
-                  //                 : Colors.black.withOpacity(0.5),
-                  //           ),
-                  //           AppText.small(
-                  //             'Wallet',
-                  //             fontSize: 13,
-                  //             color: currentIndex == 2
-                  //                 ? kPrimaryColor
-                  //                 : Colors.black.withOpacity(0.5),
-                  //             fontWeight: FontWeight.w600,
-                  //           )
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  Expanded(
-                      child: InkWell(
-                          onTap: () => onChange(3),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: getProportionateScreenWidth(5)),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.car,
-                                  size: 25,
-                                  color: currentIndex == 3
-                                      ? kPrimaryColor
-                                      : Colors.black.withOpacity(0.5),
+                  widget.isCustomer!
+                      ? Expanded(
+                          child: InkWell(
+                              onTap: () => widget.onChange(2),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: getProportionateScreenWidth(5)),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.car,
+                                      size: 25,
+                                      color: widget.currentIndex == 2
+                                          ? kPrimaryColor
+                                          : Colors.black.withOpacity(0.5),
+                                    ),
+                                    AppText.small(
+                                      'Track',
+                                      fontSize: 13,
+                                      color: widget.currentIndex == 3
+                                          ? kPrimaryColor
+                                          : Colors.black.withOpacity(0.5),
+                                      fontWeight: FontWeight.w600,
+                                    )
+                                  ],
                                 ),
-                                AppText.small(
-                                  'Track',
-                                  fontSize: 13,
-                                  color: currentIndex == 3
-                                      ? kPrimaryColor
-                                      : Colors.black.withOpacity(0.5),
-                                  fontWeight: FontWeight.w600,
-                                )
-                              ],
-                            ),
-                          ))),
+                              )))
+                      : Expanded(
+                          child: InkWell(
+                              onTap: () => widget.onChange(2),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: getProportionateScreenWidth(5)),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.coins,
+                                      size: 25,
+                                      color: widget.currentIndex == 2
+                                          ? kPrimaryColor
+                                          : Colors.black.withOpacity(0.5),
+                                    ),
+                                    AppText.small(
+                                      'Earn',
+                                      fontSize: 13,
+                                      color: widget.currentIndex == 3
+                                          ? kPrimaryColor
+                                          : Colors.black.withOpacity(0.5),
+                                      fontWeight: FontWeight.w600,
+                                    )
+                                  ],
+                                ),
+                              ))),
                   Expanded(
                       child: InkWell(
-                          onTap: () => onChange(4),
+                          onTap: () => widget.onChange(3),
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 vertical: getProportionateScreenWidth(5)),
@@ -155,14 +165,14 @@ class BottomNavWidget extends ConsumerWidget {
                                 Icon(
                                   FontAwesomeIcons.user,
                                   size: 25,
-                                  color: currentIndex == 4
+                                  color: widget.currentIndex == 3
                                       ? kPrimaryColor
                                       : Colors.black.withOpacity(0.5),
                                 ),
                                 AppText.small(
                                   'Profile',
                                   fontSize: 13,
-                                  color: currentIndex == 4
+                                  color: widget.currentIndex == 4
                                       ? kPrimaryColor
                                       : Colors.black.withOpacity(0.5),
                                   fontWeight: FontWeight.w600,

@@ -61,6 +61,7 @@ class AuthenticationService implements AuthenticationRepository {
         prefs.setString("lastName", data.data['data']['last_name']);
         prefs.setString("userEmail", data.data['data']['email']);
         prefs.setString("auth_token", data.data['data']['token']);
+        prefs.setString("type", data.data['data']['type']);
         prefs.setString("phone", data.data['data']['phone']);
         prefs.setString("avatar", data.data['data']['avatar']);
         return Right(ApiResponseModel.fromMap(data.data));

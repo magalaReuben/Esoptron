@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:esoptron_salon/helper/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
@@ -90,6 +91,9 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                     size: 15,
                     color: kPrimaryColor,
                   ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(7),
+                  ),
                   Text(
                     "Total: ",
                     style: TextStyle(
@@ -107,6 +111,9 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: getProportionateScreenHeight(20),
+            ),
             isLoading
                 ? const CircularProgressIndicator(
                     color: kPrimaryColor,
@@ -116,16 +123,17 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                     child: DefaultButton(
                       text: "Checkout",
                       press: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         String? authorizationToken =
                             prefs.getString("auth_token");
                         final data = jsonEncode({
-                          {
-                            "payment_type": "mobile money",
-                            "booking_id": '${aruments[0]}',
-                            "phone_number": "${aruments[1]}"
-                          }
+                          "payment_type": "mobile money",
+                          "booking_id": '${aruments[0]}',
+                          "phone_number": "${aruments[1]}"
                         });
                         final response = await http.post(
                           Uri.parse(
@@ -141,7 +149,6 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                         if (response.statusCode >= 200 &&
                             response.statusCode < 300) {
                           final responseData = json.decode(response.body);
-                          print(responseData);
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
@@ -149,7 +156,8 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                             backgroundColor: kPrimaryColor,
                             padding: EdgeInsets.all(25),
                           ));
-                          //print(responseData['data']);
+                          launchURL(responseData['redirect-link']);
+                          //print(responseData['redirect-link']);
                         } else {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
