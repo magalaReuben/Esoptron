@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/screens/home/home_screen.dart';
 import 'package:esoptron_salon/screens/profile/profile_screen.dart';
+import 'package:esoptron_salon/screens/serviceProviderMenu/serviceProviderMenu.dart';
 import 'package:esoptron_salon/screens/services/service_screen.dart';
 import 'package:esoptron_salon/screens/track/track.dart';
 import 'package:esoptron_salon/screens/wallet/wallet_screen.dart';
@@ -24,10 +25,10 @@ class _LandingScreenState extends State<LandingScreen> {
     const HomeScreen(),
     const ServiceScreen(),
     const TrackScreen(),
-    // const WalletScreen(),
-    const ProfileScreen()
+    const ProfileScreen(),
+    const ServiceProviderMenu()
   ];
-  bool? isCustomer;
+  bool? isCustomer = true;
 
   getClientType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,8 +39,16 @@ class _LandingScreenState extends State<LandingScreen> {
         isCustomer = true;
       });
     } else {
-      isCustomer = false;
+      setState(() {
+        isCustomer = false;
+      });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getClientType();
   }
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -53,6 +62,7 @@ class _LandingScreenState extends State<LandingScreen> {
       ),
       bottomNavigationBar: BottomNavWidget(
         currentIndex: currentTab,
+        isCustomer: isCustomer!,
         onChange: (index) async {
           setState(() {
             currentTab = index;
@@ -63,14 +73,14 @@ class _LandingScreenState extends State<LandingScreen> {
               case 1:
                 currentScreen = const ServiceScreen();
                 break;
-              // case 2:
-              //   currentScreen = const WalletScreen();
-              //   break;
               case 2:
                 currentScreen = const TrackScreen();
                 break;
               case 3:
                 currentScreen = const ProfileScreen();
+                break;
+              case 4:
+                currentScreen = const ServiceProviderMenu();
                 break;
             }
           });
