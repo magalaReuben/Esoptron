@@ -11,6 +11,13 @@ class ServiceBookedDetails extends StatefulWidget {
 class _ServiceBookedDetailsState extends State<ServiceBookedDetails> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Service Booked Details"),
+      ),
+      body: const Center(
+        child: Text("Service Booked Details"),
+      ),
+    );
   }
 }
