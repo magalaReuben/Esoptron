@@ -52,6 +52,7 @@ class _ServiceProviderMenuState extends State<ServiceProviderMenu> {
           'sub_categories': responseBody['data']['sub_categories'],
           'customer': responseBody['data']['customer'],
           'address': responseBody['data']['address'],
+          'time': responseBody['data']['time'],
         });
       } else {
         return [];
