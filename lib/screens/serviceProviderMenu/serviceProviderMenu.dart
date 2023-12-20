@@ -191,24 +191,24 @@ class _ServiceProviderMenuState extends State<ServiceProviderMenu> {
                 //             Text("ButterFly Braids"),
                 //           ],
                 //         ),
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.start,
-                //           children: [
-                //             ElevatedButton(
-                //                 style: ElevatedButton.styleFrom(
-                //                     backgroundColor: Colors.green),
-                //                 onPressed: () => null,
-                //                 child: const Text("Accept")),
-                //             SizedBox(
-                //               width: getProportionateScreenWidth(15),
-                //             ),
-                //             ElevatedButton(
-                //                 style: ElevatedButton.styleFrom(
-                //                     backgroundColor: Colors.red),
-                //                 onPressed: () => null,
-                //                 child: const Text("Reject"))
-                //           ],
-                //         ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     ElevatedButton(
+                //         style: ElevatedButton.styleFrom(
+                //             backgroundColor: Colors.green),
+                //         onPressed: () => null,
+                //         child: const Text("Accept")),
+                //     SizedBox(
+                //       width: getProportionateScreenWidth(15),
+                //     ),
+                //     ElevatedButton(
+                //         style: ElevatedButton.styleFrom(
+                //             backgroundColor: Colors.red),
+                //         onPressed: () => null,
+                //         child: const Text("Reject"))
+                //   ],
+                // ),
                 //       ],
                 //     ),
                 //   ),
