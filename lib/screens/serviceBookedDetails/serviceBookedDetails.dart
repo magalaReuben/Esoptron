@@ -17,7 +17,7 @@ class _ServiceBookedDetailsState extends State<ServiceBookedDetails> {
   Future<List<dynamic>> bookingAction(action, id, context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
-    final response = await http.get(
+    final response = await http.post(
       action == "accept"
           ? Uri.parse("http://admin.esoptronsalon.com/api/bookings/$id/accept")
           : Uri.parse("http://admin.esoptronsalon.com/api/bookings/$id/reject"),
@@ -29,7 +29,7 @@ class _ServiceBookedDetailsState extends State<ServiceBookedDetails> {
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
-      if (responseData['status'] == "success") {
+      if (responseData['success'] == "true") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("${responseData['message']}"),
           backgroundColor: Colors.green,

@@ -99,7 +99,7 @@ class _BodyState extends ConsumerState<Body> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize:
-                                          getProportionateScreenWidth(14)),
+                                          getProportionateScreenWidth(18)),
                                 ),
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(

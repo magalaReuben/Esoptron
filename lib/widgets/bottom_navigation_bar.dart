@@ -144,7 +144,7 @@ class _BottomNavWidgetState extends ConsumerState<BottomNavWidget> {
                                 AppText.small(
                                   'Track',
                                   fontSize: 13,
-                                  color: widget.currentIndex == 3
+                                  color: widget.currentIndex == 2
                                       ? kPrimaryColor
                                       : Colors.black.withOpacity(0.5),
                                   fontWeight: FontWeight.w600,
@@ -171,7 +171,7 @@ class _BottomNavWidgetState extends ConsumerState<BottomNavWidget> {
                                 AppText.small(
                                   'Profile',
                                   fontSize: 13,
-                                  color: widget.currentIndex == 4
+                                  color: widget.currentIndex == 3
                                       ? kPrimaryColor
                                       : Colors.black.withOpacity(0.5),
                                   fontWeight: FontWeight.w600,

@@ -15,9 +15,11 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  List<dynamic>? finalserviceProviders;
   Future<List<dynamic>> getServiceBookedDetails() async {
     List<dynamic> bookedServiceIds = [];
     List<dynamic> bookingDetails = [];
+    List<dynamic> serviceProviders = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
@@ -44,6 +46,7 @@ class _BodyState extends State<Body> {
       if (bookingDetailsResponse.statusCode >= 200 &&
           bookingDetailsResponse.statusCode < 300) {
         final responseBody = json.decode(bookingDetailsResponse.body);
+        //print(responseBody);
         bookingDetails.add({
           "status": responseBody['data']['status'],
           'service': responseBody['data']['service'],
@@ -53,6 +56,16 @@ class _BodyState extends State<Body> {
         return [];
       }
     }
+    for (int i = 0; i < bookingDetails.length; i++) {
+      if (!serviceProviders.contains(bookingDetails[i]['service'][0]['name'])) {
+        if (bookingDetails[i]['service'][0]['name'] != null) {
+          serviceProviders.add(bookingDetails[i]['service'][0]);
+        }
+      }
+    }
+    // setState(() {
+    //   finalserviceProviders = serviceProviders;
+    // });
     if (bookingDetails.isNotEmpty) {
       return bookingDetails;
     } else {
@@ -62,67 +75,52 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+            appBar: AppBar(
+              bottom: TabBar(
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: kPrimaryColor,
+                  ),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorWeight: 3.0,
+                  unselectedLabelColor: Colors.black,
+                  labelColor: Colors.white,
+                  isScrollable: true,
+                  indicatorColor: Colors.transparent,
+                  physics: const BouncingScrollPhysics(),
+                  labelStyle:
+                      TextStyle(fontSize: getProportionateScreenWidth(18)),
+                  tabs: const [
+                    Tab(text: "Accepted"),
+                    Tab(text: 'Pending'),
+                    Tab(text: 'Rejected')
+                  ]),
+            ),
+            body: TabBarView(
               children: [
-                Text(
-                  "Services Booked",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(20),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: Divider(
-              color: Colors.black.withOpacity(0.9),
-              thickness: 1.5,
-            ),
-          ),
-          FutureBuilder<List<dynamic>>(
-            future: getServiceBookedDetails(),
-            builder: (context, snapshot) {
-              print(snapshot);
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return Column(
+                SingleChildScrollView(
+                  child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Add More",
+                              "Accepted Services",
                               style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontSize: getProportionateScreenWidth(15),
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(20),
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'krona'),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.add_circle_outline,
-                                  size: 20, color: kPrimaryColor),
-                            )
                           ],
                         ),
                       ),
-                      for (int i = 0; i < snapshot.data!.length; i++)
-                        serviceBoooked(
-                            "${snapshot.data![i]['sub_categories'][0]['name']}",
-                            "${snapshot.data![i]['status']}",
-                            "${snapshot.data![i]['sub_categories'][0]['charge']}",
-                            "${snapshot.data![i]['sub_categories'][0]['image']}"),
                       Padding(
                         padding: const EdgeInsets.only(left: 8, right: 8),
                         child: Divider(
@@ -130,96 +128,376 @@ class _BodyState extends State<Body> {
                           thickness: 1.5,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Service Provider",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(17),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            for (int i = 0; i < snapshot.data!.length; i++)
-                              serviceProvider(
-                                  '${snapshot.data![i]['service'][0]['logo']}',
-                                  "${snapshot.data![i]['service'][0]['name']}",
-                                  "Kampala,6th street"),
-                          ],
-                        ),
+                      FutureBuilder<List<dynamic>>(
+                        future: getServiceBookedDetails(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data!.isEmpty ||
+                                  snapshot.data == null) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("No Accepted Services",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenWidth(20),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'krona')),
+                                );
+                              }
+                              return Column(
+                                children: [
+                                  for (int i = 0;
+                                      i < snapshot.data!.length;
+                                      i++)
+                                    snapshot.data![i]['status'] == 'accepted'
+                                        ? serviceBoooked(
+                                            "${snapshot.data![i]['sub_categories'][0]['name']}",
+                                            "${snapshot.data![i]['status']}",
+                                            "${snapshot.data![i]['sub_categories'][0]['charge']}",
+                                            "${snapshot.data![i]['sub_categories'][0]['image']}")
+                                        : Container(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Divider(
+                                      color: Colors.black.withOpacity(0.9),
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Service Provider",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      17),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        for (int i = 0;
+                                            i < snapshot.data!.length;
+                                            i++)
+                                          serviceProvider(
+                                              '${snapshot.data![i]['service'][0]['logo']}',
+                                              "${snapshot.data![i]['service'][0]['name']}",
+                                              "Kampala,6th street"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "Add More",
+                                          style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      15),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.add_circle_outline,
+                                              size: 20, color: kPrimaryColor),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          } else {
+                            // You can return a placeholder or loading indicator while the image is loading
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ],
-                  );
-                } else {
-                  return Column(
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Add More",
+                              "Pending Services",
                               style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontSize: getProportionateScreenWidth(15),
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(20),
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'krona'),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.add_circle_outline,
-                                  size: 20, color: kPrimaryColor),
-                            )
                           ],
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Divider(
+                          color: Colors.black.withOpacity(0.9),
+                          thickness: 1.5,
+                        ),
+                      ),
+                      FutureBuilder<List<dynamic>>(
+                        future: getServiceBookedDetails(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  for (int i = 0;
+                                      i < snapshot.data!.length;
+                                      i++)
+                                    snapshot.data![i]['status'] == 'pending'
+                                        ? serviceBoooked(
+                                            "${snapshot.data![i]['sub_categories'][0]['name']}",
+                                            "${snapshot.data![i]['status']}",
+                                            "${snapshot.data![i]['sub_categories'][0]['charge']}",
+                                            "${snapshot.data![i]['sub_categories'][0]['image']}")
+                                        : Container(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Divider(
+                                      color: Colors.black.withOpacity(0.9),
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Service Provider",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      17),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        for (int i = 0;
+                                            i < snapshot.data!.length;
+                                            i++)
+                                          serviceProvider(
+                                              '${snapshot.data![i]['service'][0]['logo']}',
+                                              "${snapshot.data![i]['service'][0]['name']}",
+                                              "Kampala,6th street"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "Add More",
+                                          style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      15),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.add_circle_outline,
+                                              size: 20, color: kPrimaryColor),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          } else {
+                            // You can return a placeholder or loading indicator while the image is loading
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
                     ],
-                  );
-                }
-              } else {
-                // You can return a placeholder or loading indicator while the image is loading
-                return const CircularProgressIndicator();
-              }
-            },
-          ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     Text(
-          //       "Change Specialist",
-          //       style: TextStyle(
-          //           decoration: TextDecoration.underline,
-          //           color: kPrimaryColor,
-          //           fontSize: getProportionateScreenWidth(17),
-          //           fontWeight: FontWeight.bold,
-          //           fontFamily: 'krona'),
-          //     ),
-          //   ],
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8, right: 8),
-          //   child: Divider(
-          //     color: Colors.black.withOpacity(0.9),
-          //     thickness: 1.5,
-          //   ),
-          // ),
-        ],
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Rejected Services",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(20),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'krona'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Divider(
+                          color: Colors.black.withOpacity(0.9),
+                          thickness: 1.5,
+                        ),
+                      ),
+                      FutureBuilder<List<dynamic>>(
+                        future: getServiceBookedDetails(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  for (int i = 0;
+                                      i < snapshot.data!.length;
+                                      i++)
+                                    snapshot.data![i]['status'] == 'rejected'
+                                        ? serviceBoooked(
+                                            "${snapshot.data![i]['sub_categories'][0]['name']}",
+                                            "${snapshot.data![i]['status']}",
+                                            "${snapshot.data![i]['sub_categories'][0]['charge']}",
+                                            "${snapshot.data![i]['sub_categories'][0]['image']}")
+                                        : Container(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Divider(
+                                      color: Colors.black.withOpacity(0.9),
+                                      thickness: 1.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Service Provider",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      17),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        for (int i = 0;
+                                            i < snapshot.data!.length;
+                                            i++)
+                                          serviceProvider(
+                                              '${snapshot.data![i]['service'][0]['logo']}',
+                                              "${snapshot.data![i]['service'][0]['name']}",
+                                              "Kampala,6th street"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "Add More",
+                                          style: TextStyle(
+                                              color: kPrimaryColor,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      15),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.add_circle_outline,
+                                              size: 20, color: kPrimaryColor),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          } else {
+                            // You can return a placeholder or loading indicator while the image is loading
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )),
       ),
     );
   }
 
   Padding serviceProvider(String image, String name, String location) {
+    print(finalserviceProviders);
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
       child: SizedBox(
@@ -292,7 +570,6 @@ class _BodyState extends State<Body> {
 
   Padding serviceBoooked(
       String title, String subTitle, String price, String image) {
-    log(image);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
@@ -334,8 +611,8 @@ class _BodyState extends State<Body> {
         leading: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: Image(
-              height: 200,
-              width: 120,
+              // height: 200,
+              width: getProportionateScreenWidth(60),
               image: NetworkImage(
                   "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
               fit: BoxFit.fill),

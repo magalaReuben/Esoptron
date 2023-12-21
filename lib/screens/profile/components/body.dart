@@ -108,7 +108,7 @@ class _BodyState extends ConsumerState<Body> {
                                               0.5,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 150, bottom: 200),
+                                            top: 150, bottom: 120),
                                         child: Container(
                                           margin: EdgeInsets.all(
                                               getProportionateScreenWidth(20)),

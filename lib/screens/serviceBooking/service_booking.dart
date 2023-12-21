@@ -209,21 +209,39 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                          hintText: arguments[2],
-                          hintStyle: const TextStyle(color: Colors.black)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
+                    child: Text(
+                      "Subcategories",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'krona'),
+                    ),
+                  ),
+                ],
+              ),
+              for (int i = 0; i < arguments[2].length; i++)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                            hintText: arguments[2][i],
+                            hintStyle: const TextStyle(color: Colors.black)),
+                      ),
                     ),
                   ),
                 ),
-              ),
               // const Padding(
               //   padding: EdgeInsets.only(top: 4.0),
               //   child: Card(
@@ -459,6 +477,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                       color: Colors.white, fontSize: 16),
                                 )));
                       } else {
+                        print("These are our arguments: ${arguments} 1str");
                         Navigator.pushNamed(
                             context, ServiceSpecification.routeName,
                             arguments: [

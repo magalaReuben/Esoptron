@@ -72,57 +72,78 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: getProportionateScreenHeight(150),
-        width: getProportionateScreenWidth(360),
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: Border.all(
-              width: 2,
-              color: kPrimaryColor,
-            )),
-        child: Row(
-          children: [
-            Image(image: NetworkImage('http://admin.esoptronsalon.com/$image')),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    serviceName,
-                    style: TextStyle(
-                        color: kPrimaryColor,
-                        fontSize: getProportionateScreenWidth(15),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'krona'),
-                  ),
-                  // Text(
-                  //   serviceType,
-                  //   style: TextStyle(
-                  //       color: Colors.black,
-                  //       fontSize: getProportionateScreenWidth(15),
-                  //       fontWeight: FontWeight.bold,
-                  //       fontFamily: 'krona'),
-                  // ),
-                  FilledButton(
-                      onPressed: () {},
-                      child: const Padding(
-                        padding: EdgeInsets.all(13.0),
-                        child: Text("Service Details"),
-                      ))
-                ],
-              ),
+          height: getProportionateScreenHeight(150),
+          width: getProportionateScreenWidth(360),
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              border: Border.all(
+                width: 2,
+                color: kPrimaryColor,
+              )),
+          child: ListTile(
+            leading: Image(
+                image: NetworkImage('http://admin.esoptronsalon.com/$image')),
+            title: Text(
+              serviceName,
+              style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: getProportionateScreenWidth(20),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'krona'),
             ),
-            const Padding(
+            subtitle: FilledButton(
+                onPressed: () {}, child: const Text("Service Details")),
+            trailing: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [Icon(Icons.favorite, color: kPrimaryColor)],
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+          )
+          //   Row(
+          //     children: [
+          //       Image(image: NetworkImage('http://admin.esoptronsalon.com/$image')),
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //           children: [
+          //             Text(
+          //               serviceName,
+          //               style: TextStyle(
+          //                   color: kPrimaryColor,
+          //                   fontSize: getProportionateScreenWidth(15),
+          //                   fontWeight: FontWeight.bold,
+          //                   fontFamily: 'krona'),
+          //             ),
+          //             // Text(
+          //             //   serviceType,
+          //             //   style: TextStyle(
+          //             //       color: Colors.black,
+          //             //       fontSize: getProportionateScreenWidth(15),
+          //             //       fontWeight: FontWeight.bold,
+          //             //       fontFamily: 'krona'),
+          //             // ),
+          // FilledButton(
+          //     onPressed: () {},
+          //     child: const Padding(
+          //       padding: EdgeInsets.all(13.0),
+          //       child: Text("Service Details"),
+          //     ))
+          //           ],
+          //         ),
+          //       ),
+          //       const Padding(
+          //         padding: EdgeInsets.all(8.0),
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [Icon(Icons.favorite, color: kPrimaryColor)],
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          ),
     );
   }
 }

@@ -24,7 +24,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
   Widget build(BuildContext context) {
     List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    print("These are our arguments: $arguments");
+    //print("These are our arguments: $arguments");
     Future(() {
       ref.read(subCategoriesIdProvider.notifier).state = arguments[0];
     });
@@ -66,7 +66,7 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                height: getProportionateScreenHeight(150),
+                                height: getProportionateScreenHeight(180),
                                 width: getProportionateScreenWidth(360),
                                 decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
@@ -77,11 +77,18 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                     )),
                                 child: Row(
                                   children: [
-                                    Image(
-                                        //image: NetImage(image),
-                                        image: NetworkImage(
-                                            "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}"),
-                                        fit: BoxFit.cover),
+                                    SizedBox(
+                                      width: getProportionateScreenWidth(100),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8)),
+                                        child: Image(
+                                            //image: NetImage(image),
+                                            image: NetworkImage(
+                                                "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}"),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(

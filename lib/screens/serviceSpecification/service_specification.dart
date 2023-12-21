@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:awesome_icons/awesome_icons.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/screens/addPaymentmethod/add_payment.dart';
@@ -25,24 +26,33 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   bool isCurrencyLoading = true;
   bool isLoading = false;
 
-  Future<List<dynamic>> getSubCategoryDetails(id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? authorizationToken = prefs.getString("auth_token");
-    final response = await http.get(
-      Uri.parse("http://admin.esoptronsalon.com/api/sub_category/$id/details"),
-      headers: {
-        'Authorization': 'Bearer $authorizationToken',
-        'Content-Type':
-            'application/json', // You may need to adjust the content type based on your API requirements
-      },
-    );
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      final responseData = json.decode(response.body);
-      return [
-        responseData['data']['charge_unit'],
-        responseData['data']['charge'],
-        responseData['data']['description']
-      ];
+  Future<List<dynamic>> getTotalSubCategoryDetails(ids) async {
+    List<dynamic> detailsHolder = [];
+    for (var id in ids) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? authorizationToken = prefs.getString("auth_token");
+      final response = await http.get(
+        Uri.parse(
+            "http://admin.esoptronsalon.com/api/sub_category/$id/details"),
+        headers: {
+          'Authorization': 'Bearer $authorizationToken',
+          'Content-Type':
+              'application/json', // You may need to adjust the content type based on your API requirements
+        },
+      );
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final responseData = json.decode(response.body);
+        detailsHolder.add({
+          "unit": responseData['data']['charge_unit'],
+          "charge": responseData['data']['charge'],
+          "description": responseData['data']['description']
+        });
+      } else {
+        return [];
+      }
+    }
+    if (detailsHolder.isNotEmpty) {
+      return detailsHolder;
     } else {
       return [];
     }
@@ -80,6 +90,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   Widget build(BuildContext context) {
     List<dynamic> arguments = ModalRoute.of(context)!.settings.arguments
         as List<dynamic>; //get arguments from previous screen
+    print("arguments: $arguments");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Service Specification"),
@@ -92,27 +103,56 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
               height: getProportionateScreenHeight(20),
             ),
             SizedBox(
-              child: Image(
-                  image: NetworkImage("${arguments[0]}"),
-                  height: getProportionateScreenHeight(350),
-                  fit: BoxFit.cover),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
-                  child: Text(
-                    "${arguments[1]}",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(15),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'krona'),
-                  ),
-                ),
-              ],
-            ),
+                child: CarouselSlider.builder(
+                    itemCount: arguments[0].length,
+                    itemBuilder: (context, index, realIndex) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(
+                          "http://admin.esoptronsalon.com/${arguments[0][index]}",
+                          fit: BoxFit.cover,
+                          width: 1000,
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: getProportionateScreenHeight(200),
+                      autoPlay: false,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      pauseAutoPlayOnTouch: true,
+                      aspectRatio: 0.5,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          //currentIndex = index;
+                        });
+                      },
+                    ))),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     for (var element in arguments[1])
+            //       Padding(
+            //         padding:
+            //             const EdgeInsets.only(left: 6.0, top: 5, bottom: 3),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               "$element",
+            //               style: TextStyle(
+            //                   color: Colors.black,
+            //                   fontSize: getProportionateScreenWidth(18),
+            //                   fontWeight: FontWeight.bold,
+            //                   fontFamily: 'krona'),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //   ],
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -131,20 +171,21 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: getProportionateScreenWidth(15),
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                         fontFamily: 'krona'),
                   ),
                 ),
               ],
             ),
             FutureBuilder<List<dynamic>>(
-              future: getSubCategoryDetails(arguments[5]),
+              future: getTotalSubCategoryDetails(arguments[5]),
               builder: (context, snapshot) {
+                print(snapshot.data);
                 if (snapshot.connectionState == ConnectionState.done) {
                   isCurrencyLoading
                       ? Future(() => setState(() {
-                            charge = snapshot.data![1].toString();
-                            currency = snapshot.data![0].toString();
+                            charge = snapshot.data![0]['charge'].toString();
+                            currency = snapshot.data![0]['unit'].toString();
                             isCurrencyLoading = false;
                           }))
                       : null;
@@ -157,7 +198,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                             padding: const EdgeInsets.only(
                                 left: 6.0, top: 6.0, bottom: 6.0),
                             child: Text(
-                              "${snapshot.data![0]} ${snapshot.data![1]}",
+                              "${snapshot.data![0]['unit']} ${snapshot.data![0]['charge']}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: getProportionateScreenWidth(15),

@@ -30,6 +30,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   List<dynamic> favoritesServiceId = [];
   Map<int, int> favouritesServiceIdMapper = {};
   PageController? pageController = PageController();
+  double sheetHeight = 0.33;
+  bool isServiceTypeScreen = true;
+  bool isServiceCategoryScreen = false;
+  bool isServiceSubCategoryScreen = false;
+  String serviceTypeId = "";
+  List<bool> checkboxvalues = [];
+  String categoryId = "";
+  List<int> selectedSubCategories = [];
+  List<String> selectedSubCategoriesNames = [];
+  List<String> selectedSubCategoriesImages = [];
 
   @override
   void initState() {
@@ -48,12 +58,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     }
   }
 
-  Future<List<dynamic>> getSubCategories(id) async {
+  Future<List<dynamic>> getServiceTypes(id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
       Uri.parse(
-          "http://admin.esoptronsalon.com/api/service/$id/sub_categories"),
+          "http://admin.esoptronsalon.com/api/service/${id[9]}/service_types"),
       headers: {
         'Authorization': 'Bearer $authorizationToken',
         'Content-Type':
@@ -62,6 +72,49 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
+      //print(responseData['data']['service_types']);
+      return responseData['data']['service_types'];
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> getServiceCategories(serviceId, serviceTypeId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse(
+          "http://admin.esoptronsalon.com/api/service/${serviceId[9]}/service_type/$serviceTypeId/categories"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseData = json.decode(response.body);
+      //print(responseData['data']['service_types']);
+      return responseData['data']['service_type_categories'];
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> getServiceSubCategories(serviceId, categoryId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse(
+          "http://admin.esoptronsalon.com/api/service/${serviceId[9]}/category/$categoryId/sub_categories"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseData = json.decode(response.body);
+      //print(responseData['data']['service_types']);
       return responseData['data']['sub_categories'];
     } else {
       return [];
@@ -69,7 +122,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Future<List<dynamic>> getServiceImages(id) async {
-    //print('my test id: $id');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
@@ -112,8 +164,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               element["favourite_service_id"];
         }
       }
-      print("This is our favorite data: $favoritesServiceId");
-      print("These are our favorite dics: $favouritesServiceIdMapper");
+      // print("This is our favorite data: $favoritesServiceId");
+      // print("These are our favorite dics: $favouritesServiceIdMapper");
       return responseData['data']['favourite_services'];
     } else {
       return [];
@@ -124,9 +176,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    print("These are our arguments: ${arguments}");
+    //print("These are our arguments: ${arguments}");
     CarouselController buttonCarouselController = CarouselController();
-    log(arguments.toString());
+    //log(arguments.toString());
     return Scaffold(
         //bottomNavigationBar: Container(),
         appBar: AppBar(
@@ -168,7 +220,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   autoPlay: false,
                                   enlargeCenterPage: true,
                                   viewportFraction: 1,
-                                  aspectRatio: 1.5,
+                                  aspectRatio: 2.5,
                                   initialPage: 1));
                         } else {
                           // You can return a placeholder or loading indicator while the image is loading
@@ -244,9 +296,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 var test = arguments[7]
                                     ? favouritesServiceIdMapper[arguments[9]]
                                     : favouritesServiceIdMapper[arguments[10]];
-                                print(favouritesServiceIdMapper);
-                                print(test);
-                                print(response.body);
+                                // print(favouritesServiceIdMapper);
+                                // print(test);
+                                // print(response.body);
                                 if (response.statusCode >= 200 &&
                                     response.statusCode < 300) {
                                   // ignore: use_build_context_synchronously
@@ -392,7 +444,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                          height: getProportionateScreenHeight(100),
+                          height: getProportionateScreenHeight(125),
                           width: getProportionateScreenWidth(360),
                           decoration: BoxDecoration(
                               borderRadius:
@@ -410,7 +462,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   if (snapshot.connectionState ==
                                       ConnectionState.done) {
                                     return CircleAvatar(
-                                      radius: 25,
+                                      radius: 20,
                                       backgroundImage: snapshot.data,
                                     );
                                   } else {
@@ -506,107 +558,427 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         ),
                       ),
                     ),
-              // const SizedBox(height: 10),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   children: [
-              //     Text("Service Images",
-              //         style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: getProportionateScreenWidth(18),
-              //             fontWeight: FontWeight.bold,
-              //             fontFamily: 'krona')),
-              //   ],
-              // )
+              const SizedBox(height: 10),
+              arguments[7]
+                  ? SizedBox(
+                      height: getProportionateScreenHeight(200),
+                    )
+                  : SizedBox(
+                      height: getProportionateScreenHeight(80),
+                    )
             ]),
           ),
           arguments[7]
               ? Align(
                   alignment: Alignment.bottomCenter,
                   child: DraggableScrollableSheet(
-                      initialChildSize: arguments[5] ? 0.2 : 0.25,
+                      key: const Key("sheet"),
+                      initialChildSize: sheetHeight,
                       minChildSize: 0.2,
                       maxChildSize: 0.85,
                       builder: (_, ScrollController scrollController) =>
                           Scaffold(
-                            body: SingleChildScrollView(
-                                controller: scrollController,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(children: [
-                                    FutureBuilder<List<dynamic>>(
-                                      future: getSubCategories(arguments[8]),
-                                      builder: (context, snapshot) {
-                                        //print(arguments);
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          return Column(
-                                            children: [
-                                              for (var element
-                                                  in snapshot.data!)
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  child: ListTile(
-                                                    leading: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white
-                                                                .withOpacity(
-                                                                    0.5),
-                                                            border: Border.all(
-                                                                color: kPrimaryColor
-                                                                    .withOpacity(
-                                                                        0.5))),
-                                                        child: Image(
-                                                          image: NetworkImage(
-                                                              "http://admin.esoptronsalon.com/${element["image"]}"),
-                                                        )),
-                                                    title: Text(
-                                                        "${element["name"]}",
-                                                        style: const TextStyle(
-                                                            color:
-                                                                Colors.black)),
-                                                    subtitle: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 8.0),
-                                                      child: Text(
-                                                          "${element["charge"]}",
-                                                          style: const TextStyle(
+                            body: isServiceTypeScreen
+                                ? SingleChildScrollView(
+                                    controller: scrollController,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(children: [
+                                        FutureBuilder<List<dynamic>>(
+                                          future: getServiceTypes(arguments),
+                                          builder: (context, snapshot) {
+                                            //print(arguments);
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              return Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(" Select Type",
+                                                          style: TextStyle(
                                                               color:
                                                                   Colors.black,
+                                                              fontSize:
+                                                                  getProportionateScreenWidth(
+                                                                      18),
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold)),
-                                                    ),
-                                                    trailing: Checkbox(
-                                                        value: selected1,
-                                                        onChanged:
-                                                            (bool? value) {
-                                                          setState(() {
-                                                            selected1 = value!;
-                                                          });
-                                                        }),
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  'krona')),
+                                                    ],
                                                   ),
-                                                )
-                                            ],
-                                          );
-                                        } else {
-                                          // You can return a placeholder or loading indicator while the image is loading
-                                          return const CircularProgressIndicator();
-                                        }
-                                      },
-                                    ),
-                                  ]),
-                                )),
+                                                  for (var element
+                                                      in snapshot.data!)
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10.0),
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            isServiceTypeScreen =
+                                                                false;
+                                                            isServiceCategoryScreen =
+                                                                true;
+                                                            serviceTypeId =
+                                                                element["id"]
+                                                                    .toString();
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          height:
+                                                              getProportionateScreenHeight(
+                                                                  100),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      10),
+                                                              color: Colors
+                                                                  .white
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              border: Border.all(
+                                                                  color: kPrimaryColor
+                                                                      .withOpacity(
+                                                                          0.5))),
+                                                          child: ListTile(
+                                                            leading: Image(
+                                                              image: NetworkImage(
+                                                                  "http://admin.esoptronsalon.com/${element["image"]}"),
+                                                            ),
+                                                            title: Text(
+                                                                "${element["name"]}",
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .black)),
+
+                                                            // subtitle: Padding(
+                                                            //   padding:
+                                                            //       const EdgeInsets.only(
+                                                            //           top: 8.0),
+                                                            //   child: Text(
+                                                            //       "${element["charge"]}",
+                                                            //       style: const TextStyle(
+                                                            //           color:
+                                                            //               Colors.black,
+                                                            //           fontWeight:
+                                                            //               FontWeight
+                                                            //                   .bold)),
+                                                            // ),
+                                                            // trailing: Checkbox(
+                                                            //     value: selected1,
+                                                            //     onChanged:
+                                                            //         (bool? value) {
+                                                            //       setState(() {
+                                                            //         selected1 = value!;
+                                                            //       });
+                                                            //     }),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                ],
+                                              );
+                                            } else {
+                                              // You can return a placeholder or loading indicator while the image is loading
+                                              return const CircularProgressIndicator();
+                                            }
+                                          },
+                                        ),
+                                      ]),
+                                    ))
+                                : isServiceCategoryScreen
+                                    ? SingleChildScrollView(
+                                        controller: scrollController,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(children: [
+                                            FutureBuilder<List<dynamic>>(
+                                              future: getServiceCategories(
+                                                  arguments, serviceTypeId),
+                                              builder: (context, snapshot) {
+                                                //print(arguments);
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.done) {
+                                                  //print(snapshot.data);
+                                                  return Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                              " Select Category",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      getProportionateScreenWidth(
+                                                                          18),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontFamily:
+                                                                      'krona')),
+                                                        ],
+                                                      ),
+                                                      for (var element
+                                                          in snapshot.data!)
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  top: 10.0),
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                isServiceCategoryScreen =
+                                                                    false;
+                                                                isServiceSubCategoryScreen =
+                                                                    true;
+                                                                categoryId =
+                                                                    element["id"]
+                                                                        .toString();
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              height:
+                                                                  getProportionateScreenHeight(
+                                                                      100),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  color: Colors
+                                                                      .white
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  border: Border.all(
+                                                                      color: kPrimaryColor
+                                                                          .withOpacity(
+                                                                              0.5))),
+                                                              child: ListTile(
+                                                                leading: Image(
+                                                                  image: NetworkImage(
+                                                                      "http://admin.esoptronsalon.com/${element["image"]}"),
+                                                                ),
+                                                                title: Text(
+                                                                    "${element["name"]}",
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .black)),
+
+                                                                // subtitle: Padding(
+                                                                //   padding:
+                                                                //       const EdgeInsets.only(
+                                                                //           top: 8.0),
+                                                                //   child: Text(
+                                                                //       "${element["charge"]}",
+                                                                //       style: const TextStyle(
+                                                                //           color:
+                                                                //               Colors.black,
+                                                                //           fontWeight:
+                                                                //               FontWeight
+                                                                //                   .bold)),
+                                                                // ),
+                                                                // trailing: Checkbox(
+                                                                //     value: selected1,
+                                                                //     onChanged:
+                                                                //         (bool? value) {
+                                                                //       setState(() {
+                                                                //         selected1 = value!;
+                                                                //       });
+                                                                //     }),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                    ],
+                                                  );
+                                                } else {
+                                                  // You can return a placeholder or loading indicator while the image is loading
+                                                  return const CircularProgressIndicator();
+                                                }
+                                              },
+                                            ),
+                                          ]),
+                                        ))
+                                    : isServiceSubCategoryScreen
+                                        ? SingleChildScrollView(
+                                            controller: scrollController,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(children: [
+                                                FutureBuilder<List<dynamic>>(
+                                                  future:
+                                                      getServiceSubCategories(
+                                                          arguments,
+                                                          categoryId),
+                                                  builder: (context, snapshot) {
+                                                    //print(arguments);
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState.done) {
+                                                      for (int i = 0;
+                                                          i <
+                                                              snapshot
+                                                                  .data!.length;
+                                                          i++) {
+                                                        checkboxvalues
+                                                            .add(false);
+                                                      }
+                                                      return Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                  " Select Sub Category",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          getProportionateScreenWidth(
+                                                                              18),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontFamily:
+                                                                          'krona')),
+                                                            ],
+                                                          ),
+                                                          for (int i = 0;
+                                                              i <
+                                                                  snapshot.data!
+                                                                      .length;
+                                                              i++)
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      top:
+                                                                          10.0),
+                                                              child: Container(
+                                                                height:
+                                                                    getProportionateScreenHeight(
+                                                                        120),
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    color: Colors
+                                                                        .white
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                                    border: Border.all(
+                                                                        color: kPrimaryColor
+                                                                            .withOpacity(0.5))),
+                                                                child: ListTile(
+                                                                  leading:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            15),
+                                                                    child:
+                                                                        Image(
+                                                                      image: NetworkImage(
+                                                                          "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
+                                                                    ),
+                                                                  ),
+                                                                  title: Text(
+                                                                      "${snapshot.data![i]["name"]}",
+                                                                      style: const TextStyle(
+                                                                          color:
+                                                                              Colors.black)),
+                                                                  subtitle:
+                                                                      Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        top:
+                                                                            8.0),
+                                                                    child: Text(
+                                                                        "${snapshot.data![i]["charge"]}",
+                                                                        style: const TextStyle(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight: FontWeight.bold)),
+                                                                  ),
+                                                                  trailing:
+                                                                      Checkbox(
+                                                                          value: checkboxvalues[
+                                                                              i],
+                                                                          onChanged:
+                                                                              (bool? value) {
+                                                                            setState(() {
+                                                                              checkboxvalues[i] = value!;
+                                                                            });
+                                                                            if (!selectedSubCategories.contains(snapshot.data![i]["id"])) {
+                                                                              selectedSubCategories.add(snapshot.data![i]["id"]);
+                                                                              selectedSubCategoriesNames.add(snapshot.data![i]["name"]);
+                                                                              selectedSubCategoriesImages.add(snapshot.data![i]["image"]);
+                                                                            } else {
+                                                                              selectedSubCategories.remove(snapshot.data![i]["id"]);
+                                                                              selectedSubCategoriesNames.remove(snapshot.data![i]["name"]);
+                                                                              selectedSubCategoriesImages.remove(snapshot.data![i]["image"]);
+                                                                            }
+                                                                            //print(selectedSubCategories);
+                                                                          }),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          SizedBox(
+                                                            height:
+                                                                getProportionateScreenHeight(
+                                                                    100),
+                                                          )
+                                                        ],
+                                                      );
+                                                    } else {
+                                                      // You can return a placeholder or loading indicator while the image is loading
+                                                      return const CircularProgressIndicator();
+                                                    }
+                                                  },
+                                                ),
+                                              ]),
+                                            ))
+                                        : Container(),
                             appBar: AppBar(
                               centerTitle: true,
-                              actions: const [
-                                Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 30,
-                                  color: kPrimaryColor,
-                                ),
+                              actions: [
+                                sheetHeight == 0.85
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            sheetHeight = 0.33;
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 30,
+                                          color: kPrimaryColor,
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            sheetHeight = 0.85;
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.keyboard_arrow_up,
+                                          size: 30,
+                                          color: kPrimaryColor,
+                                        ),
+                                      ),
                               ],
                               automaticallyImplyLeading: false,
                               shadowColor: Colors.transparent,
@@ -636,7 +1008,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                                 colors: arguments[7]
-                                    ? selected1
+                                    ? checkboxvalues.contains(true)
                                         ? [kPrimaryColor, kPrimaryColor]
                                         : [Colors.grey, Colors.grey]
                                     : [kPrimaryColor, kPrimaryColor]),
@@ -649,15 +1021,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ),
                           onPressed: () {
                             if (arguments[7]) {
-                              if (selected1) {
+                              if (checkboxvalues.contains(true)) {
                                 Navigator.pushNamed(
                                     context, ServiceBooking.routeName,
                                     arguments: [
                                       arguments[0],
-                                      arguments[8],
+                                      selectedSubCategoriesImages,
+                                      selectedSubCategoriesNames,
                                       arguments[9],
-                                      arguments[10],
-                                      arguments[11]
+                                      selectedSubCategories
                                     ]);
                               } else {
                                 () => {};
@@ -667,10 +1039,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   context, ServiceBooking.routeName,
                                   arguments: [
                                     arguments[0],
-                                    arguments[8],
-                                    arguments[9],
+                                    [arguments[8]],
+                                    [arguments[9]],
                                     arguments[10],
-                                    arguments[11]
+                                    [arguments[11]]
                                   ]);
                             }
                           },
@@ -679,7 +1051,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             children: [
                               arguments[7]
                                   ? Text(
-                                      selected1 ? "Proceed" : "Select Category",
+                                      checkboxvalues.contains(true)
+                                          ? "Proceed"
+                                          : "Select Category",
                                       style: TextStyle(
                                         fontSize:
                                             getProportionateScreenWidth(18),

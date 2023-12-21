@@ -295,120 +295,203 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                 future: getReviews(ref.watch(getServiceIdProvider)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    //print(snapshot.data);
-                    return Column(
-                      children: [
-                        for (int i = 0; i < snapshot.data!.length; i++)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: getProportionateScreenHeight(80),
-                              width: getProportionateScreenWidth(360),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: kPrimaryColor.withOpacity(0.2),
-                                  )),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: CircleAvatar(
-                                      radius: 30,
+                    if (snapshot.data!.isNotEmpty) {
+                      return Column(
+                        children: [
+                          for (int i = 0; i < snapshot.data!.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  height: getProportionateScreenHeight(100),
+                                  width: getProportionateScreenWidth(360),
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: kPrimaryColor.withOpacity(0.2),
+                                      )),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      radius: 20,
                                       foregroundImage: NetworkImage(
                                           'http://admin.esoptronsalon.com/${snapshot.data![i]['avatar']}'),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
+                                    title: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Text("${snapshot.data![i]['name']}",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize:
-                                                        getProportionateScreenWidth(
-                                                            18),
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'krona')),
-                                            const SizedBox(width: 10),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: Row(
-                                                children: [
-                                                  for (int j = 0;
-                                                      j <
+                                        Text("${snapshot.data![i]['name']}",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        16),
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'krona')),
+                                        const SizedBox(width: 5),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Row(
+                                            children: [
+                                              for (int j = 0;
+                                                  j <
+                                                      snapshot.data![i]
+                                                          ['star_rating'];
+                                                  j++)
+                                                const Padding(
+                                                  padding: EdgeInsets.all(4.0),
+                                                  child: Icon(
+                                                    FontAwesomeIcons.solidStar,
+                                                    size: 8,
+                                                    color: Colors.orangeAccent,
+                                                  ),
+                                                ),
+                                              for (int j = 0;
+                                                  j <
+                                                      5 -
                                                           snapshot.data![i]
                                                               ['star_rating'];
-                                                      j++)
-                                                    const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(4.0),
-                                                      child: Icon(
-                                                        FontAwesomeIcons
-                                                            .solidStar,
-                                                        size: 10,
-                                                        color:
-                                                            Colors.orangeAccent,
-                                                      ),
-                                                    ),
-                                                  for (int j = 0;
-                                                      j <
-                                                          5 -
-                                                              snapshot.data![i][
-                                                                  'star_rating'];
-                                                      j++)
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              4.0),
-                                                      child: Icon(
-                                                        FontAwesomeIcons
-                                                            .solidStar,
-                                                        size: 10,
-                                                        color: Colors.black
-                                                            .withOpacity(0.4),
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                                "${snapshot.data![i]['comment']}",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize:
-                                                        getProportionateScreenWidth(
-                                                            18),
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontFamily: 'krona')),
-                                            SizedBox(
-                                                width: 800 /
-                                                    snapshot.data![i]['comment']
-                                                        .length)
-                                          ],
-                                        ),
+                                                  j++)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Icon(
+                                                    FontAwesomeIcons.solidStar,
+                                                    size: 8,
+                                                    color: Colors.black
+                                                        .withOpacity(0.4),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
+                                    subtitle: Text(
+                                        "${snapshot.data![i]['comment']}",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                getProportionateScreenWidth(19),
+                                            fontWeight: FontWeight.normal,
+                                            fontFamily: 'krona')),
+                                  )
+                                  // Row(
+                                  //   children: [
+                                  //     Padding(
+                                  //       padding: const EdgeInsets.all(4.0),
+                                  //       child: CircleAvatar(
+                                  //         radius: 20,
+                                  //         foregroundImage: NetworkImage(
+                                  //             'http://admin.esoptronsalon.com/${snapshot.data![i]['avatar']}'),
+                                  //       ),
+                                  //     ),
+                                  //     Padding(
+                                  //       padding: const EdgeInsets.all(8.0),
+                                  //       child: Column(
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.center,
+                                  //         children: [
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment.start,
+                                  //             children: [
+                                  //               Text(
+                                  //                   "${snapshot.data![i]['name']}",
+                                  //                   style: TextStyle(
+                                  //                       color: Colors.black,
+                                  //                       fontSize:
+                                  //                           getProportionateScreenWidth(
+                                  //                               16),
+                                  //                       fontWeight:
+                                  //                           FontWeight.bold,
+                                  //                       fontFamily: 'krona')),
+                                  //               const SizedBox(width: 5),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.only(
+                                  //                     left: 8.0),
+                                  //                 child: Row(
+                                  //                   children: [
+                                  //                     for (int j = 0;
+                                  //                         j <
+                                  //                             snapshot.data![i]
+                                  //                                 ['star_rating'];
+                                  //                         j++)
+                                  //                       const Padding(
+                                  //                         padding:
+                                  //                             EdgeInsets.all(4.0),
+                                  //                         child: Icon(
+                                  //                           FontAwesomeIcons
+                                  //                               .solidStar,
+                                  //                           size: 6,
+                                  //                           color: Colors
+                                  //                               .orangeAccent,
+                                  //                         ),
+                                  //                       ),
+                                  //                     for (int j = 0;
+                                  //                         j <
+                                  //                             5 -
+                                  //                                 snapshot.data![
+                                  //                                         i][
+                                  //                                     'star_rating'];
+                                  //                         j++)
+                                  //                       Padding(
+                                  //                         padding:
+                                  //                             const EdgeInsets
+                                  //                                 .all(4.0),
+                                  //                         child: Icon(
+                                  //                           FontAwesomeIcons
+                                  //                               .solidStar,
+                                  //                           size: 6,
+                                  //                           color: Colors.black
+                                  //                               .withOpacity(0.4),
+                                  //                         ),
+                                  //                       ),
+                                  //                   ],
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //           Row(
+                                  //             children: [
+                                  //               Text(
+                                  //                   "${snapshot.data![i]['comment']}",
+                                  //                   style: TextStyle(
+                                  //                       color: Colors.black,
+                                  //                       fontSize:
+                                  //                           getProportionateScreenWidth(
+                                  //                               15),
+                                  //                       fontWeight:
+                                  //                           FontWeight.normal,
+                                  //                       fontFamily: 'krona')),
+                                  //               SizedBox(
+                                  //                   width: 800 /
+                                  //                       snapshot
+                                  //                           .data![i]['comment']
+                                  //                           .length)
+                                  //             ],
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   ),
-                                ],
-                              ),
                             ),
-                          ),
-                      ],
-                    );
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          "No comments yet",
+                          style: TextStyle(
+                              fontSize: getProportionateScreenHeight(25),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    }
                   } else {
                     // You can return a placeholder or loading indicator while the image is loading
                     return const CircularProgressIndicator();
@@ -452,7 +535,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                 future: getService(ref.watch(getServiceIdProvider)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    print(snapshot.data);
+                    //print(snapshot.data);
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -512,7 +595,11 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                                     snapshot.data!['id']
                                                   ]),
                                           child: const Padding(
-                                            padding: EdgeInsets.all(13.0),
+                                            padding: EdgeInsets.only(
+                                                left: 20.0,
+                                                right: 20,
+                                                top: 10,
+                                                bottom: 10),
                                             child: Text("Select"),
                                           )),
                                       const SizedBox(
