@@ -60,6 +60,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
 
   Future<List<dynamic>> getServiceSubCategoryIds(
       serviceid, List<int> subcategoryIdList) async {
+    print(subcategoryIdList);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     List<int> service_sub_categories = [];
@@ -109,7 +110,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image.network(
-                          "http://admin.esoptronsalon.com/${arguments[0][index]}",
+                          "${arguments[0][index]}",
                           fit: BoxFit.cover,
                           width: 1000,
                         ),
@@ -180,7 +181,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
             FutureBuilder<List<dynamic>>(
               future: getTotalSubCategoryDetails(arguments[5]),
               builder: (context, snapshot) {
-                print(snapshot.data);
+                //print(snapshot.data);
                 if (snapshot.connectionState == ConnectionState.done) {
                   isCurrencyLoading
                       ? Future(() => setState(() {
@@ -300,7 +301,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                               });
                               List serviceSubCategoryIds =
                                   await getServiceSubCategoryIds(
-                                      arguments[2], [arguments[5]]);
+                                      arguments[2], arguments[5]);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               String? authorizationToken =

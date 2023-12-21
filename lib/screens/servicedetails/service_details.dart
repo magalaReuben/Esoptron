@@ -220,7 +220,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                   autoPlay: false,
                                   enlargeCenterPage: true,
                                   viewportFraction: 1,
-                                  aspectRatio: 2.5,
+                                  aspectRatio: 1.5,
                                   initialPage: 1));
                         } else {
                           // You can return a placeholder or loading indicator while the image is loading
@@ -924,11 +924,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                                             if (!selectedSubCategories.contains(snapshot.data![i]["id"])) {
                                                                               selectedSubCategories.add(snapshot.data![i]["id"]);
                                                                               selectedSubCategoriesNames.add(snapshot.data![i]["name"]);
-                                                                              selectedSubCategoriesImages.add(snapshot.data![i]["image"]);
+                                                                              selectedSubCategoriesImages.add("http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
                                                                             } else {
                                                                               selectedSubCategories.remove(snapshot.data![i]["id"]);
                                                                               selectedSubCategoriesNames.remove(snapshot.data![i]["name"]);
-                                                                              selectedSubCategoriesImages.remove(snapshot.data![i]["image"]);
+                                                                              selectedSubCategoriesImages.remove("http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
                                                                             }
                                                                             //print(selectedSubCategories);
                                                                           }),
