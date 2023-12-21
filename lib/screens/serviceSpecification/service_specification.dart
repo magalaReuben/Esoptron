@@ -191,14 +191,12 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                       : null;
                   return Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 6.0, top: 6.0, bottom: 6.0),
+                      for (int i = 0; i < snapshot.data!.length; i++)
+                        ListTile(
+                          subtitle: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "${snapshot.data![0]['unit']} ${snapshot.data![0]['charge']}",
+                              "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: getProportionateScreenWidth(15),
@@ -206,32 +204,66 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                   fontFamily: 'krona'),
                             ),
                           ),
-                          Image.asset(
+                          title: Text(
+                            "${snapshot.data![i]['description']} ",
+                            softWrap: true,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: getProportionateScreenWidth(15),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'krona'),
+                          ),
+                          trailing: Image.asset(
                             "assets/images/serviceBooking/cut.png",
                             height: getProportionateScreenHeight(35),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: Divider(
-                          color: Colors.black.withOpacity(0.9),
-                          thickness: 1.5,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 6.0, top: 14, bottom: 6),
-                        child: Text(
-                          "${snapshot.data![2]} ",
-                          softWrap: true,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: getProportionateScreenWidth(15),
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'krona'),
-                        ),
-                      ),
+                          ),
+                        )
+                      // Column(
+                      //   children: [
+                      //     Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Padding(
+                      //           padding: const EdgeInsets.only(
+                      //               left: 6.0, top: 6.0, bottom: 6.0),
+                      //           child: Text(
+                      //             "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
+                      //             style: TextStyle(
+                      //                 color: Colors.black,
+                      //                 fontSize:
+                      //                     getProportionateScreenWidth(15),
+                      //                 fontWeight: FontWeight.bold,
+                      //                 fontFamily: 'krona'),
+                      //           ),
+                      //         ),
+                      //         Image.asset(
+                      //           "assets/images/serviceBooking/cut.png",
+                      //           height: getProportionateScreenHeight(35),
+                      //         )
+                      //       ],
+                      //     ),
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(left: 8, right: 8),
+                      //       child: Divider(
+                      //         color: Colors.black.withOpacity(0.9),
+                      //         thickness: 1.5,
+                      //       ),
+                      //     ),
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(
+                      //           left: 6.0, top: 14, bottom: 6),
+                      //       child: Text(
+                      //         "${snapshot.data![i]['description']} ",
+                      //         softWrap: true,
+                      //         style: TextStyle(
+                      //             color: Colors.black,
+                      //             fontSize: getProportionateScreenWidth(15),
+                      //             fontWeight: FontWeight.normal,
+                      //             fontFamily: 'krona'),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // )
                     ],
                   );
                 } else {
