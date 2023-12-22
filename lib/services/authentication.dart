@@ -57,6 +57,7 @@ class AuthenticationService implements AuthenticationRepository {
       if (data.data['success'] == true) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool("isLoggedin", true);
+        prefs.setInt("userId", data.data['data']['id']);
         prefs.setString("firstName", data.data['data']['first_name']);
         prefs.setString("lastName", data.data['data']['last_name']);
         prefs.setString("userEmail", data.data['data']['email']);

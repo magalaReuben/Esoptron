@@ -71,7 +71,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     final scheduledDate = ref.watch(scheduledDateProvider);
     final scheduledTime = ref.watch(scheduledTimeProvider);
-    print("These are our arguments: ${arguments}");
+    //print("These are our arguments: ${arguments}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

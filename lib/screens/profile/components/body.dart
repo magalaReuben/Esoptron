@@ -87,7 +87,7 @@ class _BodyState extends ConsumerState<Body> {
                           Text(userName ?? "",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(17),
+                                  fontSize: getProportionateScreenWidth(18),
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'krona')),
                           SizedBox(
@@ -229,15 +229,10 @@ class _BodyState extends ConsumerState<Body> {
                     Padding(
                       padding: const EdgeInsets.all(3.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Services booked: 10",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(15),
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'krona')),
                           SizedBox(
-                            width: getProportionateScreenWidth(80),
+                            width: getProportionateScreenWidth(200),
                           ),
                           Text("Log Out",
                               style: TextStyle(

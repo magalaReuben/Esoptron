@@ -13,6 +13,7 @@ import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
 import 'package:esoptron_salon/screens/scheduleService/schedule_service.dart';
 import 'package:esoptron_salon/screens/serviceBookedDetails/serviceBookedDetails.dart';
 import 'package:esoptron_salon/screens/serviceBooking/service_booking.dart';
+import 'package:esoptron_salon/screens/serviceDetailsFromTracking/serviceDetailsFromTrack.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/serviceSpecification/service_specification.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
@@ -48,4 +49,6 @@ final Map<String, WidgetBuilder> routes = {
   MobileMoneyPaymentScreen.routeName: (context) =>
       const MobileMoneyPaymentScreen(),
   ServiceBookedDetails.routeName: (context) => const ServiceBookedDetails(),
+  ServiceDetailsFromTracking.routeName: ((context) =>
+      const ServiceDetailsFromTracking())
 };
