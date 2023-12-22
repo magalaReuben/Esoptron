@@ -79,12 +79,15 @@ class _BodyState extends ConsumerState<Body> {
   @override
   Widget build(BuildContext context) {
     final _destination = ref.watch(destinationMarkerProvider);
-    Marker _origin = Marker(
-      markerId: const MarkerId("origin"),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-      position: LatLng(_latitude!, _longitude!),
-      infoWindow: const InfoWindow(title: "Origin"),
-    );
+    Marker _origin = _latitude == null || _longitude == null
+        ? const Marker(markerId: MarkerId("origin"))
+        : Marker(
+            markerId: const MarkerId("origin"),
+            icon:
+                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            position: LatLng(_latitude!, _longitude!),
+            infoWindow: const InfoWindow(title: "Origin"),
+          );
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
