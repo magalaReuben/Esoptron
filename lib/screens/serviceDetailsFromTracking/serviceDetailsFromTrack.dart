@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:background_location/background_location.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
@@ -22,7 +21,7 @@ class ServiceDetailsFromTracking extends ConsumerStatefulWidget {
 
 class _ServiceDetailsFromTrackingState
     extends ConsumerState<ServiceDetailsFromTracking> {
-  Future<List<dynamic>> getBookings() async {
+  Future<List<dynamic>> getServiceDetails() async {
     List<dynamic> bookedServiceIds = [];
     List<dynamic> bookingDetails = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -46,13 +45,14 @@ class _ServiceDetailsFromTrackingState
       }
       final LatestbookingDetailsResponse = await http.get(
         Uri.parse(
-            "http://admin.esoptronsalon.com/api/bookings/${bookedServiceIds[bookedServiceIds.length - 1]}/details"),
+            "http://admin.esoptronsalon.com/api/bookings/${bookedServiceIds[bookedServiceIds.length - 1]['id']}/details"),
         headers: {
           'Authorization': 'Bearer $authorizationToken',
           'Content-Type':
               'application/json', // You may need to adjust the content type based on your API requirements
         },
       );
+      // print(LatestbookingDetailsResponse.body);
       if (LatestbookingDetailsResponse.statusCode >= 200 &&
           LatestbookingDetailsResponse.statusCode < 300) {
         final responseBody = json.decode(LatestbookingDetailsResponse.body);
@@ -78,87 +78,108 @@ class _ServiceDetailsFromTrackingState
 
   @override
   Widget build(BuildContext context) {
-    dynamic data = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         title: const Text("Service Details"),
       ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(height: getProportionateScreenHeight(5)),
-          const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text("Customer Details",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'http://admin.esoptronsalon.com/${data['customer']['avatar']}')),
-                title: Text("${data['customer']['name']}"),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: FutureBuilder<List<dynamic>>(
+        future: getServiceDetails(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return SingleChildScrollView(
+              child: Column(children: [
+                SizedBox(height: getProportionateScreenHeight(5)),
+                const Row(
                   children: [
-                    Text("${data['address']}"),
-                    Text(
-                      "${data['time']}",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text("Service Provider Details",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
                   ],
                 ),
-              ),
-            ),
-          ),
-          const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Categories Details",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-            ],
-          ),
-          for (int i = 0; i < data['sub_categories'].length; i++)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'http://admin.esoptronsalon.com/storage/sub_categories/${data['sub_categories'][i]['image']}')),
-                  title: Text("${data['sub_categories'][i]['name']}"),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("${data['sub_categories'][i]['description']}"),
-                      Text(
-                        "${data['sub_categories'][i]['charge']}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'http://admin.esoptronsalon.com/storage/services/${snapshot.data![0]['service'][0]['logo']}')),
+                      title: Text(
+                        "${snapshot.data![0]['service'][0]['name']}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ],
+                      // subtitle: Column(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     Text("${snapshot.data![0]['address']}"),
+                      //     Text(
+                      //       "${snapshot.data![0]['time']}",
+                      //       style: const TextStyle(
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-        ]),
+                const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Categories Details",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                for (int i = 0;
+                    i < snapshot.data![0]['sub_categories'].length;
+                    i++)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'http://admin.esoptronsalon.com/storage/sub_categories/${snapshot.data![0]['sub_categories'][i]['image']}')),
+                        title: Text(
+                            "${snapshot.data![0]['sub_categories'][i]['name']}"),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "${snapshot.data![0]['sub_categories'][i]['description']}"),
+                            Text(
+                              "${snapshot.data![0]['sub_categories'][i]['charge']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ]),
+            );
+          } else {
+            // You can return a placeholder or loading indicator while the image is loading
+            return Column(
+              children: [
+                SizedBox(height: getProportionateScreenHeight(95)),
+                const Center(child: CircularProgressIndicator()),
+              ],
+            );
+          }
+        },
       ),
     );
   }
