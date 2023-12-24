@@ -65,7 +65,7 @@ class _BodyState extends ConsumerState<Body> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return CircleAvatar(
-                        radius: 25,
+                        radius: 20,
                         backgroundImage: snapshot.data,
                       );
                     } else {
@@ -251,31 +251,31 @@ class _BodyState extends ConsumerState<Body> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Enable dark Mode",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(15),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'krona')),
-                  Switch(
-                    // thumb color (round icon)
-                    activeColor: Colors.white,
-                    activeTrackColor: kPrimaryColor,
-                    inactiveThumbColor: kPrimaryColor,
-                    inactiveTrackColor: Colors.grey.shade400,
-                    splashRadius: 50.0,
-                    // boolean variable value
-                    value: forAndroid,
-                    // changes the state of the switch
-                    onChanged: (value) => setState(() => forAndroid = value),
-                  )
-                ]),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text("Enable dark Mode",
+          //             style: TextStyle(
+          //                 color: Colors.black,
+          //                 fontSize: getProportionateScreenWidth(15),
+          //                 fontWeight: FontWeight.bold,
+          //                 fontFamily: 'krona')),
+          //         Switch(
+          //           // thumb color (round icon)
+          //           activeColor: Colors.white,
+          //           activeTrackColor: kPrimaryColor,
+          //           inactiveThumbColor: kPrimaryColor,
+          //           inactiveTrackColor: Colors.grey.shade400,
+          //           splashRadius: 50.0,
+          //           // boolean variable value
+          //           value: forAndroid,
+          //           // changes the state of the switch
+          //           onChanged: (value) => setState(() => forAndroid = value),
+          //         )
+          //       ]),
+          // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -295,49 +295,49 @@ class _BodyState extends ConsumerState<Body> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: ListTile(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) => SizedBox(
-                          height: getProportionateScreenHeight(300),
-                          child: const StatementPopup()));
-                },
-                leading: const Icon(Icons.edit_document, color: kPrimaryColor),
-                title: Text(
-                  "Statements & Reports",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
-                ),
-                subtitle: const Text("Download transaction details, Services"),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: ListTile(
-                onTap: () =>
-                    Navigator.pushNamed(context, EditProfile.routeName),
-                leading: const Icon(Icons.edit_document, color: kPrimaryColor),
-                title: Text(
-                  "Notification Settings",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
-                ),
-                subtitle: const Text("mute, unmute, set location & tracking.."),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Card(
+          //     child: ListTile(
+          //       onTap: () {
+          //         showDialog(
+          //             context: context,
+          //             builder: (_) => SizedBox(
+          //                 height: getProportionateScreenHeight(300),
+          //                 child: const StatementPopup()));
+          //       },
+          //       leading: const Icon(Icons.edit_document, color: kPrimaryColor),
+          //       title: Text(
+          //         "Statements & Reports",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: getProportionateScreenWidth(17),
+          //             fontWeight: FontWeight.w500,
+          //             fontFamily: 'krona'),
+          //       ),
+          //       subtitle: const Text("Download transaction details, Services"),
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Card(
+          //     child: ListTile(
+          //       onTap: () =>
+          //           Navigator.pushNamed(context, EditProfile.routeName),
+          //       leading: const Icon(Icons.edit_document, color: kPrimaryColor),
+          //       title: Text(
+          //         "Notification Settings",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: getProportionateScreenWidth(17),
+          //             fontWeight: FontWeight.w500,
+          //             fontFamily: 'krona'),
+          //       ),
+          //       subtitle: const Text("mute, unmute, set location & tracking.."),
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(

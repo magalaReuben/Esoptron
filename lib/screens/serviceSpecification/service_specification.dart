@@ -59,7 +59,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   }
 
   Future<List<dynamic>> getServiceSubCategoryIds(
-      serviceid, List<int> subcategoryIdList) async {
+      serviceid, List<dynamic> subcategoryIdList) async {
     print(subcategoryIdList);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");

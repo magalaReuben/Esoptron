@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:awesome_icons/awesome_icons.dart';
@@ -10,6 +11,7 @@ import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
+import 'package:http/http.dart' as http;
 import 'package:esoptron_salon/screens/subcategories/subcategories.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,17 @@ class _BodyState extends ConsumerState<Body> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     firstName = prefs.getString("firstName");
     ref.read(firstNameProvider.notifier).state = firstName;
+  }
+
+  Future<List<dynamic>> search(String query) async {
+    final response = await http.get(Uri.parse(
+        "http://admin.esoptronsalon.com/api/sub_category/search?keyword=$query"));
+    if (response.statusCode == 200 && response.statusCode < 300) {
+      var data = json.decode(response.body);
+      return data['search-results'];
+    } else {
+      return [];
+    }
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getSubCategory.dart';

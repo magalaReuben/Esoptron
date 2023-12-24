@@ -6,6 +6,20 @@ class TrackScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Body();
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: const Body());
   }
 }

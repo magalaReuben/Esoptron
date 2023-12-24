@@ -87,6 +87,9 @@ class _ServiceDetailsFromTrackingState
         future: getServiceDetails(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data!.isEmpty) {
+              return const Center(child: Text("No Service Booked Yet"));
+            }
             return SingleChildScrollView(
               child: Column(children: [
                 SizedBox(height: getProportionateScreenHeight(5)),

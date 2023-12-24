@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:background_location/background_location.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
@@ -59,18 +60,14 @@ class _ServiceBookedDetailsState extends ConsumerState<ServiceBookedDetails> {
           ),
           backgroundColor: Colors.green,
         ));
-        // try {
-        //   ref.read(destinationMarkerProvider).state = Marker(
-        //     markerId: const MarkerId("destination"),
-        //     icon: BitmapDescriptor.defaultMarkerWithHue(
-        //         BitmapDescriptor.hueViolet),
-        //     position: LatLng(latitude, longitude),
-        //     infoWindow: const InfoWindow(title: "Destination"),
-        //   );
-        // } catch (e) {
-        //   print(e.toString());
-        //   debugPrint(e.toString());
-        // }
+        ref.read(destinationMarkerProvider.notifier).state = Marker(
+          markerId: const MarkerId("destination"),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+          position: LatLng(latitude, longitude),
+          infoWindow: const InfoWindow(title: "Destination"),
+        );
+
         await startLocationTracking();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -148,6 +145,7 @@ class _ServiceBookedDetailsState extends ConsumerState<ServiceBookedDetails> {
   @override
   Widget build(BuildContext context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
+    log(data.toString());
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

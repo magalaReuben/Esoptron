@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
@@ -22,10 +24,11 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getProfileInfo();
   }
+
+  TextEditingController searchController = TextEditingController();
 
   Future getProfileInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,6 +45,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       return const NetworkImage(
           "http://admin.esoptronsalon.com/storage/users/user.png");
+    }
+  }
+
+  Future<List<dynamic>> search(String query) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authorizationToken = prefs.getString("auth_token");
+    final response = await http.get(
+      Uri.parse(
+          "http://admin.esoptronsalon.com/api/sub_category/search?keyword=$query"),
+      headers: {
+        'Authorization': 'Bearer $authorizationToken',
+        'Content-Type':
+            'application/json', // You may need to adjust the content type based on your API requirements
+      },
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      var data = json.decode(response.body);
+      return data['data']['search-results'];
+    } else {
+      return [];
     }
   }
 
@@ -70,20 +93,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
           title: TextFieldWidget(
+            controller: searchController,
             radiusBottomLeft: 30,
             radiusBottomRight: 30,
             radiusTopLeft: 30,
             radiusTopRight: 30,
-            hintText: "Search for service",
+            hintText: "Search for service type",
             suffixWidget: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                   decoration: const BoxDecoration(
                       color: kPrimaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(60))),
-                  child: const Icon(
-                    FontAwesomeIcons.search,
-                    color: Colors.white,
+                  child: GestureDetector(
+                    onTap: () async {
+                      if (searchController.text.isEmpty) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Please enter a search query"),
+                          backgroundColor: kPrimaryColor,
+                          padding: EdgeInsets.all(25),
+                        ));
+                        return;
+                      }
+                      final result = await search(searchController.text);
+                      if (result.isEmpty) {
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("No results found"),
+                          backgroundColor: kPrimaryColor,
+                          padding: EdgeInsets.all(25),
+                        ));
+                        return;
+                      }
+                    },
+                    child: const Icon(
+                      FontAwesomeIcons.search,
+                      color: Colors.white,
+                    ),
                   )),
             ),
           ),
