@@ -44,27 +44,27 @@ class Body extends StatelessWidget {
                   SignForm(),
                   SizedBox(height: SizeConfig.screenHeight * 0.05),
                   //Row(children: [],)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SocialCard(
-                        icon: "assets/authentication/icons/google.png",
-                        press: () async {
-                          // User? result =
-                          await AuthenticationService().googleSignIn(context);
-                          // if (result != null) {
-                          //   // ignore: use_build_context_synchronously
-                          //   // Navigator.pushNamed(
-                          //   //     context, LoginSuccessScreen.routeName);
-                          // }
-                        },
-                      ),
-                      SocialCard(
-                        icon: "assets/authentication/icons/fb.png",
-                        press: () {},
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     SocialCard(
+                  //       icon: "assets/authentication/icons/google.png",
+                  //       press: () async {
+                  //         // User? result =
+                  //         await AuthenticationService().googleSignIn(context);
+                  //         // if (result != null) {
+                  //         //   // ignore: use_build_context_synchronously
+                  //         //   // Navigator.pushNamed(
+                  //         //   //     context, LoginSuccessScreen.routeName);
+                  //         // }
+                  //       },
+                  //     ),
+                  //     SocialCard(
+                  //       icon: "assets/authentication/icons/fb.png",
+                  //       press: () {},
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: getProportionateScreenHeight(20)),
                   const NoAccountText(
                       text1: "Don’t have an account? ", text2: "Register now"),

@@ -252,7 +252,31 @@ class _BodyState extends ConsumerState<Body> {
                   ),
                 );
               case Status.error:
-                return const SizedBox();
+                return SizedBox(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                              width: getProportionateScreenWidth(100),
+                              height: getProportionateScreenHeight(100),
+                              image: const AssetImage(
+                                  "assets/images/home/nodata.png"),
+                              fit: BoxFit.cover),
+                          const Text(
+                            "Service Types not available",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
             }
           }),
           SizedBox(height: getProportionateScreenHeight(8)),
@@ -308,7 +332,31 @@ class _BodyState extends ConsumerState<Body> {
                   ),
                 );
               case Status.error:
-                return const SizedBox();
+                return SizedBox(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                              width: getProportionateScreenWidth(100),
+                              height: getProportionateScreenHeight(100),
+                              image: const AssetImage(
+                                  "assets/images/home/nodata.png"),
+                              fit: BoxFit.cover),
+                          const Text(
+                            "Categories not available",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
             }
           }),
           // Padding(
