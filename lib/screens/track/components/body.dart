@@ -29,6 +29,17 @@ class _BodyState extends ConsumerState<Body> {
   double? _latitude;
   double? _longitude;
   String? type;
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+  Marker? _origin;
+
+  bool serviceRequested = false;
+  bool serviceRead = false;
+  bool serviceOnTheWay = false;
+  bool serviceArrived = false;
+  bool serviceRejected = false;
+
+  bool noServiceRequested = false;
 
   @override
   void initState() {
@@ -88,70 +99,52 @@ class _BodyState extends ConsumerState<Body> {
       },
     );
     final bookingsResponseBody = json.decode(bookingResponse.body);
-    final response = await http.post(
-      Uri.parse(
-          "http://admin.esoptronsalon.com/api/users/service_provider/track_booking/${bookingsResponseBody['data']['bookings'][bookingsResponseBody['data']['bookings'].length - 1]['id']}"),
-      headers: {
-        'Authorization': 'Bearer $authorizationToken',
-        'Content-Type':
-            'application/json', // You may need to adjust the content type based on your API requirements
-      },
-    );
-    final responseBody = json.decode(response.body);
-    //print(responseBody);
-    if (true) {
-      if (responseBody['message'].endsWith("pending")) {
-        setState(() {
-          serviceRequested = true;
-        });
-      } else if (responseBody['message'].endsWith("read")) {
-        setState(() {
-          serviceRequested = true;
-          serviceRead = true;
-        });
-      } else if (responseBody['message'].endsWith("progress")) {
-        setState(() {
-          serviceRequested = true;
-          serviceRead = true;
-          serviceOnTheWay = true;
-        });
-      } else if (responseBody['message'].endsWith("arrived")) {
-        setState(() {
-          serviceRequested = true;
-          serviceRead = true;
-          serviceOnTheWay = true;
-          serviceArrived = true;
-        });
-      } else if (responseBody['message'] == "The booking was rejected") {
-        setState(() {
-          serviceRejected = true;
-        });
+    if (bookingsResponseBody['success']) {
+      final response = await http.post(
+        Uri.parse(
+            "http://admin.esoptronsalon.com/api/users/service_provider/track_booking/${bookingsResponseBody['data']['bookings'][bookingsResponseBody['data']['bookings'].length - 1]['id']}"),
+        headers: {
+          'Authorization': 'Bearer $authorizationToken',
+          'Content-Type':
+              'application/json', // You may need to adjust the content type based on your API requirements
+        },
+      );
+      final responseBody = json.decode(response.body);
+      if (true) {
+        if (responseBody['message'].endsWith("pending")) {
+          setState(() {
+            serviceRequested = true;
+          });
+        } else if (responseBody['message'].endsWith("read")) {
+          setState(() {
+            serviceRequested = true;
+            serviceRead = true;
+          });
+        } else if (responseBody['message'].endsWith("progress")) {
+          setState(() {
+            serviceRequested = true;
+            serviceRead = true;
+            serviceOnTheWay = true;
+          });
+        } else if (responseBody['message'].endsWith("arrived")) {
+          setState(() {
+            serviceRequested = true;
+            serviceRead = true;
+            serviceOnTheWay = true;
+            serviceArrived = true;
+          });
+        } else if (responseBody['message'] == "The booking was rejected") {
+          setState(() {
+            serviceRejected = true;
+          });
+        }
       }
+    } else {
+      setState(() {
+        noServiceRequested = true;
+      });
     }
-    //else {
-    //   if (responseBody['message'] == "The booking was rejected") {
-    //     setState(() {
-    //       serviceRejected = true;
-    //     });
-    //   }
-    //   setState(() {
-    //     serviceRequested = false;
-    //     serviceRead = false;
-    //     serviceOnTheWay = false;
-    //     serviceArrived = false;
-    //   });
-    // }
   }
-
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
-  Marker? _origin;
-
-  bool serviceRequested = false;
-  bool serviceRead = false;
-  bool serviceOnTheWay = false;
-  bool serviceArrived = false;
-  bool serviceRejected = false;
 
   @override
   void dispose() {
@@ -197,52 +190,53 @@ class _BodyState extends ConsumerState<Body> {
                       ),
               )
             : Container(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Column(
-                children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     // Text("Tracking Number",
-                  //     //     style: TextStyle(
-                  //     //         color: Colors.black,
-                  //     //         fontSize: getProportionateScreenWidth(17),
-                  //     //         fontWeight: FontWeight.bold,
-                  //     //         fontFamily: 'krona')),
-                  //     SizedBox(
-                  //       width: getProportionateScreenWidth(70),
-                  //     )
-                  //   ],
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Image.asset("assets/images/track/trackIcon.png"),
-                  //     SizedBox(
-                  //       width: getProportionateScreenWidth(13),
-                  //     ),
-                  //     Text("R-7458-4567-4434-5854",
-                  //         style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontSize: getProportionateScreenWidth(15),
-                  //             fontWeight: FontWeight.normal,
-                  //             fontFamily: 'krona'))
-                  //   ],
-                  // )
-                ],
+        noServiceRequested
+            ? Container()
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Column(
+                      children: [
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     // Text("Tracking Number",
+                        //     //     style: TextStyle(
+                        //     //         color: Colors.black,
+                        //     //         fontSize: getProportionateScreenWidth(17),
+                        //     //         fontWeight: FontWeight.bold,
+                        //     //         fontFamily: 'krona')),
+                        //     SizedBox(
+                        //       width: getProportionateScreenWidth(70),
+                        //     )
+                        //   ],
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Image.asset("assets/images/track/trackIcon.png"),
+                        //     SizedBox(
+                        //       width: getProportionateScreenWidth(13),
+                        //     ),
+                        //     Text("R-7458-4567-4434-5854",
+                        //         style: TextStyle(
+                        //             color: Colors.black,
+                        //             fontSize: getProportionateScreenWidth(15),
+                        //             fontWeight: FontWeight.normal,
+                        //             fontFamily: 'krona'))
+                        //   ],
+                        // )
+                      ],
+                    ),
+                    ElevatedButton(
+                        onPressed: () => Navigator.pushNamed(
+                            context, ServiceDetailsFromTracking.routeName),
+                        child: const Text("Service Details"))
+                  ],
+                ),
               ),
-              ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(
-                      context, ServiceDetailsFromTracking.routeName),
-                  child: const Text("Service Details"))
-            ],
-          ),
-        ),
-        //SizedBox(height: getProportionateScreenHeight(10)),
         type == "ServiceProvider"
             ? Container()
             : Padding(
@@ -326,9 +320,14 @@ class _BodyState extends ConsumerState<Body> {
                               ),
                             ],
                           ),
-                          Image.asset(
-                            "assets/images/serviceBooking/Line.png",
-                            height: getProportionateScreenHeight(30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                "assets/images/serviceBooking/Line.png",
+                                height: getProportionateScreenHeight(30),
+                              ),
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,

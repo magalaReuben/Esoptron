@@ -551,7 +551,6 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                         child: Row(
                           children: [
                             Image(
-                                //image: NetImage(image),
                                 image: NetworkImage(
                                     "http://admin.esoptronsalon.com/${snapshot.data!['logo']}"),
                                 fit: BoxFit.cover),
