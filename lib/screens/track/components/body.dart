@@ -137,6 +137,10 @@ class _BodyState extends ConsumerState<Body> {
           setState(() {
             serviceRejected = true;
           });
+        } else {
+          setState(() {
+            noServiceRequested = true;
+          });
         }
       }
     } else {
@@ -239,256 +243,276 @@ class _BodyState extends ConsumerState<Body> {
               ),
         type == "ServiceProvider"
             ? Container()
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text("Package Status",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: getProportionateScreenWidth(17),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'krona')),
-                  ],
-                ),
-              ),
+            : noServiceRequested
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("Package Status",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: getProportionateScreenWidth(17),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'krona')),
+                      ],
+                    ),
+                  ),
         type == "ServiceProvider"
             ? Container()
-            : serviceRejected
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Checkbox(
-                              value: serviceRejected,
-                              onChanged: (bool? value) {
-                                // setState(() {
-                                //    = value!;
-                                // });
-                              }),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Service Rejected",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: getProportionateScreenWidth(17)),
-                            ),
+            : noServiceRequested
+                ? Center(
+                    child: Column(
+                      children: [
+                        Image.asset("assets/images/track/massage.png"),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "No Service Requested Yet!",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: getProportionateScreenWidth(17)),
                           ),
-                          // Text(
-                          //   "July 7 2022 08:00am",
-                          //   style: TextStyle(
-                          //       fontWeight: FontWeight.normal,
-                          //       fontSize: getProportionateScreenWidth(16)),
-                          // ),
-                        ],
-                      )
-                    ],
+                        ),
+                      ],
+                    ),
                   )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
+                : serviceRejected
+                    ? Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Column(
                             children: [
                               Checkbox(
-                                  activeColor: kPrimaryColor,
-                                  value: serviceRequested,
+                                  value: serviceRejected,
                                   onChanged: (bool? value) {
                                     // setState(() {
                                     //    = value!;
                                     // });
                                   }),
+                            ],
+                          ),
+                          Column(
+                            children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Service requested",
+                                  "Service Rejected",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           getProportionateScreenWidth(17)),
                                 ),
                               ),
+                              // Text(
+                              //   "July 7 2022 08:00am",
+                              //   style: TextStyle(
+                              //       fontWeight: FontWeight.normal,
+                              //       fontSize: getProportionateScreenWidth(16)),
+                              // ),
                             ],
-                          ),
-                          Row(
+                          )
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                      activeColor: kPrimaryColor,
+                                      value: serviceRequested,
+                                      onChanged: (bool? value) {
+                                        // setState(() {
+                                        //    = value!;
+                                        // });
+                                      }),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Service requested",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              getProportionateScreenWidth(17)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    "assets/images/serviceBooking/Line.png",
+                                    height: getProportionateScreenHeight(30),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                      activeColor: kPrimaryColor,
+                                      value: serviceRead,
+                                      onChanged: (bool? value) {
+                                        // setState(() {
+                                        //   selected1 = value!;
+                                        // });
+                                      }),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Service read",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              getProportionateScreenWidth(17)),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(45),
+                                  ),
+                                ],
+                              ),
                               Image.asset(
                                 "assets/images/serviceBooking/Line.png",
                                 height: getProportionateScreenHeight(30),
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Checkbox(
-                                  activeColor: kPrimaryColor,
-                                  value: serviceRead,
-                                  onChanged: (bool? value) {
-                                    // setState(() {
-                                    //   selected1 = value!;
-                                    // });
-                                  }),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Service read",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          getProportionateScreenWidth(17)),
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Checkbox(
+                                      activeColor: kPrimaryColor,
+                                      value: serviceOnTheWay,
+                                      onChanged: (bool? value) {
+                                        // setState(() {
+                                        //   selected2 = value!;
+                                        // });
+                                      }),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Service on the way",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              getProportionateScreenWidth(17)),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                width: getProportionateScreenWidth(45),
+                              Image.asset(
+                                "assets/images/serviceBooking/Line.png",
+                                height: getProportionateScreenHeight(30),
                               ),
-                            ],
-                          ),
-                          Image.asset(
-                            "assets/images/serviceBooking/Line.png",
-                            height: getProportionateScreenHeight(30),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Checkbox(
-                                  activeColor: kPrimaryColor,
-                                  value: serviceOnTheWay,
-                                  onChanged: (bool? value) {
-                                    // setState(() {
-                                    //   selected2 = value!;
-                                    // });
-                                  }),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Service on the way",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          getProportionateScreenWidth(17)),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Image.asset(
-                            "assets/images/serviceBooking/Line.png",
-                            height: getProportionateScreenHeight(30),
-                          ),
-                          Row(
-                            children: [
-                              Checkbox(
-                                  activeColor: kPrimaryColor,
-                                  value: serviceArrived,
-                                  onChanged: (bool? value) {
-                                    // setState(() {
-                                    //   selected2 = value!;
-                                    // });
-                                  }),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Service Arrives",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          getProportionateScreenWidth(17)),
-                                ),
-                              ),
-                              SizedBox(
-                                width: getProportionateScreenWidth(15),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      activeColor: kPrimaryColor,
+                                      value: serviceArrived,
+                                      onChanged: (bool? value) {
+                                        // setState(() {
+                                        //   selected2 = value!;
+                                        // });
+                                      }),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Service Arrives",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              getProportionateScreenWidth(17)),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(15),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
+                          // Column(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     // Padding(
+                          //     //   padding: const EdgeInsets.all(8.0),
+                          //     //   child: Text(
+                          //     //     "Service requested",
+                          //     //     style: TextStyle(
+                          //     //         fontWeight: FontWeight.bold,
+                          //     //         fontSize: getProportionateScreenWidth(17)),
+                          //     //   ),
+                          //     // ),
+                          //     // Text(
+                          //     //   "July 7 2022 08:00am",
+                          //     //   style: TextStyle(
+                          //     //       fontWeight: FontWeight.normal,
+                          //     //       fontSize: getProportionateScreenWidth(16)),
+                          //     // ),
+                          //     SizedBox(
+                          //       height: getProportionateScreenHeight(20),
+                          //     ),
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(8.0),
+                          //       child: Text(
+                          //         "Service read by",
+                          //         style: TextStyle(
+                          //             fontWeight: FontWeight.bold,
+                          //             fontSize: getProportionateScreenWidth(17)),
+                          //       ),
+                          //     ),
+                          //     // Text(
+                          //     //   "July 7 2022 08:30am",
+                          //     //   style: TextStyle(
+                          //     //       fontWeight: FontWeight.normal,
+                          //     //       fontSize: getProportionateScreenWidth(16)),
+                          //     // ),
+                          //     SizedBox(
+                          //       height: getProportionateScreenHeight(20),
+                          //     ),
+                          //     // Padding(
+                          //     //   padding: const EdgeInsets.all(8.0),
+                          //     //   child: Text(
+                          //     //     "Service on the way",
+                          //     //     style: TextStyle(
+                          //     //         fontWeight: FontWeight.bold,
+                          //     //         fontSize: getProportionateScreenWidth(17)),
+                          //     //   ),
+                          //     // ),
+                          //     // Text(
+                          //     //   "July 7 2022 10:30am",
+                          //     //   style: TextStyle(
+                          //     //       fontWeight: FontWeight.normal,
+                          //     //       fontSize: getProportionateScreenWidth(16)),
+                          //     // ),
+                          //     SizedBox(
+                          //       height: getProportionateScreenHeight(20),
+                          //     ),
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(8.0),
+                          //       child: Text(
+                          //         "Service Arrives",
+                          //         style: TextStyle(
+                          //             fontWeight: FontWeight.bold,
+                          //             fontSize: getProportionateScreenWidth(17)),
+                          //       ),
+                          //     ),
+                          //     // Text(
+                          //     //   "July 7 2022 10:35am",
+                          //     //   style: TextStyle(
+                          //     //       fontWeight: FontWeight.normal,
+                          //     //       fontSize: getProportionateScreenWidth(16)),
+                          //     // ),
+                          //   ],
+                          // )
                         ],
-                      ),
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     // Padding(
-                      //     //   padding: const EdgeInsets.all(8.0),
-                      //     //   child: Text(
-                      //     //     "Service requested",
-                      //     //     style: TextStyle(
-                      //     //         fontWeight: FontWeight.bold,
-                      //     //         fontSize: getProportionateScreenWidth(17)),
-                      //     //   ),
-                      //     // ),
-                      //     // Text(
-                      //     //   "July 7 2022 08:00am",
-                      //     //   style: TextStyle(
-                      //     //       fontWeight: FontWeight.normal,
-                      //     //       fontSize: getProportionateScreenWidth(16)),
-                      //     // ),
-                      //     SizedBox(
-                      //       height: getProportionateScreenHeight(20),
-                      //     ),
-                      //     Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Text(
-                      //         "Service read by",
-                      //         style: TextStyle(
-                      //             fontWeight: FontWeight.bold,
-                      //             fontSize: getProportionateScreenWidth(17)),
-                      //       ),
-                      //     ),
-                      //     // Text(
-                      //     //   "July 7 2022 08:30am",
-                      //     //   style: TextStyle(
-                      //     //       fontWeight: FontWeight.normal,
-                      //     //       fontSize: getProportionateScreenWidth(16)),
-                      //     // ),
-                      //     SizedBox(
-                      //       height: getProportionateScreenHeight(20),
-                      //     ),
-                      //     // Padding(
-                      //     //   padding: const EdgeInsets.all(8.0),
-                      //     //   child: Text(
-                      //     //     "Service on the way",
-                      //     //     style: TextStyle(
-                      //     //         fontWeight: FontWeight.bold,
-                      //     //         fontSize: getProportionateScreenWidth(17)),
-                      //     //   ),
-                      //     // ),
-                      //     // Text(
-                      //     //   "July 7 2022 10:30am",
-                      //     //   style: TextStyle(
-                      //     //       fontWeight: FontWeight.normal,
-                      //     //       fontSize: getProportionateScreenWidth(16)),
-                      //     // ),
-                      //     SizedBox(
-                      //       height: getProportionateScreenHeight(20),
-                      //     ),
-                      //     Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Text(
-                      //         "Service Arrives",
-                      //         style: TextStyle(
-                      //             fontWeight: FontWeight.bold,
-                      //             fontSize: getProportionateScreenWidth(17)),
-                      //       ),
-                      //     ),
-                      //     // Text(
-                      //     //   "July 7 2022 10:35am",
-                      //     //   style: TextStyle(
-                      //     //       fontWeight: FontWeight.normal,
-                      //     //       fontSize: getProportionateScreenWidth(16)),
-                      //     // ),
-                      //   ],
-                      // )
-                    ],
-                  )
+                      )
       ]),
     );
   }

@@ -61,7 +61,31 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
               ),
             );
           case Status.error:
-            return const SizedBox();
+            return SizedBox(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                          width: getProportionateScreenWidth(200),
+                          height: getProportionateScreenHeight(200),
+                          image: const AssetImage(
+                              "assets/images/favorites/favorite.png"),
+                          fit: BoxFit.cover),
+                      const Text(
+                        "No favorites yet!",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
         }
       }),
     );
