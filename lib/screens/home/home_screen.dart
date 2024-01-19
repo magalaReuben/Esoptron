@@ -64,6 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var data = json.decode(response.body);
+      print(data['data']['search-results']);
       return data['data']['search-results'];
     } else {
       return [];
@@ -100,7 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             radiusBottomRight: 30,
             radiusTopLeft: 30,
             radiusTopRight: 30,
-            hintText: "Search for service type",
+            hintText: "Search for service category",
             suffixWidget: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -137,8 +138,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       }
                     },
                     child: isSearching
-                        ? const CircularProgressIndicator(
-                            color: kPrimaryColor,
+                        ? SizedBox(
+                            height: getProportionateScreenHeight(8),
+                            width: getProportionateScreenWidth(8),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
                           )
                         : const Icon(
                             FontAwesomeIcons.search,
