@@ -17,8 +17,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Esoptron Salon",
       restorationScopeId: 'app',
-      // localizationsDelegates: AppLocalizations.localizationsDelegates,
-      // supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

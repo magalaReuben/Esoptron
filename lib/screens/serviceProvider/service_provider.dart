@@ -37,8 +37,6 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
     //print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseBody = json.decode(response.body);
-      //print(responseBody['data']['review_ratings']);
-      //print(responseBody);
       return responseBody['data']['review_ratings'];
     } else {
       return [];
@@ -59,7 +57,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
     //print('This is our response: ${response.body}');
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseBody = json.decode(response.body);
-      print('This is our response: ${responseBody['data']['service']}');
+      //print('This is our response: ${responseBody['data']['service']}');
       return responseBody['data']['service'];
     } else {
       return {};
@@ -112,7 +110,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                           ref.read(getServiceIdProvider.notifier).state =
                               serviceProvider['service']['id'];
                         });
-                        print("Our data: ${serviceProvider}");
+                        //print("Our data: ${serviceProvider['data']}");
                         return Column(children: [
                           Stack(
                             children: [
@@ -120,14 +118,20 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                 alignment: Alignment.topCenter,
                                 child: SizedBox(
                                   height: getProportionateScreenHeight(150),
-                                  child: Image(
-                                      image: NetworkImage(
-                                          "http://admin.esoptronsalon.com/${serviceProvider['service']['logo']}"),
-                                      width: getProportionateScreenWidth(450),
-                                      color: const Color.fromRGBO(255, 255, 255,
-                                          0.5), // 50% transparent white color filter
-                                      colorBlendMode: BlendMode.modulate,
-                                      fit: BoxFit.cover),
+                                  child: serviceProvider['service'] == null
+                                      ? Container()
+                                      : Image(
+                                          image: NetworkImage(
+                                              "http://admin.esoptronsalon.com/${serviceProvider['service']['logo']}"),
+                                          width:
+                                              getProportionateScreenWidth(450),
+                                          color: const Color.fromRGBO(
+                                              255,
+                                              255,
+                                              255,
+                                              0.5), // 50% transparent white color filter
+                                          colorBlendMode: BlendMode.modulate,
+                                          fit: BoxFit.cover),
                                 ),
                               ),
                               SizedBox(
@@ -218,17 +222,8 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                 SizedBox(
                                   height: getProportionateScreenHeight(5),
                                 ),
-                                serviceProvider['service']['is_available']
+                                serviceProvider['service'] == null
                                     ? Text(
-                                        "Available",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize:
-                                                getProportionateScreenWidth(15),
-                                            fontWeight: FontWeight.normal,
-                                            fontFamily: 'krona'),
-                                      )
-                                    : Text(
                                         "Unavailable",
                                         style: TextStyle(
                                             color: Colors.black,
@@ -236,7 +231,28 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                                 getProportionateScreenWidth(15),
                                             fontWeight: FontWeight.normal,
                                             fontFamily: 'krona'),
-                                      ),
+                                      )
+                                    : serviceProvider['service']['is_available']
+                                        ? Text(
+                                            "Available",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        15),
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'krona'),
+                                          )
+                                        : Text(
+                                            "Unavailable",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        15),
+                                                fontWeight: FontWeight.normal,
+                                                fontFamily: 'krona'),
+                                          ),
                               ]),
                               Column(children: [
                                 Text(
@@ -521,7 +537,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Services",
+                      "Service",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: getProportionateScreenWidth(17),
@@ -535,84 +551,96 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                 future: getService(ref.watch(getServiceIdProvider)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    //print(snapshot.data);
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: getProportionateScreenHeight(150),
-                        width: getProportionateScreenWidth(360),
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            border: Border.all(
-                              width: 2,
-                              color: kPrimaryColor,
-                            )),
-                        child: Row(
-                          children: [
-                            Image(
-                                image: NetworkImage(
-                                    "http://admin.esoptronsalon.com/${snapshot.data!['logo']}"),
-                                fit: BoxFit.cover),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    "${snapshot.data!['name']}",
-                                    style: TextStyle(
-                                        color: kPrimaryColor,
-                                        fontSize:
-                                            getProportionateScreenWidth(18),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'krona'),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      FilledButton(
-                                          onPressed: () => Navigator.pushNamed(
-                                                  context,
-                                                  ServiceDetails.routeName,
-                                                  arguments: [
-                                                    snapshot.data!['name'],
-                                                    "http://admin.esoptronsalon.com/${snapshot.data!['logo']}",
-                                                    snapshot
-                                                        .data!['description'],
-                                                    snapshot.data![
-                                                        'service_provider'],
-                                                    4,
-                                                    snapshot
-                                                        .data!['is_available'],
-                                                    0,
-                                                    true,
-                                                    snapshot.data![
-                                                            'service_provider']
-                                                        ['id'],
-                                                    snapshot.data!['id']
-                                                  ]),
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 20.0,
-                                                right: 20,
-                                                top: 10,
-                                                bottom: 10),
-                                            child: Text("Select"),
-                                          )),
-                                      const SizedBox(
-                                        width: 35,
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                    print(snapshot.data!.isEmpty);
+                    if (snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No services yet",
+                          style: TextStyle(
+                              fontSize: getProportionateScreenHeight(25),
+                              fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: getProportionateScreenHeight(150),
+                          width: getProportionateScreenWidth(360),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                width: 2,
+                                color: kPrimaryColor,
+                              )),
+                          child: Row(
+                            children: [
+                              Image(
+                                  image: NetworkImage(
+                                      "http://admin.esoptronsalon.com/${snapshot.data!['logo']}"),
+                                  fit: BoxFit.cover),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "${snapshot.data!['name']}",
+                                      style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize:
+                                              getProportionateScreenWidth(18),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'krona'),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        FilledButton(
+                                            onPressed: () =>
+                                                Navigator.pushNamed(context,
+                                                    ServiceDetails.routeName,
+                                                    arguments: [
+                                                      snapshot.data!['name'],
+                                                      "http://admin.esoptronsalon.com/${snapshot.data!['logo']}",
+                                                      snapshot
+                                                          .data!['description'],
+                                                      snapshot.data![
+                                                          'service_provider'],
+                                                      4,
+                                                      snapshot.data![
+                                                          'is_available'],
+                                                      0,
+                                                      true,
+                                                      snapshot.data![
+                                                              'service_provider']
+                                                          ['id'],
+                                                      snapshot.data!['id']
+                                                    ]),
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20.0,
+                                                  right: 20,
+                                                  top: 10,
+                                                  bottom: 10),
+                                              child: Text("View"),
+                                            )),
+                                        const SizedBox(
+                                          width: 35,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     // You can return a placeholder or loading indicator while the image is loading
                     return const CircularProgressIndicator();

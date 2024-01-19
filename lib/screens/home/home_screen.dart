@@ -22,6 +22,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool isSearching = false;
+
   @override
   void initState() {
     super.initState();
@@ -116,7 +118,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ));
                         return;
                       }
+                      setState(() {
+                        isSearching = true;
+                      });
                       final result = await search(searchController.text);
+                      setState(() {
+                        isSearching = false;
+                      });
                       if (result.isEmpty) {
                         // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context)
@@ -128,10 +136,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         return;
                       }
                     },
-                    child: const Icon(
-                      FontAwesomeIcons.search,
-                      color: Colors.white,
-                    ),
+                    child: isSearching
+                        ? const CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          )
+                        : const Icon(
+                            FontAwesomeIcons.search,
+                            color: Colors.white,
+                          ),
                   )),
             ),
           ),
