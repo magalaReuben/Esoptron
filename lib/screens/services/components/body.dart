@@ -79,7 +79,6 @@ class _BodyState extends ConsumerState<Body> {
                     log(element.toString());
                     services.add(element);
                   }
-                  print(services[0]);
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -166,6 +165,7 @@ class _BodyState extends ConsumerState<Body> {
                   }
                   return GridView.builder(
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 1,
