@@ -7,6 +7,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/screens/serviceBooking/service_booking.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +41,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   List<int> selectedSubCategories = [];
   List<String> selectedSubCategoriesNames = [];
   List<String> selectedSubCategoriesImages = [];
+  int currentImageIndex = 0;
 
   @override
   void initState() {
@@ -202,26 +204,48 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         //print('This is our data: ${snapshot.data}');
                         if (snapshot.connectionState == ConnectionState.done) {
                           //print(snapshot.data);
-                          return CarouselSlider(
-                              items: [
-                                for (int i = 0; i < snapshot.data!.length; i++)
-                                  SizedBox(
-                                    //height: getProportionateScreenHeight(100),
-                                    child: Image(
-                                        image: NetworkImage(
-                                            "http://admin.esoptronsalon.com/${snapshot.data![i]['url']}"),
-                                        //height: getProportionateScreenHeight(300),
-                                        width: getProportionateScreenWidth(450),
-                                        fit: BoxFit.cover),
-                                  ),
-                              ],
-                              carouselController: buttonCarouselController,
-                              options: CarouselOptions(
-                                  autoPlay: false,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 1,
-                                  aspectRatio: 1.5,
-                                  initialPage: 1));
+                          return Column(
+                            children: [
+                              CarouselSlider(
+                                  items: [
+                                    for (int i = 0;
+                                        i < snapshot.data!.length;
+                                        i++)
+                                      SizedBox(
+                                        //height: getProportionateScreenHeight(100),
+                                        child: Image(
+                                            image: NetworkImage(
+                                                "http://admin.esoptronsalon.com/${snapshot.data![i]['url']}"),
+                                            //height: getProportionateScreenHeight(300),
+                                            width: getProportionateScreenWidth(
+                                                450),
+                                            fit: BoxFit.cover),
+                                      ),
+                                  ],
+                                  carouselController: buttonCarouselController,
+                                  options: CarouselOptions(
+                                      autoPlay: false,
+                                      enlargeCenterPage: true,
+                                      viewportFraction: 1,
+                                      onPageChanged: (index, reason) {
+                                        print(index);
+                                        setState(() {
+                                          currentImageIndex = index;
+                                        });
+                                      },
+                                      aspectRatio: 1.5,
+                                      initialPage: 1)),
+                              DotsIndicator(
+                                dotsCount: snapshot.data!.length,
+                                position: currentImageIndex,
+                                decorator: const DotsDecorator(
+                                  color: Colors.grey, // Inactive dot color
+                                  activeColor:
+                                      kPrimaryColor, // Active dot color
+                                ),
+                              ),
+                            ],
+                          );
                         } else {
                           // You can return a placeholder or loading indicator while the image is loading
                           return Column(
