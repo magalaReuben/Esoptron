@@ -307,6 +307,9 @@ class _BodyState extends State<Body> {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
                             if (snapshot.hasData) {
+                              bool hasPendingServices = snapshot.data!.any(
+                                (element) => element['status'] == 'pending',
+                              );
                               return Column(
                                 children: [
                                   for (int i = 0;
@@ -319,47 +322,81 @@ class _BodyState extends State<Body> {
                                             "${snapshot.data![i]['sub_categories'][0]['charge']}",
                                             "${snapshot.data![i]['sub_categories'][0]['image']}")
                                         : Container(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: Divider(
-                                      color: Colors.black.withOpacity(0.9),
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Service Provider",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                                  getProportionateScreenWidth(
-                                                      17),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'krona'),
+                                  hasPendingServices
+                                      ? Container()
+                                      : SizedBox(
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(14.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image(
+                                                      width:
+                                                          getProportionateScreenWidth(
+                                                              100),
+                                                      height:
+                                                          getProportionateScreenHeight(
+                                                              100),
+                                                      image: const AssetImage(
+                                                          "assets/images/home/nodata.png"),
+                                                      fit: BoxFit.cover),
+                                                  const Text(
+                                                    "No Pending Services",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        for (int i = 0;
-                                            i < snapshot.data!.length;
-                                            i++)
-                                          serviceProvider(
-                                              '${snapshot.data![i]['service'][0]['logo']}',
-                                              "${snapshot.data![i]['service'][0]['name']}",
-                                              "Kampala,6th street"),
-                                      ],
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       left: 8, right: 8),
+                                  //   child: Divider(
+                                  //     color: Colors.black.withOpacity(0.9),
+                                  //     thickness: 1.5,
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(8.0),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Text(
+                                  //         "Service Provider",
+                                  //         style: TextStyle(
+                                  //             color: Colors.black,
+                                  //             fontSize:
+                                  //                 getProportionateScreenWidth(
+                                  //                     17),
+                                  //             fontWeight: FontWeight.bold,
+                                  //             fontFamily: 'krona'),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // SingleChildScrollView(
+                                  //   scrollDirection: Axis.horizontal,
+                                  //   child: Row(
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.start,
+                                  //     children: [
+                                  //       for (int i = 0;
+                                  //           i < snapshot.data!.length;
+                                  //           i++)
+                                  //         serviceProvider(
+                                  //             '${snapshot.data![i]['service'][0]['logo']}',
+                                  //             "${snapshot.data![i]['service'][0]['name']}",
+                                  //             "Kampala,6th street"),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             } else {
@@ -432,6 +469,9 @@ class _BodyState extends State<Body> {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
                             if (snapshot.hasData) {
+                              bool hasRejectedServices = snapshot.data!.any(
+                                (element) => element['status'] == 'rejected',
+                              );
                               return Column(
                                 children: [
                                   for (int i = 0;
@@ -444,47 +484,81 @@ class _BodyState extends State<Body> {
                                             "${snapshot.data![i]['sub_categories'][0]['charge']}",
                                             "${snapshot.data![i]['sub_categories'][0]['image']}")
                                         : Container(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: Divider(
-                                      color: Colors.black.withOpacity(0.9),
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Service Provider",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                                  getProportionateScreenWidth(
-                                                      17),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'krona'),
+                                  hasRejectedServices
+                                      ? Container()
+                                      : SizedBox(
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(14.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image(
+                                                      width:
+                                                          getProportionateScreenWidth(
+                                                              100),
+                                                      height:
+                                                          getProportionateScreenHeight(
+                                                              100),
+                                                      image: const AssetImage(
+                                                          "assets/images/home/nodata.png"),
+                                                      fit: BoxFit.cover),
+                                                  const Text(
+                                                    "No Rejected Services",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        for (int i = 0;
-                                            i < snapshot.data!.length;
-                                            i++)
-                                          serviceProvider(
-                                              '${snapshot.data![i]['service'][0]['logo']}',
-                                              "${snapshot.data![i]['service'][0]['name']}",
-                                              "Kampala,6th street"),
-                                      ],
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       left: 8, right: 8),
+                                  //   child: Divider(
+                                  //     color: Colors.black.withOpacity(0.9),
+                                  //     thickness: 1.5,
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(8.0),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Text(
+                                  //         "Service Provider",
+                                  //         style: TextStyle(
+                                  //             color: Colors.black,
+                                  //             fontSize:
+                                  //                 getProportionateScreenWidth(
+                                  //                     17),
+                                  //             fontWeight: FontWeight.bold,
+                                  //             fontFamily: 'krona'),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // SingleChildScrollView(
+                                  //   scrollDirection: Axis.horizontal,
+                                  //   child: Row(
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.start,
+                                  //     children: [
+                                  //       for (int i = 0;
+                                  //           i < snapshot.data!.length;
+                                  //           i++)
+                                  //         serviceProvider(
+                                  //             '${snapshot.data![i]['service'][0]['logo']}',
+                                  //             "${snapshot.data![i]['service'][0]['name']}",
+                                  //             "Kampala,6th street"),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             } else {
@@ -608,8 +682,8 @@ class _BodyState extends State<Body> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
-        trailing:
-            const Icon(Icons.favorite_outline, color: kPrimaryColor, size: 25),
+        // trailing:
+        //     const Icon(Icons.favorite_outline, color: kPrimaryColor, size: 25),
         tileColor: Colors.transparent,
         subtitle: Row(
           children: [
@@ -638,7 +712,7 @@ class _BodyState extends State<Body> {
             title,
             style: TextStyle(
                 color: Colors.black,
-                fontSize: getProportionateScreenWidth(15),
+                fontSize: getProportionateScreenWidth(18),
                 fontWeight: FontWeight.bold,
                 fontFamily: 'krona'),
           ),
@@ -647,7 +721,8 @@ class _BodyState extends State<Body> {
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: Image(
               // height: 200,
-              width: getProportionateScreenWidth(60),
+              width: getProportionateScreenWidth(80),
+              height: getProportionateScreenHeight(120),
               image: NetworkImage(
                   "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
               fit: BoxFit.fill),
