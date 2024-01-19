@@ -234,14 +234,14 @@ class _BodyState extends ConsumerState<Body> {
                                       fit: BoxFit.cover),
                                 ),
                               ),
-                              Text(
-                                serviceTypes[i]['name'],
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(15),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: 'krona'),
-                              ),
+                              // Text(
+                              //   serviceTypes[i]['name'],
+                              //   style: TextStyle(
+                              //       color: Colors.black,
+                              //       fontSize: getProportionateScreenWidth(15),
+                              //       fontWeight: FontWeight.w500,
+                              //       fontFamily: 'krona'),
+                              // ),
                             ],
                           ),
                         ),

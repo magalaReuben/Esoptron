@@ -10,8 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ServiceScreen extends StatelessWidget {
+class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key});
+
+  @override
+  State<ServiceScreen> createState() => _ServiceScreenState();
+}
+
+class _ServiceScreenState extends State<ServiceScreen> {
+  bool isSearching = false;
 
   Future<List<dynamic>> search(String query) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -66,9 +73,17 @@ class ServiceScreen extends StatelessWidget {
                       ));
                       return;
                     }
+                    setState(() {
+                      isSearching = true;
+                    });
                     List<dynamic> searchResults =
                         await search(searchController.text);
-
+                    searchResults.forEach((element) {
+                      print(element);
+                    });
+                    setState(() {
+                      isSearching = false;
+                    });
                     if (searchResults.isNotEmpty) {
                     } else {
                       // ignore: use_build_context_synchronously
@@ -79,10 +94,21 @@ class ServiceScreen extends StatelessWidget {
                       ));
                     }
                   },
-                  child: const Icon(
-                    FontAwesomeIcons.search,
-                    color: Colors.white,
-                  ),
+                  child: isSearching
+                      ? SizedBox(
+                          height: getProportionateScreenHeight(8),
+                          width: getProportionateScreenWidth(8),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : const Icon(
+                          FontAwesomeIcons.search,
+                          color: Colors.white,
+                        ),
                 )),
           ),
         ),
