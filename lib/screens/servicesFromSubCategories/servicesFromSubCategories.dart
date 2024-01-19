@@ -74,11 +74,17 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                                   )),
                               child: Row(
                                 children: [
-                                  Image(
-                                      //image: NetImage(image),
-                                      image: NetworkImage(
-                                          "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}"),
-                                      fit: BoxFit.cover),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image(
+                                          //image: NetImage(image),
+                                          image: NetworkImage(
+                                              "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}"),
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(

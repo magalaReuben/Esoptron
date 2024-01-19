@@ -364,8 +364,8 @@ class _BodyState extends ConsumerState<Body> {
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: Image(
                     image: NetworkImage(image),
-                    // height: getProportionateScreenHeight(470),
-                    // width: getProportionateScreenWidth(440),
+                    height: getProportionateScreenHeight(200),
+                    //width: getProportionateScreenWidth(440),
                     fit: BoxFit.cover),
               ),
             ),

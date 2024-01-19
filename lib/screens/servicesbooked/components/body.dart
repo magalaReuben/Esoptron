@@ -63,9 +63,6 @@ class _BodyState extends State<Body> {
         }
       }
     }
-    // setState(() {
-    //   finalserviceProviders = serviceProviders;
-    // });
     if (bookingDetails.isNotEmpty) {
       return bookingDetails;
     } else {
@@ -147,6 +144,9 @@ class _BodyState extends State<Body> {
                                           fontFamily: 'krona')),
                                 );
                               }
+                              bool hasAcceptedServices = snapshot.data!.any(
+                                (element) => element['status'] == 'accepted',
+                              );
                               return Column(
                                 children: [
                                   for (int i = 0;
@@ -159,47 +159,82 @@ class _BodyState extends State<Body> {
                                             "${snapshot.data![i]['sub_categories'][0]['charge']}",
                                             "${snapshot.data![i]['sub_categories'][0]['image']}")
                                         : Container(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: Divider(
-                                      color: Colors.black.withOpacity(0.9),
-                                      thickness: 1.5,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Service Provider",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                                  getProportionateScreenWidth(
-                                                      17),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'krona'),
+                                  //check snapshot to see if it contains an element with status accepted
+                                  hasAcceptedServices
+                                      ? Container()
+                                      : SizedBox(
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(14.0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image(
+                                                      width:
+                                                          getProportionateScreenWidth(
+                                                              100),
+                                                      height:
+                                                          getProportionateScreenHeight(
+                                                              100),
+                                                      image: const AssetImage(
+                                                          "assets/images/home/nodata.png"),
+                                                      fit: BoxFit.cover),
+                                                  const Text(
+                                                    "No Accepted Services",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        for (int i = 0;
-                                            i < snapshot.data!.length;
-                                            i++)
-                                          serviceProvider(
-                                              '${snapshot.data![i]['service'][0]['logo']}',
-                                              "${snapshot.data![i]['service'][0]['name']}",
-                                              "Kampala,6th street"),
-                                      ],
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       left: 8, right: 8),
+                                  //   child: Divider(
+                                  //     color: Colors.black.withOpacity(0.9),
+                                  //     thickness: 1.5,
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(8.0),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Text(
+                                  //         "Service Provider",
+                                  //         style: TextStyle(
+                                  //             color: Colors.black,
+                                  //             fontSize:
+                                  //                 getProportionateScreenWidth(
+                                  //                     17),
+                                  //             fontWeight: FontWeight.bold,
+                                  //             fontFamily: 'krona'),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // SingleChildScrollView(
+                                  //   scrollDirection: Axis.horizontal,
+                                  //   child: Row(
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.start,
+                                  //     children: [
+                                  //       for (int i = 0;
+                                  //           i < snapshot.data!.length;
+                                  //           i++)
+                                  //         serviceProvider(
+                                  //             '${snapshot.data![i]['service'][0]['logo']}',
+                                  //             "${snapshot.data![i]['service'][0]['name']}",
+                                  //             "Kampala,6th street"),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             } else {

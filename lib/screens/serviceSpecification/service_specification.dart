@@ -91,7 +91,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
   Widget build(BuildContext context) {
     List<dynamic> arguments = ModalRoute.of(context)!.settings.arguments
         as List<dynamic>; //get arguments from previous screen
-    print("arguments: $arguments");
+    //print("arguments: $arguments");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Service Specification"),
@@ -107,17 +107,21 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                 child: CarouselSlider.builder(
                     itemCount: arguments[0].length,
                     itemBuilder: (context, index, realIndex) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(
-                          "${arguments[0][index]}",
-                          fit: BoxFit.cover,
-                          width: 1000,
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.network(
+                            "${arguments[0][index]}",
+                            fit: BoxFit.cover,
+                            height: getProportionateScreenHeight(350),
+                            width: getProportionateScreenWidth(360),
+                          ),
                         ),
                       );
                     },
                     options: CarouselOptions(
-                      height: getProportionateScreenHeight(200),
+                      height: getProportionateScreenHeight(350),
                       autoPlay: false,
                       autoPlayInterval: const Duration(seconds: 3),
                       autoPlayAnimationDuration:

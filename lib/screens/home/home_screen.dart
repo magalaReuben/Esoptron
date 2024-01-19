@@ -136,7 +136,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ));
                         return;
                       } else {
-                        print(result);
+                        //print(result);
                         // ignore: use_build_context_synchronously
                         Navigator.pushNamed(
                             context, SearchedSubCategories.routeName,

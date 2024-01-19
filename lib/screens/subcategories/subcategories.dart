@@ -78,14 +78,20 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                   children: [
                                     SizedBox(
                                       width: getProportionateScreenWidth(100),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(8)),
-                                        child: Image(
-                                            //image: NetImage(image),
-                                            image: NetworkImage(
-                                                "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}"),
-                                            fit: BoxFit.cover),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(8)),
+                                          child: Image(
+                                              //image: NetImage(image)
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      180),
+                                              image: NetworkImage(
+                                                  "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}"),
+                                              fit: BoxFit.cover),
+                                        ),
                                       ),
                                     ),
                                     Padding(

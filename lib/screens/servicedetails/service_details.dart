@@ -556,10 +556,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             )),
                         child: Row(
                           children: [
-                            Image(
-                                //image: NetImage(image),
-                                image: NetworkImage(arguments[8]),
-                                fit: BoxFit.cover),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image(
+                                    //image: NetImage(image),
+                                    image: NetworkImage(arguments[8]),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
