@@ -8,6 +8,7 @@ import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
 import 'package:esoptron_salon/screens/home/components/body.dart';
 import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
 import 'package:esoptron_salon/screens/servicesbooked/services_booked.dart';
+import 'package:esoptron_salon/screens/subcategories/searched_subcategory.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,7 +65,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var data = json.decode(response.body);
-      print(data['data']['search-results']);
       return data['data']['search-results'];
     } else {
       return [];
@@ -135,6 +135,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           padding: EdgeInsets.all(25),
                         ));
                         return;
+                      } else {
+                        print(result);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushNamed(
+                            context, SearchedSubCategories.routeName,
+                            arguments: result);
                       }
                     },
                     child: isSearching
