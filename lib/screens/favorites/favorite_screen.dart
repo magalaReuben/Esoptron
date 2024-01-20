@@ -37,27 +37,24 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
             );
           case Status.loaded:
             var favorites = [];
-            //log(serviceTypesState.data!.data.toString());
+            //print(favoritesState.data!.data.toString());
             for (var element
                 in favoritesState.data!.data['favourite_services']) {
               favorites.add(element);
             }
             return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    for (int i = 1; i < favorites.length; i++)
-                      favoriteCard(
-                          favorites[i]['logo'],
-                          favorites[i]['name'],
-                          favorites[i]['description'],
-                          favorites[i]['favourite_service_id']),
-                    SizedBox(
-                      width: getProportionateScreenWidth(15),
-                    )
-                  ],
-                ),
+              child: Column(
+                children: [
+                  for (int i = 0; i < favorites.length; i++)
+                    favoriteCard(
+                        favorites[i]['logo'],
+                        favorites[i]['name'],
+                        favorites[i]['description'],
+                        favorites[i]['favourite_service_id']),
+                  SizedBox(
+                    width: getProportionateScreenWidth(15),
+                  )
+                ],
               ),
             );
           case Status.error:
@@ -105,8 +102,12 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                 color: kPrimaryColor,
               )),
           child: ListTile(
-            leading: Image(
-                image: NetworkImage('http://admin.esoptronsalon.com/$image')),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                  height: getProportionateScreenHeight(150),
+                  image: NetworkImage('http://admin.esoptronsalon.com/$image')),
+            ),
             title: Text(
               serviceName,
               style: TextStyle(
