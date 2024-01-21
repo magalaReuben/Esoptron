@@ -38,27 +38,27 @@ class _BodyState extends ConsumerState<Body> {
         SizedBox(
           height: getProportionateScreenWidth(25),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFieldWidget(
-            radiusBottomLeft: 30,
-            radiusBottomRight: 30,
-            radiusTopLeft: 30,
-            radiusTopRight: 30,
-            hintText: "Search for service",
-            suffixWidget: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  decoration: const BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(60))),
-                  child: const Icon(
-                    FontAwesomeIcons.search,
-                    color: Colors.white,
-                  )),
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: TextFieldWidget(
+        //     radiusBottomLeft: 30,
+        //     radiusBottomRight: 30,
+        //     radiusTopLeft: 30,
+        //     radiusTopRight: 30,
+        //     hintText: "Search for service",
+        //     suffixWidget: Padding(
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: Container(
+        //           decoration: const BoxDecoration(
+        //               color: kPrimaryColor,
+        //               borderRadius: BorderRadius.all(Radius.circular(60))),
+        //           child: const Icon(
+        //             FontAwesomeIcons.search,
+        //             color: Colors.white,
+        //           )),
+        //     ),
+        //   ),
+        // ),
         Builder(builder: (context) {
           switch (categoriesUnderService.status) {
             case Status.initial:

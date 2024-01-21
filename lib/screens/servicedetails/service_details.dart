@@ -82,6 +82,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Future<List<dynamic>> getServiceCategories(serviceId, serviceTypeId) async {
+    print(
+        "Am I here? and this is our service id:${serviceId[9]}and this is our service type id: $serviceTypeId");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
@@ -93,6 +95,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
+    print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       //print(responseData['data']['service_types']);
@@ -103,17 +106,22 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Future<List<dynamic>> getServiceSubCategories(serviceId, categoryId) async {
+    print(
+        "Am I here? and this is our service id:${serviceId[9]}and this is our category id: $categoryId");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authorizationToken = prefs.getString("auth_token");
     final response = await http.get(
+      // Uri.parse(
+      //     "http://admin.esoptronsalon.com/api/service/${serviceId[9]}/category/$categoryId/sub_categories"),
       Uri.parse(
-          "http://admin.esoptronsalon.com/api/service/${serviceId[9]}/category/$categoryId/sub_categories"),
+          "http://admin.esoptronsalon.com/api/service/${serviceId[9]}/sub_categories"),
       headers: {
         'Authorization': 'Bearer $authorizationToken',
         'Content-Type':
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
+    print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       //print(responseData['data']['service_types']);
@@ -796,7 +804,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                                               child: ListTile(
                                                                 leading: Image(
                                                                   image: NetworkImage(
-                                                                      "http://admin.esoptronsalon.com/${element["image"]}"),
+                                                                      "http://admin.esoptronsalon.com/storage/sub_categories/${element["image"]}"),
                                                                 ),
                                                                 title: Text(
                                                                     "${element["name"]}",

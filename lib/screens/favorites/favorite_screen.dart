@@ -1,6 +1,7 @@
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getFavorites.dart';
+import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -112,12 +113,16 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
               serviceName,
               style: TextStyle(
                   color: kPrimaryColor,
-                  fontSize: getProportionateScreenWidth(20),
+                  fontSize: getProportionateScreenWidth(19),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'krona'),
             ),
             subtitle: FilledButton(
-                onPressed: () {}, child: const Text("Service Details")),
+                onPressed: () {
+                  Navigator.pushNamed(context, ServiceDetails.routeName,
+                      arguments: id);
+                },
+                child: const Text("Service Details")),
             trailing: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Column(

@@ -146,15 +146,15 @@ class _BodyState extends ConsumerState<Body> {
           //SizedBox(
 //            height: getProportionateScreenHeight(5),
           //         ),
-          inputForm("Gender", false),
+          //sinputForm("Gender", false),
           //SizedBox(
 //            height: getProportionateScreenHeight(5),
           //         ),
-          inputForm("Notification", true),
-          //SizedBox(
-//            height: getProportionateScreenHeight(5),
-          //         ),
-          inputForm("Service Tracking", true),
+//           inputForm("Notification", true),
+//           //SizedBox(
+// //            height: getProportionateScreenHeight(5),
+//           //         ),
+//           inputForm("Service Tracking", true),
         ]),
       ),
     );
