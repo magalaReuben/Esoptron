@@ -22,6 +22,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
   bool time2 = false;
   bool time3 = false;
   bool time4 = false;
+  TimeOfDay selectedTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
-                  "Available Time",
+                  "Select Time",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
@@ -78,134 +79,161 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      time1 = true;
-                      time2 = false;
-                      time3 = false;
-                      time4 = false;
-                    });
+          Card(
+            child: ListTile(
+              title: Text(
+                "${selectedTime.hour}:${selectedTime.minute} ${selectedTime.period.toString().split(".")[1]}",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: time1 ? Colors.white : Colors.black,
+                    fontSize: getProportionateScreenWidth(18)),
+              ),
+              trailing: GestureDetector(
+                  onTap: () async {
+                    final TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: selectedTime,
+                    );
+                    if (pickedTime != null && pickedTime != selectedTime) {
+                      setState(() {
+                        selectedTime = pickedTime;
+                      });
+                    }
                   },
-                  child: Container(
-                    width: getProportionateScreenWidth(80),
-                    height: getProportionateScreenHeight(50),
-                    decoration: BoxDecoration(
-                        color: time1 ? kPrimaryColor : Colors.white,
-                        border: Border.all(
-                          color: kPrimaryColor.withOpacity(0.3),
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        "10:00",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: time1 ? Colors.white : Colors.black,
-                            fontSize: getProportionateScreenWidth(18)),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      time1 = false;
-                      time2 = true;
-                      time3 = false;
-                      time4 = false;
-                    });
-                  },
-                  child: Container(
-                    width: getProportionateScreenWidth(80),
-                    height: getProportionateScreenHeight(50),
-                    decoration: BoxDecoration(
-                        color: time2 ? kPrimaryColor : Colors.white,
-                        border: Border.all(
-                          color: kPrimaryColor.withOpacity(0.3),
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        "12:00",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: time2 ? Colors.white : Colors.black,
-                            fontSize: getProportionateScreenWidth(18)),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      time1 = false;
-                      time2 = false;
-                      time3 = true;
-                      time4 = false;
-                    });
-                  },
-                  child: Container(
-                    width: getProportionateScreenWidth(80),
-                    height: getProportionateScreenHeight(50),
-                    decoration: BoxDecoration(
-                        color: time3 ? kPrimaryColor : Colors.white,
-                        border: Border.all(
-                          color: kPrimaryColor.withOpacity(0.3),
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        "15:30",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: time3 ? Colors.white : Colors.black,
-                            fontSize: getProportionateScreenWidth(18)),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      time1 = false;
-                      time2 = false;
-                      time3 = false;
-                      time4 = true;
-                    });
-                  },
-                  child: Container(
-                    width: getProportionateScreenWidth(80),
-                    height: getProportionateScreenHeight(50),
-                    decoration: BoxDecoration(
-                        color: time4 ? kPrimaryColor : Colors.white,
-                        border: Border.all(
-                          color: kPrimaryColor.withOpacity(0.3),
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        "17:00",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: time4 ? Colors.white : Colors.black,
-                            fontSize: getProportionateScreenWidth(18)),
-                      ),
-                    ),
-                  ),
-                )
-              ],
+                  child: const Icon(
+                    Icons.keyboard_arrow_down,
+                    color: kPrimaryColor,
+                  )),
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             time1 = true;
+          //             time2 = false;
+          //             time3 = false;
+          //             time4 = false;
+          //           });
+          //         },
+          //         child: Container(
+          //           width: getProportionateScreenWidth(80),
+          //           height: getProportionateScreenHeight(50),
+          //           decoration: BoxDecoration(
+          //               color: time1 ? kPrimaryColor : Colors.white,
+          //               border: Border.all(
+          //                 color: kPrimaryColor.withOpacity(0.3),
+          //               ),
+          //               borderRadius:
+          //                   const BorderRadius.all(Radius.circular(15))),
+          //           child: Center(
+          //             child: Text(
+          //               "10:00",
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.bold,
+          //                   color: time1 ? Colors.white : Colors.black,
+          //                   fontSize: getProportionateScreenWidth(18)),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             time1 = false;
+          //             time2 = true;
+          //             time3 = false;
+          //             time4 = false;
+          //           });
+          //         },
+          //         child: Container(
+          //           width: getProportionateScreenWidth(80),
+          //           height: getProportionateScreenHeight(50),
+          //           decoration: BoxDecoration(
+          //               color: time2 ? kPrimaryColor : Colors.white,
+          //               border: Border.all(
+          //                 color: kPrimaryColor.withOpacity(0.3),
+          //               ),
+          //               borderRadius:
+          //                   const BorderRadius.all(Radius.circular(15))),
+          //           child: Center(
+          //             child: Text(
+          //               "12:00",
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.bold,
+          //                   color: time2 ? Colors.white : Colors.black,
+          //                   fontSize: getProportionateScreenWidth(18)),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             time1 = false;
+          //             time2 = false;
+          //             time3 = true;
+          //             time4 = false;
+          //           });
+          //         },
+          //         child: Container(
+          //           width: getProportionateScreenWidth(80),
+          //           height: getProportionateScreenHeight(50),
+          //           decoration: BoxDecoration(
+          //               color: time3 ? kPrimaryColor : Colors.white,
+          //               border: Border.all(
+          //                 color: kPrimaryColor.withOpacity(0.3),
+          //               ),
+          //               borderRadius:
+          //                   const BorderRadius.all(Radius.circular(15))),
+          //           child: Center(
+          //             child: Text(
+          //               "15:30",
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.bold,
+          //                   color: time3 ? Colors.white : Colors.black,
+          //                   fontSize: getProportionateScreenWidth(18)),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             time1 = false;
+          //             time2 = false;
+          //             time3 = false;
+          //             time4 = true;
+          //           });
+          //         },
+          //         child: Container(
+          //           width: getProportionateScreenWidth(80),
+          //           height: getProportionateScreenHeight(50),
+          //           decoration: BoxDecoration(
+          //               color: time4 ? kPrimaryColor : Colors.white,
+          //               border: Border.all(
+          //                 color: kPrimaryColor.withOpacity(0.3),
+          //               ),
+          //               borderRadius:
+          //                   const BorderRadius.all(Radius.circular(15))),
+          //           child: Center(
+          //             child: Text(
+          //               "17:00",
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.bold,
+          //                   color: time4 ? Colors.white : Colors.black,
+          //                   fontSize: getProportionateScreenWidth(18)),
+          //             ),
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Expanded(child: Container()),
           Padding(
             padding: const EdgeInsets.all(8.0),
