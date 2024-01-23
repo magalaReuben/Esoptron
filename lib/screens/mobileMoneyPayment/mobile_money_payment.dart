@@ -32,13 +32,16 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
       body: Form(
         key: _formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Image(
                   image: AssetImage('assets/images/mobilemoney/mm.png'),
                   fit: BoxFit.cover),
+            ),
+            SizedBox(
+              height: getProportionateScreenHeight(50),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -79,41 +82,66 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: getProportionateScreenHeight(20),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.monetization_on,
-                    size: 15,
-                    color: kPrimaryColor,
-                  ),
-                  SizedBox(
-                    width: getProportionateScreenWidth(7),
-                  ),
-                  Text(
-                    "Total: ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(18),
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    " ${aruments[3]} ${aruments[2]}",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(18),
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
+            ListTile(
+              title: const Text(
+                "Payment Details",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'krona'),
+              ),
+              subtitle: Text(
+                "${aruments[3]} ${aruments[2]}",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'krona'),
+              ),
+              trailing: const Icon(
+                Icons.monetization_on,
+                size: 25,
+                color: kPrimaryColor,
               ),
             ),
-            SizedBox(
-              height: getProportionateScreenHeight(20),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Divider(
+                thickness: 1,
+                color: kPrimaryColor,
+              ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       const Icon(
+            //         Icons.monetization_on,
+            //         size: 15,
+            //         color: kPrimaryColor,
+            //       ),
+            //       SizedBox(
+            //         width: getProportionateScreenWidth(7),
+            //       ),
+            //       Text(
+            //         "Total: ",
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: getProportionateScreenWidth(18),
+            //             fontWeight: FontWeight.w600),
+            //       ),
+            //       Text(
+            //         " ${aruments[3]} ${aruments[2]}",
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: getProportionateScreenWidth(18),
+            //             fontWeight: FontWeight.w600),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            Expanded(child: Container()),
             isLoading
                 ? const CircularProgressIndicator(
                     color: kPrimaryColor,
@@ -131,6 +159,7 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                         String? authorizationToken =
                             prefs.getString("auth_token");
                         final data = jsonEncode({
+                          "charged_amount": "${aruments[3]}",
                           "payment_type": "mobile money",
                           "booking_id": '${aruments[0]}',
                           "phone_number": "${aruments[1]}"
@@ -146,6 +175,7 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                           },
                         );
                         final responseData = json.decode(response.body);
+                        print(responseData);
                         if (response.statusCode >= 200 &&
                             response.statusCode < 300) {
                           final responseData = json.decode(response.body);
