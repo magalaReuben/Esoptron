@@ -400,7 +400,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                           'X-Requested-With': 'XMLHttpRequest'
                         },
                       );
-                      //print(response.body);
+                      print(response.body);
                       final responseData = json.decode(response.body);
                       if (response.statusCode >= 200 &&
                           response.statusCode < 300) {

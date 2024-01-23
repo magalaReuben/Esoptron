@@ -277,7 +277,15 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     current.compareTo(_dates[0]!) < 0) {
                   if (hasSelectedTime) {
                     ref.read(scheduledTimeProvider.notifier).state =
-                        "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} ${selectedTime.period.toString().split(".")[1]}";
+                        DateFormat('hh:mm a').format(DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            int.parse(
+                                selectedTime.hour.toString().padLeft(2, '0')),
+                            int.parse(selectedTime.minute
+                                .toString()
+                                .padLeft(2, '0'))));
                     // ref.read(scheduledTimeProvider.notifier).state = time1
                     //     ? DateFormat('hh:mm a').format(DateTime(
                     //         DateTime.now().year,
