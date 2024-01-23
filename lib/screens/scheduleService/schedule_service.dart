@@ -22,6 +22,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
   bool time2 = false;
   bool time3 = false;
   bool time4 = false;
+  bool hasSelectedTime = false;
   TimeOfDay selectedTime = TimeOfDay.now();
 
   @override
@@ -82,30 +83,60 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
           Card(
             child: ListTile(
               title: Text(
-                "${selectedTime.hour}:${selectedTime.minute} ${selectedTime.period.toString().split(".")[1]}",
+                "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} ${selectedTime.period.toString().split(".")[1]}",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(18)),
+                  fontWeight: FontWeight.bold,
+                  color: time1 ? Colors.white : Colors.black,
+                  fontSize: getProportionateScreenWidth(18),
+                ),
               ),
               trailing: GestureDetector(
-                  onTap: () async {
-                    final TimeOfDay? pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: selectedTime,
-                    );
-                    if (pickedTime != null && pickedTime != selectedTime) {
+                onTap: () async {
+                  final TimeOfDay? pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: selectedTime,
+                  );
+
+                  if (pickedTime != null && pickedTime != selectedTime) {
+                    // Check if the picked time is within the allowed range (8 am to 6 pm)
+                    if (pickedTime.hour < 8 || pickedTime.hour >= 18) {
+                      // Show error message
+                      // ignore: use_build_context_synchronously
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Invalid Time"),
+                            content: const Text(
+                                "Please select a time between\n8 am and 6 pm."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      // Update the selected time if it's within the allowed range
                       setState(() {
+                        hasSelectedTime = true;
                         selectedTime = pickedTime;
                       });
                     }
-                  },
-                  child: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: kPrimaryColor,
-                  )),
+                  }
+                },
+                child: const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: kPrimaryColor,
+                ),
+              ),
             ),
           ),
+
           // Padding(
           //   padding: const EdgeInsets.all(8.0),
           //   child: Row(
@@ -244,34 +275,36 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 if ("${_dates[0]!.day}${_dates[0]!.month}${_dates[0]!.year}" ==
                         "${current.day}${current.month}${current.year}" ||
                     current.compareTo(_dates[0]!) < 0) {
-                  if (time1 || time2 || time3 || time4) {
-                    ref.read(scheduledTimeProvider.notifier).state = time1
-                        ? DateFormat('hh:mm a').format(DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            10,
-                            00))
-                        : time2
-                            ? DateFormat('hh:mm a').format(DateTime(
-                                DateTime.now().year,
-                                DateTime.now().month,
-                                DateTime.now().day,
-                                12,
-                                00))
-                            : time3
-                                ? DateFormat('hh:mm a').format(DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month,
-                                    DateTime.now().day,
-                                    15,
-                                    30))
-                                : DateFormat('hh:mm a').format(DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month,
-                                    DateTime.now().day,
-                                    17,
-                                    00));
+                  if (hasSelectedTime) {
+                    ref.read(scheduledTimeProvider.notifier).state =
+                        "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} ${selectedTime.period.toString().split(".")[1]}";
+                    // ref.read(scheduledTimeProvider.notifier).state = time1
+                    //     ? DateFormat('hh:mm a').format(DateTime(
+                    //         DateTime.now().year,
+                    //         DateTime.now().month,
+                    //         DateTime.now().day,
+                    //         10,
+                    //         00))
+                    //     : time2
+                    //         ? DateFormat('hh:mm a').format(DateTime(
+                    //             DateTime.now().year,
+                    //             DateTime.now().month,
+                    //             DateTime.now().day,
+                    //             12,
+                    //             00))
+                    //         : time3
+                    //             ? DateFormat('hh:mm a').format(DateTime(
+                    //                 DateTime.now().year,
+                    //                 DateTime.now().month,
+                    //                 DateTime.now().day,
+                    //                 15,
+                    //                 30))
+                    //             : DateFormat('hh:mm a').format(DateTime(
+                    //                 DateTime.now().year,
+                    //                 DateTime.now().month,
+                    //                 DateTime.now().day,
+                    //                 17,
+                    //                 00));
                     ref.read(scheduledDateProvider.notifier).state =
                         DateFormat("dd/MM/yyyy").format(DateTime(
                             _dates[0]!.year, _dates[0]!.month, _dates[0]!.day));
