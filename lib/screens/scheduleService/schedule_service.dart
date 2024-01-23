@@ -85,7 +85,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 "${selectedTime.hour}:${selectedTime.minute} ${selectedTime.period.toString().split(".")[1]}",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: time1 ? Colors.white : Colors.black,
+                    color: Colors.black,
                     fontSize: getProportionateScreenWidth(18)),
               ),
               trailing: GestureDetector(
