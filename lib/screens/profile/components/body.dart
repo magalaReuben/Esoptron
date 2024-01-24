@@ -1,3 +1,4 @@
+import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/profileProviders.dart';
@@ -58,9 +59,10 @@ class _BodyState extends ConsumerState<Body> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                FutureBuilder<NetworkImage>(
+            child: ListTile(
+                onTap: () =>
+                    Navigator.pushNamed(context, EditProfile.routeName),
+                leading: FutureBuilder<NetworkImage>(
                   future: getImage(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -74,182 +76,351 @@ class _BodyState extends ConsumerState<Body> {
                     }
                   },
                 ),
-                SizedBox(
-                  width: getProportionateScreenWidth(15),
+                title: Text(
+                  userName ?? "",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(17),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'krona'),
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(userName ?? "",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona')),
-                          SizedBox(
-                              width: userName == null
-                                  ? getProportionateScreenWidth(130)
-                                  : getProportionateScreenWidth(
-                                      1550 / userName!.length.toDouble())),
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.6,
-                                      width:
-                                          MediaQuery.of(context).size.height *
-                                              0.5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 150, bottom: 120),
-                                        child: Container(
-                                          margin: EdgeInsets.all(
-                                              getProportionateScreenWidth(20)),
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.7,
-                                          clipBehavior: Clip.hardEdge,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(
-                                                  color: kPrimaryColor,
-                                                  width: 5)),
-                                          child: Center(
-                                              child: Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Icon(
-                                                            Icons.cancel))
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(userName ?? "",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize:
-                                                            getProportionateScreenWidth(
-                                                                25),
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily: 'krona')),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                    "Are you sure you want to logout?",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize:
-                                                            getProportionateScreenWidth(
-                                                                15),
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontFamily: 'krona')),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      ElevatedButton(
-                                                          child: const Text(
-                                                              "Logout"),
-                                                          onPressed: () async {
-                                                            SharedPreferences
-                                                                prefs =
-                                                                await SharedPreferences
-                                                                    .getInstance();
-                                                            prefs.setBool(
-                                                                "isLoggedin",
-                                                                false);
-                                                            prefs.setString(
-                                                                "firstName",
-                                                                "");
-                                                            prefs.setString(
-                                                                "lastName", "");
-                                                            prefs.setString(
-                                                                "userEmail",
-                                                                "");
-                                                            // ignore: use_build_context_synchronously
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                LoginScreen
-                                                                    .routeName);
-                                                          }),
-                                                      ElevatedButton(
-                                                          child: const Text(
-                                                              "Cancel"),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          })
-                                                    ]),
-                                              )
-                                            ],
-                                          )),
-                                        ),
-                                      )));
-                            },
-                            child: const Icon(Icons.logout,
-                                size: 25, color: kPrimaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            width: getProportionateScreenWidth(200),
-                          ),
-                          Text("Log Out",
+                subtitle: const Text("View Profile"),
+                trailing: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(userName ?? "",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: getProportionateScreenWidth(17),
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'))
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(10),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                                  fontFamily: 'krona')),
+                          content: Text("Are you sure you want to logout?",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(15),
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'krona')),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setBool("isLoggedin", false);
+                                prefs.setString("firstName", "");
+                                prefs.setString("lastName", "");
+                                prefs.setString("userEmail", "");
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushNamed(
+                                    context, LoginScreen.routeName);
+                              },
+                              child: const Text("OK"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    // builder: (_) => SizedBox(
+                    //         // height: MediaQuery.of(context).size.height * 0.6,
+                    //         // width: MediaQuery.of(context).size.height * 0.5,
+                    //         child: Padding(
+                    //       padding:
+                    //           const EdgeInsets.only(top: 150, bottom: 120),
+                    //       child: Container(
+                    //         margin: EdgeInsets.all(
+                    //             getProportionateScreenWidth(20)),
+                    //         width: MediaQuery.of(context).size.width,
+                    //         height:
+                    //             MediaQuery.of(context).size.height * 0.7,
+                    //         clipBehavior: Clip.hardEdge,
+                    //         decoration: BoxDecoration(
+                    //             color: Colors.white,
+                    //             borderRadius: BorderRadius.circular(20),
+                    //             border: Border.all(
+                    //                 color: kPrimaryColor, width: 5)),
+                    //         child: Center(
+                    //             child: Column(
+                    //           children: [
+                    //             Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: Row(
+                    //                 mainAxisAlignment:
+                    //                     MainAxisAlignment.end,
+                    //                 children: [
+                    //                   GestureDetector(
+                    //                       onTap: () {
+                    //                         Navigator.pop(context);
+                    //                       },
+                    //                       child: const Icon(Icons.cancel))
+                    //                 ],
+                    //               ),
+                    //             ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Text(userName ?? "",
+                    //       style: TextStyle(
+                    //           color: Colors.black,
+                    //           fontSize:
+                    //               getProportionateScreenWidth(
+                    //                   25),
+                    //           fontWeight: FontWeight.bold,
+                    //           fontFamily: 'krona')),
+                    // ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: Text(
+                    //                   "Are you sure you want to logout?",
+                    //                   style: TextStyle(
+                    //                       color: Colors.black,
+                    //                       fontSize:
+                    //                           getProportionateScreenWidth(
+                    //                               15),
+                    //                       fontWeight: FontWeight.normal,
+                    //                       fontFamily: 'krona')),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: Row(
+                    //                   mainAxisAlignment:
+                    //                       MainAxisAlignment.spaceAround,
+                    //                   children: [
+                    //                     ElevatedButton(
+                    //                         child: const Text("Logout"),
+                    //                         onPressed: () async {
+                    //                           SharedPreferences prefs =
+                    //                               await SharedPreferences
+                    //                                   .getInstance();
+                    //                           prefs.setBool(
+                    //                               "isLoggedin", false);
+                    //                           prefs.setString(
+                    //                               "firstName", "");
+                    //                           prefs.setString(
+                    //                               "lastName", "");
+                    //                           prefs.setString(
+                    //                               "userEmail", "");
+                    //                           // ignore: use_build_context_synchronously
+                    //                           Navigator.pushNamed(context,
+                    //                               LoginScreen.routeName);
+                    //                         }),
+                    //                     ElevatedButton(
+                    //                         child: const Text("Cancel"),
+                    //                         onPressed: () {
+                    //                           Navigator.pop(context);
+                    //                         })
+                    //                   ]),
+                    //             )
+                    //           ],
+                    //         )),
+                    //       ),
+                    //     )));
+                  },
+                  child: const Icon(
+                    Icons.logout,
+                    color: kPrimaryColor,
+                    size: 25,
+                    weight: 10,
+                  ),
+                )),
+            // child: Row(
+            //   children: [
+            //     FutureBuilder<NetworkImage>(
+            //       future: getImage(),
+            //       builder: (context, snapshot) {
+            //         if (snapshot.connectionState == ConnectionState.done) {
+            //           return CircleAvatar(
+            //             radius: 20,
+            //             backgroundImage: snapshot.data,
+            //           );
+            //         } else {
+            //           // You can return a placeholder or loading indicator while the image is loading
+            //           return const CircularProgressIndicator();
+            //         }
+            //       },
+            //     ),
+            //     SizedBox(
+            //       width: getProportionateScreenWidth(15),
+            //     ),
+            //     Column(
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.all(3.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Text(userName ?? "",
+            //                   style: TextStyle(
+            //                       color: Colors.black,
+            //                       fontSize: getProportionateScreenWidth(18),
+            //                       fontWeight: FontWeight.bold,
+            //                       fontFamily: 'krona')),
+            //               SizedBox(
+            //                   width: userName == null
+            //                       ? getProportionateScreenWidth(130)
+            //                       : getProportionateScreenWidth(
+            //                           1550 / userName!.length.toDouble())),
+            //               GestureDetector(
+            //                 onTap: () {
+            //                   showDialog(
+            //                       context: context,
+            //                       builder: (_) => SizedBox(
+            //                           height:
+            //                               MediaQuery.of(context).size.height *
+            //                                   0.6,
+            //                           width:
+            //                               MediaQuery.of(context).size.height *
+            //                                   0.5,
+            //                           child: Padding(
+            //                             padding: const EdgeInsets.only(
+            //                                 top: 150, bottom: 120),
+            //                             child: Container(
+            //                               margin: EdgeInsets.all(
+            //                                   getProportionateScreenWidth(20)),
+            //                               width:
+            //                                   MediaQuery.of(context).size.width,
+            //                               height: MediaQuery.of(context)
+            //                                       .size
+            //                                       .height *
+            //                                   0.7,
+            //                               clipBehavior: Clip.hardEdge,
+            //                               decoration: BoxDecoration(
+            //                                   color: Colors.white,
+            //                                   borderRadius:
+            //                                       BorderRadius.circular(20),
+            //                                   border: Border.all(
+            //                                       color: kPrimaryColor,
+            //                                       width: 5)),
+            //                               child: Center(
+            //                                   child: Column(
+            //                                 children: [
+            //                                   Padding(
+            //                                     padding:
+            //                                         const EdgeInsets.all(8.0),
+            //                                     child: Row(
+            //                                       mainAxisAlignment:
+            //                                           MainAxisAlignment.end,
+            //                                       children: [
+            //                                         GestureDetector(
+            //                                             onTap: () {
+            //                                               Navigator.pop(
+            //                                                   context);
+            //                                             },
+            //                                             child: const Icon(
+            //                                                 Icons.cancel))
+            //                                       ],
+            //                                     ),
+            //                                   ),
+            //                                   Padding(
+            //                                     padding:
+            //                                         const EdgeInsets.all(8.0),
+            //                                     child: Text(userName ?? "",
+            //                                         style: TextStyle(
+            //                                             color: Colors.black,
+            //                                             fontSize:
+            //                                                 getProportionateScreenWidth(
+            //                                                     25),
+            //                                             fontWeight:
+            //                                                 FontWeight.bold,
+            //                                             fontFamily: 'krona')),
+            //                                   ),
+            //                                   Padding(
+            //                                     padding:
+            //                                         const EdgeInsets.all(8.0),
+            //                                     child: Text(
+            //                                         "Are you sure you want to logout?",
+            //                                         style: TextStyle(
+            //                                             color: Colors.black,
+            //                                             fontSize:
+            //                                                 getProportionateScreenWidth(
+            //                                                     15),
+            //                                             fontWeight:
+            //                                                 FontWeight.normal,
+            //                                             fontFamily: 'krona')),
+            //                                   ),
+            //                                   Padding(
+            //                                     padding:
+            //                                         const EdgeInsets.all(8.0),
+            //                                     child: Row(
+            //                                         mainAxisAlignment:
+            //                                             MainAxisAlignment
+            //                                                 .spaceAround,
+            //                                         children: [
+            //                                           ElevatedButton(
+            //                                               child: const Text(
+            //                                                   "Logout"),
+            //                                               onPressed: () async {
+            //                                                 SharedPreferences
+            //                                                     prefs =
+            //                                                     await SharedPreferences
+            //                                                         .getInstance();
+            //                                                 prefs.setBool(
+            //                                                     "isLoggedin",
+            //                                                     false);
+            //                                                 prefs.setString(
+            //                                                     "firstName",
+            //                                                     "");
+            //                                                 prefs.setString(
+            //                                                     "lastName", "");
+            //                                                 prefs.setString(
+            //                                                     "userEmail",
+            //                                                     "");
+            //                                                 // ignore: use_build_context_synchronously
+            //                                                 Navigator.pushNamed(
+            //                                                     context,
+            //                                                     LoginScreen
+            //                                                         .routeName);
+            //                                               }),
+            //                                           ElevatedButton(
+            //                                               child: const Text(
+            //                                                   "Cancel"),
+            //                                               onPressed: () {
+            //                                                 Navigator.pop(
+            //                                                     context);
+            //                                               })
+            //                                         ]),
+            //                                   )
+            //                                 ],
+            //                               )),
+            //                             ),
+            //                           )));
+            //                 },
+            //                 child: const Icon(Icons.logout,
+            //                     size: 25, color: kPrimaryColor),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.all(3.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.end,
+            //             children: [
+            //               SizedBox(
+            //                 width: getProportionateScreenWidth(200),
+            //               ),
+            //               Text("Log Out",
+            //                   style: TextStyle(
+            //                       color: Colors.black,
+            //                       fontSize: getProportionateScreenWidth(17),
+            //                       fontWeight: FontWeight.bold,
+            //                       fontFamily: 'krona'))
+            //             ],
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           height: getProportionateScreenHeight(10),
+            //         ),
+            //       ],
+            //     )
+            //   ],
+            // ),
           ),
           // Padding(
           //   padding: const EdgeInsets.all(8.0),
