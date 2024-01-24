@@ -16,6 +16,20 @@ import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+
+class AlphabetInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final RegExp regExp = RegExp(r'^[a-zA-Z]*$');
+    if (regExp.hasMatch(newValue.text)) {
+      return newValue;
+    } else {
+      return oldValue;
+    }
+  }
+}
 
 class SignUpForm extends ConsumerStatefulWidget {
   const SignUpForm({super.key});
@@ -81,10 +95,12 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               color: kPrimaryColor, //Color Of Icon
             ),
             controller: firstNameController,
-            keyboardType: TextInputType.name,
             validator: (value) {
               if (value!.isEmpty) {
                 return "First Name cannot be empty";
+              }
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                return "Please enter only letters in name";
               }
               return null;
             },
@@ -102,6 +118,9 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
             validator: (value) {
               if (value!.isEmpty) {
                 return "Last Name cannot be empty";
+              }
+              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                return "Please enter only letters in name";
               }
               return null;
             },
@@ -186,8 +205,21 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               if (value.length < 8) {
                 return 'Password must be at least 8 characters long';
               }
-              if (value != password) {
-                return 'Password does not match';
+
+              if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                return 'Password must contain at least one uppercase letter';
+              }
+
+              if (!RegExp(r'[a-z]').hasMatch(value)) {
+                return 'Password must contain at least one lowercase letter';
+              }
+
+              if (!RegExp(r'\d').hasMatch(value)) {
+                return 'Password must contain at least one digit';
+              }
+
+              if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                return 'Password must contain at least one special character';
               }
               return null;
             },
@@ -238,8 +270,13 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                   },
                 ),
           SizedBox(height: getProportionateScreenHeight(10)),
-          const NoAccountText(
-              text1: "Already have an account? ", text2: "Login"),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, LoginScreen.routeName);
+            },
+            child: const NoAccountText(
+                text1: "Already have an account? ", text2: "Login"),
+          ),
         ],
       ),
     );
@@ -282,6 +319,22 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
         }
         if (value.length < 8) {
           return 'Password must be at least 8 characters long';
+        }
+
+        if (!RegExp(r'[A-Z]').hasMatch(value)) {
+          return 'Password must contain at least one uppercase letter';
+        }
+
+        if (!RegExp(r'[a-z]').hasMatch(value)) {
+          return 'Password must contain at least one lowercase letter';
+        }
+
+        if (!RegExp(r'\d').hasMatch(value)) {
+          return 'Password must contain at least one digit';
+        }
+
+        if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+          return 'Password must contain at least one special character';
         }
         return null;
       },
