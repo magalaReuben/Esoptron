@@ -1,5 +1,6 @@
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class NoAccountText extends StatelessWidget {
           color: kPrimaryColor,
         ),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, SignupScreen.routeName),
+          onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),
           child: Text(
             text2,
             style: TextStyle(

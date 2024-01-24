@@ -6,7 +6,7 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/authentication.dart';
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
-import 'package:esoptron_salon/screens/login/components/no_account_text.dart';
+import 'package:esoptron_salon/screens/signup/components/no_account_text.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/otp/otp_screen.dart';
 import 'package:esoptron_salon/states/global_state.dart';
@@ -270,13 +270,8 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                   },
                 ),
           SizedBox(height: getProportionateScreenHeight(10)),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, LoginScreen.routeName);
-            },
-            child: const NoAccountText(
-                text1: "Already have an account? ", text2: "Login"),
-          ),
+          const NoAccountText(
+              text1: "Already have an account? ", text2: "Login"),
         ],
       ),
     );
