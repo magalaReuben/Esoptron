@@ -286,7 +286,7 @@ class _BodyState extends ConsumerState<Body> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Top Rated Categories",
+                  "Featured Categories",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
