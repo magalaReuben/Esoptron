@@ -23,6 +23,7 @@ import 'package:esoptron_salon/screens/signup/signup_screen.dart';
 import 'package:esoptron_salon/screens/splash/splash_screen.dart';
 import 'package:esoptron_salon/screens/subcategories/searched_subcategory.dart';
 import 'package:esoptron_salon/screens/subcategories/subcategories.dart';
+import 'package:esoptron_salon/screens/termsAndConditions/termsAndConditionsScreen.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -53,4 +54,5 @@ final Map<String, WidgetBuilder> routes = {
   ServiceDetailsFromTracking.routeName: ((context) =>
       const ServiceDetailsFromTracking()),
   SearchedSubCategories.routeName: (context) => const SearchedSubCategories(),
+  TermsAndConditions.routeName: (context) => const TermsAndConditions(),
 };
