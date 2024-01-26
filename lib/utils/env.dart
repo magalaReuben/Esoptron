@@ -5,7 +5,7 @@ class ENV {
 
   static const String getAllCategories = 'categories/all';
 
-  static const String getAllServices = 'services/all';
+  static const String getAllServices = 'sub_categories/all';
   static const String getServiceTypes = 'service_types/all';
   static String getCategoriesUnderServiceType(id) =>
       "service_type/$id/categories";

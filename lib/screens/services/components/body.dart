@@ -49,7 +49,7 @@ class _BodyState extends ConsumerState<Body> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Trending Services",
+                    "Services",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: getProportionateScreenWidth(18),
@@ -73,11 +73,11 @@ class _BodyState extends ConsumerState<Body> {
                   );
                 case Status.loaded:
                   var services = [];
-                  //log(servicesState.data!.data.toString());
-                  for (var element in servicesState.data!.data['all-services']
-                      ['data']) {
+                  print(servicesState.data!.data.toString());
+                  for (var element
+                      in servicesState.data!.data['all-subCategories']) {
                     log(element.toString());
-                    services.add(element);
+                    //services.add(element);
                   }
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -323,6 +323,48 @@ class _BodyState extends ConsumerState<Body> {
   //     ),
   //   );
   // }
+
+  GestureDetector ServicesCard(String image, String name, String charge,
+      String description, bool hasDiscount, int id) {
+    // this boolean stores if you are coming from service page or not
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        width: getProportionateScreenWidth(160),
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black.withOpacity(0.1),
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(15))),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: Image(
+                    image: NetworkImage(image),
+                    height: getProportionateScreenHeight(200),
+                    //width: getProportionateScreenWidth(440),
+                    fit: BoxFit.cover),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Text(
+                name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(13),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'krona'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   GestureDetector ratingCard(
       String image,
