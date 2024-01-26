@@ -258,19 +258,29 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                   press: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      APIRequestModel requestModel = APIRequestModel(
-                        data: {
-                          "first_name": firstNameController.text,
-                          "last_name": lastNameController.text,
-                          "phone": phoneNumberController.text,
-                          "email": emailController.text,
-                          "password": password,
-                          "confirm_password": confirm_password
-                        },
-                      );
-                      ref
-                          .read(registrationNotifierProvider.notifier)
-                          .register(requestModel, context);
+                      if (!selected) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content:
+                              Text("Please accept the terms and conditions"),
+                          backgroundColor: kPrimaryColor,
+                          padding: EdgeInsets.all(25),
+                        ));
+                      } else {
+                        APIRequestModel requestModel = APIRequestModel(
+                          data: {
+                            "first_name": firstNameController.text,
+                            "last_name": lastNameController.text,
+                            "phone": phoneNumberController.text,
+                            "email": emailController.text,
+                            "password": password,
+                            "confirm_password": confirm_password
+                          },
+                        );
+                        ref
+                            .read(registrationNotifierProvider.notifier)
+                            .register(requestModel, context);
+                      }
                     }
                     //Navigator.pushNamed(context, OtpScreen.routeName);
                   },
