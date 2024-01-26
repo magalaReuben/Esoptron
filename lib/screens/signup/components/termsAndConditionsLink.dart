@@ -4,10 +4,10 @@ import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 
-class TermsAndCondtions extends StatelessWidget {
+class TermsAndCondtionsLink extends StatelessWidget {
   final String text1;
   final String text2;
-  const TermsAndCondtions(
+  const TermsAndCondtionsLink(
       {super.key, required this.text1, required this.text2});
 
   @override
