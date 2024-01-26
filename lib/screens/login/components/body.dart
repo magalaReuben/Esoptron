@@ -19,6 +19,7 @@ class Body extends StatelessWidget {
               'assets/authentication/widgets/Vector.png',
               height: getProportionateScreenHeight(80),
               width: double.infinity,
+              fit: BoxFit.fill,
             ),
             Padding(
               padding: EdgeInsets.symmetric(

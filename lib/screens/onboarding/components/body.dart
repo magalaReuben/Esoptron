@@ -19,7 +19,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/splash/1.png",
       "title": "Get Your Hair Styled Today",
       "subtitle":
-          "Book for different hair styles like\n braids, dreads, twists, natural locs,"
+          "Book for different hair styles like\n braids, dreads, twists, natural locs."
     },
     {
       "image": "assets/images/splash/2.png",
@@ -71,14 +71,14 @@ class _BodyState extends State<Body> {
         AppText.medium(
           title,
           color: Colors.black,
-          fontSize: getProportionateScreenWidth(20),
-          fontWeight: FontWeight.w600,
+          fontSize: getProportionateScreenWidth(15),
+          fontWeight: FontWeight.w500,
         ),
         SizedBox(height: getProportionateScreenHeight(25)),
         AppText.medium(
           subtitle,
           color: Colors.black,
-          fontSize: getProportionateScreenWidth(18),
+          fontSize: getProportionateScreenWidth(13),
           fontWeight: FontWeight.normal,
         ),
         SizedBox(height: getProportionateScreenHeight(50)),
@@ -104,7 +104,7 @@ class _BodyState extends State<Body> {
                 child: AppText.medium(
                   index == 0 ? "Skip" : "Back",
                   color: Colors.black,
-                  fontSize: getProportionateScreenWidth(16),
+                  fontSize: getProportionateScreenWidth(11),
                 ),
               ),
               ClipOval(
