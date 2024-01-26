@@ -19,6 +19,7 @@ class _BodyState extends State<Body> {
             'assets/authentication/widgets/Vector.png',
             height: getProportionateScreenHeight(80),
             width: double.infinity,
+            fit: BoxFit.fill,
           ),
           SizedBox(
             height: getProportionateScreenHeight(25),

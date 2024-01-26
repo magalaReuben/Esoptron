@@ -7,8 +7,10 @@ import 'package:esoptron_salon/controllers/authentication.dart';
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
 import 'package:esoptron_salon/screens/signup/components/no_account_text.dart';
+import 'package:esoptron_salon/screens/signup/components/termsAndConditionsLink.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/otp/otp_screen.dart';
+import 'package:esoptron_salon/screens/termsAndConditions/termsAndConditionsScreen.dart';
 import 'package:esoptron_salon/states/global_state.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:esoptron_salon/widgets/app_text.dart';
@@ -236,8 +238,12 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
                         selected = value!;
                       });
                     }),
-                const AppText.small("I agree to the app terms  & conditions",
-                    color: Colors.black)
+                const TermsAndCondtionsLink(
+                  text1: "I agree to the app ",
+                  text2: "terms & conditions",
+                ),
+                // const AppText.small("I agree to the app terms  & conditions",
+                //     color: Colors.black)
               ],
             ),
           ),

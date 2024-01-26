@@ -134,7 +134,7 @@ class _SignFormState extends ConsumerState<SignForm> {
                 child: AppText.small(
                   "Forgot Password?",
                   color: kPrimaryColor,
-                  fontSize: getProportionateScreenWidth(16),
+                  fontSize: getProportionateScreenWidth(12),
                 ),
               )
             ],
