@@ -2,6 +2,7 @@ import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/signup/signup_screen.dart';
+import 'package:esoptron_salon/screens/termsAndConditions/termsAndConditionsScreen.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndCondtionsLink extends StatelessWidget {
@@ -24,7 +25,8 @@ class TermsAndCondtionsLink extends StatelessWidget {
           color: kPrimaryColor,
         ),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, LoginScreen.routeName),
+          onTap: () =>
+              Navigator.pushNamed(context, TermsAndConditions.routeName),
           child: Text(
             text2,
             style: TextStyle(
