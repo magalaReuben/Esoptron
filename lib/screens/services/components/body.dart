@@ -52,7 +52,7 @@ class _BodyState extends ConsumerState<Body> {
                     "Services",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: getProportionateScreenWidth(18),
+                        fontSize: getProportionateScreenWidth(16),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'krona'),
                   ),
@@ -77,7 +77,7 @@ class _BodyState extends ConsumerState<Body> {
                   for (var element
                       in servicesState.data!.data['all-subCategories']) {
                     log(element.toString());
-                    //services.add(element);
+                    services.add(element);
                   }
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -86,15 +86,13 @@ class _BodyState extends ConsumerState<Body> {
                         for (int i = 0; i < services.length; i++)
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ratingCard(
-                              "http://admin.esoptronsalon.com/${services[i]["logo"]}",
+                            child: servicesCard(
+                              "http://admin.esoptronsalon.com/${services[i]["image"]}",
                               services[i]["name"],
-                              services[i]["ratings_count"].toString(),
+                              services[i]["charge"].toString(),
                               services[i]["description"],
-                              services[i]['is_available'],
-                              services[i]['ratings_count'],
-                              services[i]["service_provider"],
-                              services[i]["id"],
+                              services[i]['has_discount'],
+                              services[i]['id'],
                             ),
                           )
                       ],
@@ -137,7 +135,7 @@ class _BodyState extends ConsumerState<Body> {
                     "Service Providers",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: getProportionateScreenWidth(18),
+                        fontSize: getProportionateScreenWidth(16),
                         fontWeight: FontWeight.bold,
                         fontFamily: 'krona'),
                   ),
@@ -200,19 +198,20 @@ class _BodyState extends ConsumerState<Body> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          width: getProportionateScreenWidth(130),
-          height: getProportionateScreenHeight(150),
+          width: getProportionateScreenWidth(100),
+          height: getProportionateScreenHeight(120),
           decoration: BoxDecoration(
               border: Border.all(
                 color: kPrimaryColor,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(15))),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
-                  radius: 30,
+                  radius: 35,
                   foregroundImage: NetworkImage(
                       "http://admin.esoptronsalon.com/storage/users/${image}"),
                 ),
@@ -222,7 +221,7 @@ class _BodyState extends ConsumerState<Body> {
                 serviceProviderName,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: getProportionateScreenWidth(17),
+                    fontSize: getProportionateScreenWidth(15),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'krona'),
               ),
@@ -324,13 +323,14 @@ class _BodyState extends ConsumerState<Body> {
   //   );
   // }
 
-  GestureDetector ServicesCard(String image, String name, String charge,
+  GestureDetector servicesCard(String image, String name, String charge,
       String description, bool hasDiscount, int id) {
     // this boolean stores if you are coming from service page or not
     return GestureDetector(
       onTap: () {},
       child: Container(
         width: getProportionateScreenWidth(160),
+        height: getProportionateScreenHeight(280),
         decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black.withOpacity(0.1),
@@ -344,7 +344,7 @@ class _BodyState extends ConsumerState<Body> {
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: Image(
                     image: NetworkImage(image),
-                    height: getProportionateScreenHeight(200),
+                    height: getProportionateScreenHeight(180),
                     //width: getProportionateScreenWidth(440),
                     fit: BoxFit.cover),
               ),
@@ -355,7 +355,18 @@ class _BodyState extends ConsumerState<Body> {
                 name,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: getProportionateScreenWidth(13),
+                    fontSize: getProportionateScreenWidth(12),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'krona'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Text(
+                "UGX $charge",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(10),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'krona'),
               ),
