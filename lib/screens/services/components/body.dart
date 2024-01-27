@@ -330,7 +330,7 @@ class _BodyState extends ConsumerState<Body> {
       onTap: () {},
       child: Container(
         width: getProportionateScreenWidth(160),
-        height: getProportionateScreenHeight(280),
+        height: getProportionateScreenHeight(300),
         decoration: BoxDecoration(
             border: Border.all(
               color: Colors.black.withOpacity(0.1),
