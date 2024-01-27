@@ -1,4 +1,5 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/profileProviders.dart';
@@ -37,28 +38,58 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
           SizedBox(
             height: getProportionateScreenHeight(10),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  "Today's Schedule",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'krona'),
+                ),
+              ),
+            ],
+          ),
           Center(
             child: Container(
-              width: getProportionateScreenWidth(350),
-              height: getProportionateScreenHeight(350),
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color.fromRGBO(244, 227, 227, 1),
-                        Color.fromRGBO(241, 239, 243, 1),
-                        Color.fromRGBO(223, 239, 244, 1)
-                      ]),
-                  border: Border.all(
-                    color: kPrimaryColor.withOpacity(0.3),
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(15))),
-              child: CalendarDatePicker2(
-                config: CalendarDatePicker2Config(),
-                value: _dates,
-                onValueChanged: (dates) => _dates = dates,
+              child: CalendarTimeline(
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2040, 12, 31),
+                onDateSelected: (date) => _dates = [date],
+                leftMargin: 20,
+                monthColor: Colors.blueGrey,
+                dayColor: Colors.black.withOpacity(0.8),
+                activeDayColor: Colors.white,
+                activeBackgroundDayColor: kPrimaryColor,
+                dotsColor: const Color(0xFF333A47),
+                selectableDayPredicate: (date) => date.day != 23,
+                locale: 'en_ISO',
               ),
+              // width: getProportionateScreenWidth(350),
+              // height: getProportionateScreenHeight(350),
+              // decoration: BoxDecoration(
+              //     gradient: const LinearGradient(
+              //         begin: Alignment.centerLeft,
+              //         end: Alignment.centerRight,
+              //         colors: [
+              //           Color.fromRGBO(244, 227, 227, 1),
+              //           Color.fromRGBO(241, 239, 243, 1),
+              //           Color.fromRGBO(223, 239, 244, 1)
+              //         ]),
+              //     border: Border.all(
+              //       color: kPrimaryColor.withOpacity(0.3),
+              //     ),
+              //     borderRadius: const BorderRadius.all(Radius.circular(15))),
+              // child: CalendarDatePicker2(
+              //   config: CalendarDatePicker2Config(),
+              //   value: _dates,
+              //   onValueChanged: (dates) => _dates = dates,
+              // ),
             ),
           ),
           SizedBox(
@@ -70,7 +101,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
-                  "Select Time",
+                  "Choose Schedule Time",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
@@ -80,191 +111,206 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               ),
             ],
           ),
-          Card(
-            child: ListTile(
-              title: Text(
-                "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} ${selectedTime.period.toString().split(".")[1]}",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: time1 ? Colors.white : Colors.black,
-                  fontSize: getProportionateScreenWidth(18),
-                ),
-              ),
-              trailing: GestureDetector(
-                onTap: () async {
-                  final TimeOfDay? pickedTime = await showTimePicker(
-                    context: context,
-                    initialTime: selectedTime,
-                  );
+          // Card(
+          //   child: ListTile(
+          //     title: Text(
+          //       "${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} ${selectedTime.period.toString().split(".")[1]}",
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.bold,
+          //         color: time1 ? Colors.white : Colors.black,
+          //         fontSize: getProportionateScreenWidth(18),
+          //       ),
+          //     ),
+          //     trailing: GestureDetector(
+          //       onTap: () async {
+          //         final TimeOfDay? pickedTime = await showTimePicker(
+          //           context: context,
+          //           initialTime: selectedTime,
+          //         );
 
-                  if (pickedTime != null && pickedTime != selectedTime) {
-                    // Check if the picked time is within the allowed range (8 am to 6 pm)
-                    if (pickedTime.hour < 8 || pickedTime.hour >= 18) {
-                      // Show error message
-                      // ignore: use_build_context_synchronously
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Invalid Time"),
-                            content: const Text(
-                                "Please select a time between\n8 am and 6 pm."),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text("OK"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      // Update the selected time if it's within the allowed range
-                      setState(() {
-                        hasSelectedTime = true;
-                        selectedTime = pickedTime;
-                      });
-                    }
-                  }
-                },
-                child: const Icon(
-                  Icons.keyboard_arrow_down,
-                  color: kPrimaryColor,
-                ),
-              ),
-            ),
-          ),
-
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       GestureDetector(
-          //         onTap: () {
-          //           setState(() {
-          //             time1 = true;
-          //             time2 = false;
-          //             time3 = false;
-          //             time4 = false;
-          //           });
-          //         },
-          //         child: Container(
-          //           width: getProportionateScreenWidth(80),
-          //           height: getProportionateScreenHeight(50),
-          //           decoration: BoxDecoration(
-          //               color: time1 ? kPrimaryColor : Colors.white,
-          //               border: Border.all(
-          //                 color: kPrimaryColor.withOpacity(0.3),
-          //               ),
-          //               borderRadius:
-          //                   const BorderRadius.all(Radius.circular(15))),
-          //           child: Center(
-          //             child: Text(
-          //               "10:00",
-          //               style: TextStyle(
-          //                   fontWeight: FontWeight.bold,
-          //                   color: time1 ? Colors.white : Colors.black,
-          //                   fontSize: getProportionateScreenWidth(18)),
-          //             ),
-          //           ),
-          //         ),
+          //         if (pickedTime != null && pickedTime != selectedTime) {
+          //           // Check if the picked time is within the allowed range (8 am to 6 pm)
+          //           if (pickedTime.hour < 8 || pickedTime.hour >= 18) {
+          //             // Show error message
+          //             // ignore: use_build_context_synchronously
+          //             showDialog(
+          //               context: context,
+          //               builder: (BuildContext context) {
+          //                 return AlertDialog(
+          //                   title: const Text("Invalid Time"),
+          //                   content: const Text(
+          //                       "Please select a time between\n8 am and 6 pm."),
+          //                   actions: [
+          //                     TextButton(
+          //                       onPressed: () {
+          //                         Navigator.of(context).pop();
+          //                       },
+          //                       child: const Text("OK"),
+          //                     ),
+          //                   ],
+          //                 );
+          //               },
+          //             );
+          //           } else {
+          //             // Update the selected time if it's within the allowed range
+          //             setState(() {
+          //               hasSelectedTime = true;
+          //               selectedTime = pickedTime;
+          //             });
+          //           }
+          //         }
+          //       },
+          //       child: const Icon(
+          //         Icons.keyboard_arrow_down,
+          //         color: kPrimaryColor,
           //       ),
-          //       GestureDetector(
-          //         onTap: () {
-          //           setState(() {
-          //             time1 = false;
-          //             time2 = true;
-          //             time3 = false;
-          //             time4 = false;
-          //           });
-          //         },
-          //         child: Container(
-          //           width: getProportionateScreenWidth(80),
-          //           height: getProportionateScreenHeight(50),
-          //           decoration: BoxDecoration(
-          //               color: time2 ? kPrimaryColor : Colors.white,
-          //               border: Border.all(
-          //                 color: kPrimaryColor.withOpacity(0.3),
-          //               ),
-          //               borderRadius:
-          //                   const BorderRadius.all(Radius.circular(15))),
-          //           child: Center(
-          //             child: Text(
-          //               "12:00",
-          //               style: TextStyle(
-          //                   fontWeight: FontWeight.bold,
-          //                   color: time2 ? Colors.white : Colors.black,
-          //                   fontSize: getProportionateScreenWidth(18)),
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       GestureDetector(
-          //         onTap: () {
-          //           setState(() {
-          //             time1 = false;
-          //             time2 = false;
-          //             time3 = true;
-          //             time4 = false;
-          //           });
-          //         },
-          //         child: Container(
-          //           width: getProportionateScreenWidth(80),
-          //           height: getProportionateScreenHeight(50),
-          //           decoration: BoxDecoration(
-          //               color: time3 ? kPrimaryColor : Colors.white,
-          //               border: Border.all(
-          //                 color: kPrimaryColor.withOpacity(0.3),
-          //               ),
-          //               borderRadius:
-          //                   const BorderRadius.all(Radius.circular(15))),
-          //           child: Center(
-          //             child: Text(
-          //               "15:30",
-          //               style: TextStyle(
-          //                   fontWeight: FontWeight.bold,
-          //                   color: time3 ? Colors.white : Colors.black,
-          //                   fontSize: getProportionateScreenWidth(18)),
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //       GestureDetector(
-          //         onTap: () {
-          //           setState(() {
-          //             time1 = false;
-          //             time2 = false;
-          //             time3 = false;
-          //             time4 = true;
-          //           });
-          //         },
-          //         child: Container(
-          //           width: getProportionateScreenWidth(80),
-          //           height: getProportionateScreenHeight(50),
-          //           decoration: BoxDecoration(
-          //               color: time4 ? kPrimaryColor : Colors.white,
-          //               border: Border.all(
-          //                 color: kPrimaryColor.withOpacity(0.3),
-          //               ),
-          //               borderRadius:
-          //                   const BorderRadius.all(Radius.circular(15))),
-          //           child: Center(
-          //             child: Text(
-          //               "17:00",
-          //               style: TextStyle(
-          //                   fontWeight: FontWeight.bold,
-          //                   color: time4 ? Colors.white : Colors.black,
-          //                   fontSize: getProportionateScreenWidth(18)),
-          //             ),
-          //           ),
-          //         ),
-          //       )
-          //     ],
+          //     ),
           //   ),
           // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(9.0),
+                child: Text(
+                  "☕️ Morning",
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(0.8),
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'krona'),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = true;
+                      time2 = false;
+                      time3 = false;
+                      time4 = false;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time1 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "9:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time1 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = true;
+                      time3 = false;
+                      time4 = false;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time2 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "10:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time2 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = false;
+                      time3 = true;
+                      time4 = false;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time3 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "11:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time3 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = false;
+                      time3 = false;
+                      time4 = true;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time4 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "12:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time4 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
           Expanded(child: Container()),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -275,7 +321,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 if ("${_dates[0]!.day}${_dates[0]!.month}${_dates[0]!.year}" ==
                         "${current.day}${current.month}${current.year}" ||
                     current.compareTo(_dates[0]!) < 0) {
-                  if (hasSelectedTime) {
+                  if (time1 || time2 || time3 || time4) {
                     ref.read(scheduledTimeProvider.notifier).state =
                         DateFormat('hh:mm a').format(DateTime(
                             DateTime.now().year,
@@ -286,33 +332,33 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                             int.parse(selectedTime.minute
                                 .toString()
                                 .padLeft(2, '0'))));
-                    // ref.read(scheduledTimeProvider.notifier).state = time1
-                    //     ? DateFormat('hh:mm a').format(DateTime(
-                    //         DateTime.now().year,
-                    //         DateTime.now().month,
-                    //         DateTime.now().day,
-                    //         10,
-                    //         00))
-                    //     : time2
-                    //         ? DateFormat('hh:mm a').format(DateTime(
-                    //             DateTime.now().year,
-                    //             DateTime.now().month,
-                    //             DateTime.now().day,
-                    //             12,
-                    //             00))
-                    //         : time3
-                    //             ? DateFormat('hh:mm a').format(DateTime(
-                    //                 DateTime.now().year,
-                    //                 DateTime.now().month,
-                    //                 DateTime.now().day,
-                    //                 15,
-                    //                 30))
-                    //             : DateFormat('hh:mm a').format(DateTime(
-                    //                 DateTime.now().year,
-                    //                 DateTime.now().month,
-                    //                 DateTime.now().day,
-                    //                 17,
-                    //                 00));
+                    ref.read(scheduledTimeProvider.notifier).state = time1
+                        ? DateFormat('hh:mm a').format(DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            10,
+                            00))
+                        : time2
+                            ? DateFormat('hh:mm a').format(DateTime(
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                                12,
+                                00))
+                            : time3
+                                ? DateFormat('hh:mm a').format(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    15,
+                                    30))
+                                : DateFormat('hh:mm a').format(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    17,
+                                    00));
                     ref.read(scheduledDateProvider.notifier).state =
                         DateFormat("dd/MM/yyyy").format(DateTime(
                             _dates[0]!.year, _dates[0]!.month, _dates[0]!.day));

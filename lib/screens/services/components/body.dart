@@ -8,6 +8,7 @@ import 'package:esoptron_salon/controllers/serviceProviders.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
+import 'package:esoptron_salon/screens/servicesUnderSubCategory/servicesUnderSubcategory.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -327,7 +328,9 @@ class _BodyState extends ConsumerState<Body> {
       String description, bool hasDiscount, int id) {
     // this boolean stores if you are coming from service page or not
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigator.pushNamed(
+          context, ServicesUnderSubCategory.routeName,
+          arguments: [id, image, name]),
       child: Container(
         width: getProportionateScreenWidth(160),
         height: getProportionateScreenHeight(300),
