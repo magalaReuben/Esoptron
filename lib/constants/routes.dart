@@ -18,6 +18,7 @@ import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/serviceSpecification/service_specification.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/screens/servicesFromSubCategories/servicesFromSubCategories.dart';
+import 'package:esoptron_salon/screens/servicesUnderSubCategory/servicesUnderSubcategory.dart';
 import 'package:esoptron_salon/screens/servicesbooked/services_booked.dart';
 import 'package:esoptron_salon/screens/signup/signup_screen.dart';
 import 'package:esoptron_salon/screens/splash/splash_screen.dart';
@@ -55,4 +56,6 @@ final Map<String, WidgetBuilder> routes = {
       const ServiceDetailsFromTracking()),
   SearchedSubCategories.routeName: (context) => const SearchedSubCategories(),
   TermsAndConditions.routeName: (context) => const TermsAndConditions(),
+  ServicesUnderSubCategory.routeName: (context) =>
+      const ServicesUnderSubCategory(),
 };
