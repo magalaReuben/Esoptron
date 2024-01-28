@@ -159,10 +159,10 @@ class _BodyState extends ConsumerState<Body> {
             padding: const EdgeInsets.all(12.0),
             child: TextFieldWidget(
               controller: searchController,
-              radiusBottomLeft: 30,
-              radiusBottomRight: 30,
-              radiusTopLeft: 30,
-              radiusTopRight: 30,
+              radiusBottomLeft: 10,
+              radiusBottomRight: 10,
+              radiusTopLeft: 10,
+              radiusTopRight: 10,
               hintText: "Search",
               suffixWidget: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -264,7 +264,7 @@ class _BodyState extends ConsumerState<Body> {
                   style: GoogleFonts.nunitoSans(
                     textStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: getProportionateScreenWidth(18),
+                      fontSize: getProportionateScreenWidth(17),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -376,7 +376,7 @@ class _BodyState extends ConsumerState<Body> {
                   style: GoogleFonts.nunitoSans(
                     textStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: getProportionateScreenWidth(18),
+                      fontSize: getProportionateScreenWidth(17),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -613,11 +613,13 @@ class _BodyState extends ConsumerState<Body> {
               padding: const EdgeInsets.all(6.0),
               child: Text(
                 text,
-                style: TextStyle(
+                style: GoogleFonts.nunitoSans(
+                  textStyle: TextStyle(
                     color: Colors.black,
-                    fontSize: getProportionateScreenWidth(14),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+                    fontSize: getProportionateScreenWidth(15),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ),
             // Padding(

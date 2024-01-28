@@ -242,8 +242,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset(
                             'assets/icons/mainlogo 1.png',
-                            height: getProportionateScreenHeight(200),
-                            width: getProportionateScreenWidth(200),
+                            height: getProportionateScreenHeight(60),
+                            width: getProportionateScreenWidth(60),
                           ),
                         ),
                         Text(
@@ -251,7 +251,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           style: GoogleFonts.pacifico(
                             textStyle: TextStyle(
                                 color: Colors.white,
-                                fontSize: getProportionateScreenWidth(20)),
+                                fontSize: getProportionateScreenWidth(17)),
                           ),
                         ),
                       ],

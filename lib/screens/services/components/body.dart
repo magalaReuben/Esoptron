@@ -6,12 +6,15 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/service.dart';
 import 'package:esoptron_salon/controllers/serviceProviders.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
+import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/screens/servicesUnderSubCategory/servicesUnderSubcategory.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class Body extends ConsumerStatefulWidget {
   const Body({super.key});
@@ -27,6 +30,19 @@ class _BodyState extends ConsumerState<Body> {
     'Namubiru Ruth',
     'Ainebyona Daphine'
   ];
+
+  Future<NetworkImage> getImage() async {
+    final profileUrl = ref.watch(profilePicProvider);
+    final response = await http
+        .head(Uri.parse("http://admin.esoptronsalon.com/$profileUrl"));
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return NetworkImage("http://admin.esoptronsalon.com/$profileUrl");
+    } else {
+      return const NetworkImage(
+          "http://admin.esoptronsalon.com/storage/users/user.png");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -49,14 +65,50 @@ class _BodyState extends ConsumerState<Body> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Services",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(16),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'krona'),
-                  ),
+                  Text("Let's take care\nof you ❤️️",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(24),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                  SizedBox(width: getProportionateScreenWidth(60)),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FutureBuilder<NetworkImage>(
+                      future: getImage(),
+                      builder: (context, snapshot) {
+                        //print(snapshot);
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return CircleAvatar(
+                            radius: 35,
+                            backgroundImage: snapshot.data,
+                          );
+                        } else {
+                          // You can return a placeholder or loading indicator while the image is loading
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: getProportionateScreenHeight(12)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Services",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ],
               ),
             ),
@@ -134,11 +186,13 @@ class _BodyState extends ConsumerState<Body> {
                 children: [
                   Text(
                     "Service Providers",
-                    style: TextStyle(
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
                         color: Colors.black,
-                        fontSize: getProportionateScreenWidth(16),
+                        fontSize: getProportionateScreenWidth(18),
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'krona'),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -220,20 +274,24 @@ class _BodyState extends ConsumerState<Body> {
               SizedBox(height: getProportionateScreenHeight(5)),
               Text(
                 serviceProviderName,
-                style: TextStyle(
+                style: GoogleFonts.nunitoSans(
+                  textStyle: TextStyle(
                     color: Colors.black,
-                    fontSize: getProportionateScreenWidth(15),
+                    fontSize: getProportionateScreenWidth(14),
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+                  ),
+                ),
               ),
               SizedBox(height: getProportionateScreenHeight(5)),
               Text(
                 phoneNumber,
-                style: TextStyle(
+                style: GoogleFonts.nunitoSans(
+                  textStyle: TextStyle(
                     color: Colors.black,
-                    fontSize: getProportionateScreenWidth(12),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'krona'),
+                    fontSize: getProportionateScreenWidth(13),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ],
           ),
@@ -356,22 +414,34 @@ class _BodyState extends ConsumerState<Body> {
               padding: const EdgeInsets.all(6.0),
               child: Text(
                 name,
-                style: TextStyle(
+                style: GoogleFonts.nunitoSans(
+                  textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(12),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Text(
-                "UGX $charge",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(10),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: kPrimaryColor.withOpacity(0.9),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Text(
+                    "UGX $charge",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: getProportionateScreenWidth(12),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
