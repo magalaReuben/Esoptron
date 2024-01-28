@@ -24,6 +24,7 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
   Widget build(BuildContext context) {
     List<dynamic> aruments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    print("These are our arguments: $aruments");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -34,11 +35,14 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Image(
-                  image: AssetImage('assets/images/mobilemoney/mm.png'),
-                  fit: BoxFit.cover),
+            // const Padding(
+            //   padding: EdgeInsets.all(8.0),
+            //   child: Image(
+            //       image: AssetImage('assets/images/mobilemoney/mm.png'),
+            //       fit: BoxFit.cover),
+            // ),
+            const SizedBox(
+              height: 20,
             ),
             SizedBox(
               height: getProportionateScreenHeight(50),
@@ -112,35 +116,6 @@ class _MobileMoneyPaymentScreenState extends State<MobileMoneyPaymentScreen> {
                 color: kPrimaryColor,
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       const Icon(
-            //         Icons.monetization_on,
-            //         size: 15,
-            //         color: kPrimaryColor,
-            //       ),
-            //       SizedBox(
-            //         width: getProportionateScreenWidth(7),
-            //       ),
-            //       Text(
-            //         "Total: ",
-            //         style: TextStyle(
-            //             color: Colors.black,
-            //             fontSize: getProportionateScreenWidth(18),
-            //             fontWeight: FontWeight.w600),
-            //       ),
-            //       Text(
-            //         " ${aruments[3]} ${aruments[2]}",
-            //         style: TextStyle(
-            //             color: Colors.black,
-            //             fontSize: getProportionateScreenWidth(18),
-            //             fontWeight: FontWeight.w600),
-            //       )
-            //     ],
-            //   ),
-            // ),
             Expanded(child: Container()),
             isLoading
                 ? const CircularProgressIndicator(

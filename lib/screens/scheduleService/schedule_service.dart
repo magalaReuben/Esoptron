@@ -23,6 +23,10 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
   bool time2 = false;
   bool time3 = false;
   bool time4 = false;
+  bool time5 = false;
+  bool time6 = false;
+  bool time7 = false;
+  bool time8 = false;
   bool hasSelectedTime = false;
   TimeOfDay selectedTime = TimeOfDay.now();
 
@@ -93,7 +97,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
             ),
           ),
           SizedBox(
-            height: getProportionateScreenHeight(10),
+            height: getProportionateScreenHeight(40),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -175,7 +179,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 child: Text(
                   "☕️ Morning",
                   style: TextStyle(
-                      color: Colors.black.withOpacity(0.8),
+                      color: Colors.black.withOpacity(0.7),
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.bold,
                       fontFamily: 'krona'),
@@ -195,6 +199,10 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                       time2 = false;
                       time3 = false;
                       time4 = false;
+                      time5 = false;
+                      time6 = false;
+                      time7 = false;
+                      time8 = false;
                     });
                   },
                   child: Container(
@@ -225,6 +233,10 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                       time2 = true;
                       time3 = false;
                       time4 = false;
+                      time5 = false;
+                      time6 = false;
+                      time7 = false;
+                      time8 = false;
                     });
                   },
                   child: Container(
@@ -255,6 +267,10 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                       time2 = false;
                       time3 = true;
                       time4 = false;
+                      time5 = false;
+                      time6 = false;
+                      time7 = false;
+                      time8 = false;
                     });
                   },
                   child: Container(
@@ -285,6 +301,10 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                       time2 = false;
                       time3 = false;
                       time4 = true;
+                      time5 = false;
+                      time6 = false;
+                      time7 = false;
+                      time8 = false;
                     });
                   },
                   child: Container(
@@ -311,6 +331,166 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(9.0),
+                child: Text(
+                  "🍹 Afternoon",
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(0.7),
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'krona'),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = false;
+                      time3 = false;
+                      time4 = false;
+                      time5 = true;
+                      time6 = false;
+                      time7 = false;
+                      time8 = false;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time5 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "13:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time5 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = false;
+                      time3 = false;
+                      time4 = false;
+                      time5 = false;
+                      time6 = true;
+                      time7 = false;
+                      time8 = false;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time6 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "14:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time6 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = false;
+                      time3 = false;
+                      time4 = false;
+                      time5 = false;
+                      time6 = false;
+                      time7 = true;
+                      time8 = false;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time7 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "15:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time7 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      time1 = false;
+                      time2 = false;
+                      time3 = false;
+                      time4 = false;
+                      time5 = false;
+                      time6 = false;
+                      time7 = false;
+                      time8 = true;
+                    });
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(80),
+                    height: getProportionateScreenHeight(50),
+                    decoration: BoxDecoration(
+                        color: time8 ? kPrimaryColor : Colors.white,
+                        border: Border.all(
+                          color: kPrimaryColor.withOpacity(0.3),
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                      child: Text(
+                        "16:00",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: time8 ? Colors.white : Colors.black,
+                            fontSize: getProportionateScreenWidth(18)),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
           Expanded(child: Container()),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -321,7 +501,14 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 if ("${_dates[0]!.day}${_dates[0]!.month}${_dates[0]!.year}" ==
                         "${current.day}${current.month}${current.year}" ||
                     current.compareTo(_dates[0]!) < 0) {
-                  if (time1 || time2 || time3 || time4) {
+                  if (time1 ||
+                      time2 ||
+                      time3 ||
+                      time4 ||
+                      time5 ||
+                      time6 ||
+                      time7 ||
+                      time8) {
                     ref.read(scheduledTimeProvider.notifier).state =
                         DateFormat('hh:mm a').format(DateTime(
                             DateTime.now().year,
@@ -353,12 +540,46 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                                     DateTime.now().day,
                                     15,
                                     30))
-                                : DateFormat('hh:mm a').format(DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month,
-                                    DateTime.now().day,
-                                    17,
-                                    00));
+                                : time4
+                                    ? DateFormat('hh:mm a').format(DateTime(
+                                        DateTime.now().year,
+                                        DateTime.now().month,
+                                        DateTime.now().day,
+                                        17,
+                                        00))
+                                    : time5
+                                        ? DateFormat('hh:mm a').format(DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            DateTime.now().day,
+                                            13,
+                                            00))
+                                        : time6
+                                            ? DateFormat('hh:mm a').format(
+                                                DateTime(
+                                                    DateTime.now().year,
+                                                    DateTime.now().month,
+                                                    DateTime.now().day,
+                                                    14,
+                                                    00))
+                                            : time7
+                                                ? DateFormat('hh:mm a').format(
+                                                    DateTime(
+                                                        DateTime.now().year,
+                                                        DateTime.now().month,
+                                                        DateTime.now().day,
+                                                        15,
+                                                        00))
+                                                : time8
+                                                    ? DateFormat('hh:mm a')
+                                                        .format(DateTime(
+                                                            DateTime.now().year,
+                                                            DateTime.now()
+                                                                .month,
+                                                            DateTime.now().day,
+                                                            16,
+                                                            00))
+                                                    : "";
                     ref.read(scheduledDateProvider.notifier).state =
                         DateFormat("dd/MM/yyyy").format(DateTime(
                             _dates[0]!.year, _dates[0]!.month, _dates[0]!.day));
@@ -382,9 +603,9 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               },
             ),
           ),
-          const SizedBox(
-            height: 35,
-          )
+          // const SizedBox(
+          //   height: 35,
+          // )
         ],
       ),
     );

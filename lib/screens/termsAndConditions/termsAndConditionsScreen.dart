@@ -59,7 +59,7 @@ class TermsAndConditions extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
-                  'By using our mobile app, you acknowledge that you have read, understood, and agree to abide by these terms and conditions. If you have any questions, please contact our customer support team before using the app.',
+                  'By using our mobile app, you acknowledge that you have read, understood, and agreed to abide by these terms and conditions. If you have any questions, please contact our customer support team before using the app.',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
