@@ -11,6 +11,9 @@ import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/categories/categories_page.dart';
 import 'package:esoptron_salon/screens/serviceProvider/service_provider.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
+import 'package:esoptron_salon/screens/subcategories/searched_subcategory.dart';
+import 'package:esoptron_salon/widgets/text_field.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:esoptron_salon/screens/subcategories/subcategories.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
@@ -28,6 +31,8 @@ class Body extends ConsumerStatefulWidget {
 class _BodyState extends ConsumerState<Body> {
   String? greeting;
   String? firstName;
+  bool isSearching = false;
+  TextEditingController searchController = TextEditingController();
 
   Future getUserNames() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -127,61 +132,142 @@ class _BodyState extends ConsumerState<Body> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "$greeting $firstName!",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(22),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: getProportionateScreenHeight(8)),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Promotions",
-                  style: TextStyle(
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
+                    ),
+                  ),
+                  // style: TextStyle(
+                  //     color: Colors.black,
+                  //     fontSize: getProportionateScreenWidth(22),
+                  //     fontWeight: FontWeight.bold,
+                  //     fontFamily: 'krona'),
                 ),
               ],
             ),
           ),
-          SizedBox(height: getProportionateScreenHeight(8)),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (int i = 0; i < _images.length; i++)
-                  Image(image: AssetImage(_images[i]), fit: BoxFit.cover)
-              ],
+          SizedBox(height: getProportionateScreenHeight(12)),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextFieldWidget(
+              controller: searchController,
+              radiusBottomLeft: 30,
+              radiusBottomRight: 30,
+              radiusTopLeft: 30,
+              radiusTopRight: 30,
+              hintText: "Search",
+              suffixWidget: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    height: getProportionateScreenHeight(39),
+                    width: getProportionateScreenWidth(32),
+                    decoration: const BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(60))),
+                    child: GestureDetector(
+                      onTap: () async {
+                        if (searchController.text.isEmpty) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Please enter a search query"),
+                            backgroundColor: kPrimaryColor,
+                            padding: EdgeInsets.all(25),
+                          ));
+                          return;
+                        }
+                        setState(() {
+                          isSearching = true;
+                        });
+                        final result = await search(searchController.text);
+                        setState(() {
+                          isSearching = false;
+                        });
+                        if (result.isEmpty) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("No results found"),
+                            backgroundColor: kPrimaryColor,
+                            padding: EdgeInsets.all(25),
+                          ));
+                          return;
+                        } else {
+                          //print(result);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushNamed(
+                              context, SearchedSubCategories.routeName,
+                              arguments: result);
+                        }
+                      },
+                      child: isSearching
+                          ? SizedBox(
+                              height: getProportionateScreenHeight(8),
+                              width: getProportionateScreenWidth(8),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          : Icon(
+                              size: getProportionateScreenWidth(20),
+                              FontAwesomeIcons.search,
+                              color: Colors.white,
+                            ),
+                    )),
+              ),
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: [
+          //       Text(
+          //         "Promotions",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: getProportionateScreenWidth(18),
+          //             fontWeight: FontWeight.bold,
+          //             fontFamily: 'krona'),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(height: getProportionateScreenHeight(8)),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Row(
+          //     children: [
+          //       for (int i = 0; i < _images.length; i++)
+          //         Image(image: AssetImage(_images[i]), fit: BoxFit.cover)
+          //     ],
+          //   ),
+          // ),
           SizedBox(height: getProportionateScreenHeight(8)),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Service Types",
-                  style: TextStyle(
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -281,17 +367,19 @@ class _BodyState extends ConsumerState<Body> {
           }),
           SizedBox(height: getProportionateScreenHeight(8)),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Featured Categories",
-                  style: TextStyle(
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
                       color: Colors.black,
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
+                    ),
+                  ),
                 ),
               ],
             ),

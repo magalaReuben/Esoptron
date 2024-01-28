@@ -1,6 +1,6 @@
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
-import 'package:esoptron_salon/widgets/app_text.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatefulWidget {
@@ -31,9 +31,12 @@ class _BodyState extends State<Body> {
                   width: getProportionateScreenWidth(200),
                 ),
                 SizedBox(height: getProportionateScreenHeight(20)),
-                const AppText.large(
-                  'Esoptron Salon',
-                )
+                Text('Esoptron Salon',
+                    style: GoogleFonts.pacifico(
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: getProportionateScreenWidth(20)),
+                    )),
               ],
             );
           },
