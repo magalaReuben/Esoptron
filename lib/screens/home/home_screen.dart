@@ -80,7 +80,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           shadowColor: Colors.transparent,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: const Icon(FontAwesomeIcons.bars),
+              icon: const Icon(FontAwesomeIcons.bars, color: Colors.black),
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
           ),
@@ -222,9 +222,124 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             // )
           ],
         ),
-        drawer:
-            Drawer(child: Container() // Populate the Drawer in the next step.
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: kPrimaryColor,
                 ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: getProportionateScreenHeight(10),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/icons/mainlogo 1.png',
+                            height: getProportionateScreenHeight(200),
+                            width: getProportionateScreenWidth(200),
+                          ),
+                        ),
+                        Text(
+                          'Esoptron Salon',
+                          style: GoogleFonts.pacifico(
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: getProportionateScreenWidth(20)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Notifications',
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                leading: const Icon(
+                  FontAwesomeIcons.bell,
+                  color: kPrimaryColor,
+                ),
+                onTap: () =>
+                    Navigator.pushNamed(context, ServicesBooked.routeName),
+              ),
+              ListTile(
+                title: Text(
+                  'Favorites',
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                leading: const Icon(
+                  FontAwesomeIcons.heart,
+                  color: kPrimaryColor,
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, FavoriteScreen.routeName);
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Price Menu',
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                leading: const Icon(
+                  FontAwesomeIcons.clipboardList,
+                  color: kPrimaryColor,
+                ),
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (_) => SizedBox(
+                          height: getProportionateScreenHeight(300),
+                          child: PriceMenu()));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Logout',
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                leading: const Icon(FontAwesomeIcons.signOutAlt,
+                    color: kPrimaryColor),
+                onTap: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                },
+              ),
+            ],
+          ),
+        ),
         body: const Body());
   }
 }
