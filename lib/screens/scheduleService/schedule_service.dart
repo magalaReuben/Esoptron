@@ -7,6 +7,7 @@ import 'package:esoptron_salon/screens/addPaymentmethod/add_payment.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleService extends ConsumerStatefulWidget {
@@ -34,9 +35,13 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Schedule Service"),
-      ),
+          backgroundColor: kPrimaryColor.withOpacity(0.8),
+          title: Text("Schedule Service",
+              style: GoogleFonts.nunitoSans(
+                fontSize: getProportionateScreenWidth(18),
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ))),
       body: Column(
         children: [
           SizedBox(
@@ -49,52 +54,28 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   "Today's Schedule",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
+                  style: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(18),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
           ),
-          Center(
-            child: Container(
-              child: CalendarTimeline(
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2040, 12, 31),
-                onDateSelected: (date) => _dates = [date],
-                leftMargin: 20,
-                monthColor: Colors.blueGrey,
-                dayColor: Colors.black.withOpacity(0.8),
-                activeDayColor: Colors.white,
-                activeBackgroundDayColor: kPrimaryColor,
-                dotsColor: const Color(0xFF333A47),
-                selectableDayPredicate: (date) => date.day != 23,
-                locale: 'en_ISO',
-              ),
-              // width: getProportionateScreenWidth(350),
-              // height: getProportionateScreenHeight(350),
-              // decoration: BoxDecoration(
-              //     gradient: const LinearGradient(
-              //         begin: Alignment.centerLeft,
-              //         end: Alignment.centerRight,
-              //         colors: [
-              //           Color.fromRGBO(244, 227, 227, 1),
-              //           Color.fromRGBO(241, 239, 243, 1),
-              //           Color.fromRGBO(223, 239, 244, 1)
-              //         ]),
-              //     border: Border.all(
-              //       color: kPrimaryColor.withOpacity(0.3),
-              //     ),
-              //     borderRadius: const BorderRadius.all(Radius.circular(15))),
-              // child: CalendarDatePicker2(
-              //   config: CalendarDatePicker2Config(),
-              //   value: _dates,
-              //   onValueChanged: (dates) => _dates = dates,
-              // ),
-            ),
+          CalendarTimeline(
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime(2040, 12, 31),
+            onDateSelected: (date) => _dates = [date],
+            leftMargin: 20,
+            monthColor: Colors.blueGrey,
+            dayColor: Colors.black.withOpacity(0.8),
+            activeDayColor: Colors.white,
+            activeBackgroundDayColor: kPrimaryColor,
+            dotsColor: const Color(0xFF333A47),
+            selectableDayPredicate: (date) => date.day != 23,
+            locale: 'en_ISO',
           ),
           SizedBox(
             height: getProportionateScreenHeight(40),

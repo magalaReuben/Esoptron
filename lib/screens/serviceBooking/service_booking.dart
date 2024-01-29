@@ -437,7 +437,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                     const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
-                                        FontAwesomeIcons.calendar,
+                                        FontAwesomeIcons.calendarCheck,
                                         size: 30,
                                         color: Colors.white,
                                       ),
@@ -481,7 +481,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                     const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
-                                        FontAwesomeIcons.calendar,
+                                        FontAwesomeIcons.calendarCheck,
                                         size: 30,
                                         color: kPrimaryColor,
                                       ),
