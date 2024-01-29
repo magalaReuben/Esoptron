@@ -63,13 +63,31 @@ class _ServicesUnderSubCategoryState
                   return SingleChildScrollView(
                     child: Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("Results(${servicesList.length})",
+                                  style: GoogleFonts.nunitoSans(
+                                      textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getProportionateScreenWidth(17),
+                                    fontWeight: FontWeight.w400,
+                                  ))),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: getProportionateScreenWidth(5),
+                        ),
                         for (int i = 0; i < servicesList.length; i++)
                           Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Card(
                                 child: Container(
-                                  height: getProportionateScreenHeight(175),
-                                  width: getProportionateScreenWidth(350),
+                                  height: getProportionateScreenHeight(195),
+                                  width: getProportionateScreenWidth(360),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white.withOpacity(0.6),
@@ -152,7 +170,11 @@ class _ServicesUnderSubCategoryState
                                                           "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
                                                           servicesList[i]
                                                               ["description"],
-                                                          {},
+                                                          {
+                                                            'name': 'Joshua',
+                                                            'email':
+                                                                'jojo@gmail.com'
+                                                          },
                                                           servicesList[i]
                                                               ["ratings_count"],
                                                           servicesList[i][
@@ -162,9 +184,7 @@ class _ServicesUnderSubCategoryState
                                                               : true,
                                                           servicesList[i]
                                                               ["ratings_count"],
-                                                          false,
-                                                          arguments[1],
-                                                          arguments[2],
+                                                          true,
                                                           servicesList[i]["id"],
                                                           arguments[0]
                                                         ]),

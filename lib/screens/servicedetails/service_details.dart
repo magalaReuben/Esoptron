@@ -143,7 +143,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
-    //print(response.body);
+    print(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       return responseData['data']['images'];
@@ -213,7 +213,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 alignment: Alignment.topCenter,
                 child: FutureBuilder<List<dynamic>>(
                   future: getServiceImages(
-                      arguments[7] ? arguments[9] : arguments[10]),
+                      // initially 9
+                      arguments[7] ? arguments[8] : arguments[10]),
                   builder: (context, snapshot) {
                     //print('This is our data: ${snapshot.data}');
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -315,7 +316,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: favoritesServiceId.contains(
-                                    arguments[7] ? arguments[9] : arguments[10])
+                                    arguments[7] ? arguments[8] : arguments[10])
                                 ? GestureDetector(
                                     onTap: () async {
                                       await getFavorites();
@@ -354,7 +355,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       } else {}
                                       final response = await http.delete(
                                         Uri.parse(
-                                            "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[9]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
+                                            "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[8]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
                                         headers: {
                                           'Authorization':
                                               'Bearer $authorizationToken',
@@ -364,7 +365,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       );
                                       var test = arguments[7]
                                           ? favouritesServiceIdMapper[
-                                              arguments[9]]
+                                              arguments[8]]
                                           : favouritesServiceIdMapper[
                                               arguments[10]];
                                       // print(favouritesServiceIdMapper);
@@ -375,7 +376,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         // ignore: use_build_context_synchronously
                                         setState(() {
                                           favoritesServiceId.remove(arguments[7]
-                                              ? arguments[9]
+                                              ? arguments[8]
                                               : arguments[10]);
                                         });
                                         // ignore: use_build_context_synchronously
@@ -409,7 +410,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       await getFavorites();
                                       final response = await http.post(
                                         Uri.parse(
-                                            "http://admin.esoptronsalon.com/api/user/service/${arguments[7] ? arguments[9] : arguments[10]}/add_favourites"),
+                                            "http://admin.esoptronsalon.com/api/user/service/${arguments[7] ? arguments[8] : arguments[10]}/add_favourites"),
                                         headers: {
                                           'Authorization':
                                               'Bearer $authorizationToken',
@@ -423,7 +424,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         // ignore: use_build_context_synchronously
                                         setState(() {
                                           favoritesServiceId.add(arguments[7]
-                                              ? arguments[9]
+                                              ? arguments[8]
                                               : arguments[10]);
                                         });
                                         // ignore: use_build_context_synchronously
@@ -769,7 +770,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             children: [
                               Row(
                                 children: [
-                                  Text(arguments[3]["name"],
+                                  Text(arguments[3]["name"].toString(),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
@@ -790,7 +791,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     ),
                                   ),
                                   Text(
-                                    arguments[3]["email"],
+                                    arguments[3]["email"].toString(),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize:

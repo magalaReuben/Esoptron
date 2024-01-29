@@ -169,7 +169,7 @@ class _ServiceScreenState extends ConsumerState<ServiceScreen> {
                 ),
               ),
               leading: const Icon(
-                FontAwesomeIcons.bell,
+                Icons.notifications,
                 color: kPrimaryColor,
               ),
               onTap: () =>
@@ -187,7 +187,7 @@ class _ServiceScreenState extends ConsumerState<ServiceScreen> {
                 ),
               ),
               leading: const Icon(
-                FontAwesomeIcons.heart,
+                Icons.favorite,
                 color: kPrimaryColor,
               ),
               onTap: () {
