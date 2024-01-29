@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ServiceBooking extends ConsumerStatefulWidget {
@@ -74,10 +75,16 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
     //print("These are our arguments: ${arguments}");
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        backgroundColor: kPrimaryColor.withOpacity(0.8),
         title: Text(
           "Service Booking",
-          style: TextStyle(fontSize: getProportionateScreenWidth(18)),
+          style: GoogleFonts.nunitoSans(
+            textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(20),
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ),
       ),
       body: Padding(
@@ -92,19 +99,21 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   children: [
                     const Icon(
                       Icons.location_pin,
-                      size: 15,
-                      color: kPrimaryColor,
+                      size: 23,
+                      color: Colors.black,
                     ),
                     SizedBox(
                       width: getProportionateScreenWidth(10),
                     ),
                     Text(
                       "Destination Details",
-                      style: TextStyle(
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: getProportionateScreenWidth(18),
+                          fontSize: getProportionateScreenWidth(16),
                           fontWeight: FontWeight.w500,
-                          fontFamily: 'krona'),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -112,15 +121,20 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Card(
-                  elevation: 2,
+                  elevation: 1,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: TextField(
-                      readOnly: true,
-                      decoration: InputDecoration(
+                        readOnly: true,
+                        decoration: InputDecoration(
                           hintText: _currentAddress ?? "Getting Address...",
-                          hintStyle: const TextStyle(color: Colors.black)),
-                    ),
+                          hintStyle: GoogleFonts.nunitoSans(
+                              textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(13),
+                            fontWeight: FontWeight.w400,
+                          )),
+                        )),
                   ),
                 ),
               ),
@@ -131,11 +145,15 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: TextFormField(
-                      controller: phoneNumberController,
-                      decoration: const InputDecoration(
-                          hintText: "Enter Phone Number",
-                          hintStyle: TextStyle(color: Colors.black)),
-                    ),
+                        controller: phoneNumberController,
+                        decoration: InputDecoration(
+                            hintText: "Enter Phone Number",
+                            hintStyle: GoogleFonts.nunitoSans(
+                                textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenWidth(13),
+                              fontWeight: FontWeight.w400,
+                            )))),
                   ),
                 ),
               ),
@@ -153,46 +171,55 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
               //     ),
               //   ),
               // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     children: [
+              //       const Icon(
+              //         Icons.add_box,
+              //         size: 30,
+              //         color: Colors.black,
+              //       ),
+              //       SizedBox(
+              //         width: getProportionateScreenWidth(5),
+              //       ),
+              //       Text(
+              //         "Add Destination",
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: getProportionateScreenWidth(14),
+              //             fontWeight: FontWeight.normal,
+              //             fontFamily: 'krona'),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Icon(
-                      Icons.add_box,
-                      size: 15,
-                      color: kPrimaryColor,
+                      FontAwesomeIcons.infoCircle,
+                      size: 23,
+                      color: Colors.black,
                     ),
                     SizedBox(
-                      width: getProportionateScreenWidth(5),
+                      width: getProportionateScreenWidth(10),
                     ),
                     Text(
-                      "Add Destination",
-                      style: TextStyle(
+                      "Service Details",
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: getProportionateScreenWidth(14),
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'krona'),
+                          fontSize: getProportionateScreenWidth(16),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
-                    child: Text(
-                      "Service Details",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(18),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'krona'),
-                    ),
-                  ),
-                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),

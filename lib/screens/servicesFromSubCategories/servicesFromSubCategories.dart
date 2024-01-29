@@ -128,7 +128,7 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                                                 color: Colors.black,
                                                 fontSize:
                                                     getProportionateScreenWidth(
-                                                        18),
+                                                        16),
                                                 fontWeight: FontWeight.w500,
                                               )),
                                             ),
