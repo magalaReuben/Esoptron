@@ -1,5 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/profileProviders.dart';
@@ -29,6 +30,8 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
   bool time7 = false;
   bool time8 = false;
   bool hasSelectedTime = false;
+  final EasyInfiniteDateTimelineController _controller =
+      EasyInfiniteDateTimelineController();
   TimeOfDay selectedTime = TimeOfDay.now();
 
   @override
@@ -63,20 +66,26 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               ),
             ],
           ),
-          CalendarTimeline(
+          EasyDateTimeLine(
             initialDate: DateTime.now(),
-            firstDate: DateTime.now(),
-            lastDate: DateTime(2040, 12, 31),
-            onDateSelected: (date) => _dates = [date],
-            leftMargin: 20,
-            monthColor: Colors.blueGrey,
-            dayColor: Colors.black.withOpacity(0.8),
-            activeDayColor: Colors.white,
-            activeBackgroundDayColor: kPrimaryColor,
-            dotsColor: const Color(0xFF333A47),
-            selectableDayPredicate: (date) => date.day != 23,
-            locale: 'en_ISO',
+            onDateChange: (selectedDate) {
+              setState(() {});
+            },
           ),
+          // CalendarTimeline(
+          //   initialDate: DateTime.now(),
+          //   firstDate: DateTime.now(),
+          //   lastDate: DateTime(2040, 12, 31),
+          //   onDateSelected: (date) => _dates = [date],
+          //   leftMargin: 20,
+          //   monthColor: Colors.blueGrey,
+          //   dayColor: Colors.black.withOpacity(0.8),
+          //   activeDayColor: Colors.white,
+          //   activeBackgroundDayColor: kPrimaryColor,
+          //   dotsColor: const Color(0xFF333A47),
+          //   selectableDayPredicate: (date) => date.day != 23,
+          //   locale: 'en_ISO',
+          // ),
           SizedBox(
             height: getProportionateScreenHeight(40),
           ),
