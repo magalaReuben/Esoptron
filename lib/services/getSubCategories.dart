@@ -28,7 +28,7 @@ class GetSubCategoryService implements GetSubCategoriesRepository {
           options: Options(
               headers: {'authorization': 'Bearer $authorizationToken'}));
       log('*************************************');
-      log('Response getting documents ${data.data}');
+      print('Response getting documents ${data.data}');
       if (data.data['success'] == true) {
         return Right(ApiResponseModel.fromMap(data.data));
       }

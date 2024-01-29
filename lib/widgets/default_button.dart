@@ -16,10 +16,10 @@ class DefaultButton extends StatelessWidget {
       height: getProportionateScreenHeight(56),
       child: Container(
         decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [kPrimaryColor, kPrimaryColor]),
+                colors: [kPrimaryColor, kPrimaryColor.withOpacity(0.9)]),
             borderRadius: BorderRadius.circular(15.0)),
         child: TextButton(
           style: TextButton.styleFrom(

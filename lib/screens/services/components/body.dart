@@ -233,7 +233,31 @@ class _BodyState extends ConsumerState<Body> {
                               serviceProviders[index]["id"],
                               ref));
                 case Status.error:
-                  return const SizedBox();
+                  return SizedBox(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                                width: getProportionateScreenWidth(100),
+                                height: getProportionateScreenHeight(100),
+                                image: const AssetImage(
+                                    "assets/images/home/nodata.png"),
+                                fit: BoxFit.cover),
+                            const Text(
+                              "No service providers available at the moment",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
               }
             }),
           ],
