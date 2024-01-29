@@ -201,7 +201,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Icon(
-                      FontAwesomeIcons.infoCircle,
+                      Icons.woman_rounded,
                       size: 23,
                       color: Colors.black,
                     ),
