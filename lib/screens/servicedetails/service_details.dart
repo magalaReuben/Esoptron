@@ -187,7 +187,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    //print("These are our arguments: ${arguments}");
+    print("These are our arguments: ${arguments}");
     CarouselController buttonCarouselController = CarouselController();
     //log(arguments.toString());
     return Scaffold(
@@ -647,6 +647,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           //     ],
           //   ),
           // ),
+          SizedBox(
+            height: getProportionateScreenHeight(25),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -804,48 +807,68 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: getProportionateScreenHeight(150),
-                    width: getProportionateScreenWidth(360),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(
-                          width: 2,
-                          color: kPrimaryColor,
-                        )),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image(
-                                //image: NetImage(image),
-                                image: NetworkImage(arguments[8]),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                arguments[9],
-                                style: TextStyle(
-                                    color: kPrimaryColor,
+                  child: Card(
+                    child: Container(
+                      height: getProportionateScreenHeight(150),
+                      width: getProportionateScreenWidth(350),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              child: Image(
+                                  height: 200,
+                                  width: 100,
+                                  image: NetworkImage(arguments[8]),
+                                  fit: BoxFit.cover),
+                            ),
+                            SizedBox(
+                              width: getProportionateScreenWidth(10),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${arguments[9]} \n UGX ${arguments[12]}',
+                                  style: GoogleFonts.nunitoSans(
+                                      textStyle: TextStyle(
+                                    color: Colors.black,
                                     fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'krona'),
-                              ),
-                            ],
-                          ),
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(5),
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        foregroundColor: kPrimaryColor,
+                                        backgroundColor: kPrimaryColor),
+                                    onPressed: () => Null,
+                                    child: Text(
+                                      "Proceed to Booking",
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      12),
+                                              fontWeight: FontWeight.w500)),
+                                    ))
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
+                  )),
           const SizedBox(height: 10),
           arguments[7]
               ? SizedBox(
@@ -1281,91 +1304,96 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         ),
                       )))
           : Container(),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-            color: Colors.white,
-            height: getProportionateScreenHeight(85),
-            child: Padding(
-                padding: const EdgeInsets.all(13.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: getProportionateScreenHeight(56),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: arguments[7]
-                                ? checkboxvalues.contains(true)
-                                    ? [kPrimaryColor, kPrimaryColor]
-                                    : [Colors.grey, Colors.grey]
-                                : [kPrimaryColor, kPrimaryColor]),
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        primary: Colors.transparent,
-                      ),
-                      onPressed: () {
-                        if (arguments[7]) {
-                          if (checkboxvalues.contains(true)) {
-                            Navigator.pushNamed(
-                                context, ServiceBooking.routeName,
-                                arguments: [
-                                  arguments[0],
-                                  selectedSubCategoriesImages,
-                                  selectedSubCategoriesNames,
-                                  arguments[9],
-                                  selectedSubCategories
-                                ]);
-                          } else {
-                            () => {};
-                          }
-                        } else {
-                          Navigator.pushNamed(context, ServiceBooking.routeName,
-                              arguments: [
-                                arguments[0],
-                                [arguments[8]],
-                                [arguments[9]],
-                                arguments[10],
-                                [arguments[11]]
-                              ]);
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          arguments[7]
-                              ? Text(
-                                  checkboxvalues.contains(true)
-                                      ? "Proceed"
-                                      : "Select Category",
-                                  style: TextStyle(
-                                    fontSize: getProportionateScreenWidth(18),
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : Text(
-                                  "Proceed",
-                                  style: TextStyle(
-                                    fontSize: getProportionateScreenWidth(18),
-                                    color: Colors.white,
-                                  ),
-                                ),
-                        ],
-                      ),
-                    ),
+      arguments[7]
+          ? Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                  color: Colors.white,
+                  height: getProportionateScreenHeight(85),
+                  child: Padding(
+                      padding: const EdgeInsets.all(13.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: getProportionateScreenHeight(56),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: arguments[7]
+                                      ? checkboxvalues.contains(true)
+                                          ? [kPrimaryColor, kPrimaryColor]
+                                          : [Colors.grey, Colors.grey]
+                                      : [kPrimaryColor, kPrimaryColor]),
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              primary: Colors.transparent,
+                            ),
+                            onPressed: () {
+                              if (arguments[7]) {
+                                if (checkboxvalues.contains(true)) {
+                                  Navigator.pushNamed(
+                                      context, ServiceBooking.routeName,
+                                      arguments: [
+                                        arguments[0],
+                                        selectedSubCategoriesImages,
+                                        selectedSubCategoriesNames,
+                                        arguments[9],
+                                        selectedSubCategories
+                                      ]);
+                                } else {
+                                  () => {};
+                                }
+                              } else {
+                                Navigator.pushNamed(
+                                    context, ServiceBooking.routeName,
+                                    arguments: [
+                                      arguments[0],
+                                      [arguments[8]],
+                                      [arguments[9]],
+                                      arguments[10],
+                                      [arguments[11]]
+                                    ]);
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                arguments[7]
+                                    ? Text(
+                                        checkboxvalues.contains(true)
+                                            ? "Proceed"
+                                            : "Select Category",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenWidth(18),
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        "Proceed",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenWidth(18),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ))
+                  // DefaultButton(
+                  //   press: () =>
+                  //       Navigator.pushNamed(context, ServiceBooking.routeName),
+                  //   text: "Book Now",
+                  // ),
                   ),
-                ))
-            // DefaultButton(
-            //   press: () =>
-            //       Navigator.pushNamed(context, ServiceBooking.routeName),
-            //   text: "Book Now",
-            // ),
-            ),
-      ),
+            )
+          : Container(),
       //const SizedBox(height: 30)
     ]));
   }

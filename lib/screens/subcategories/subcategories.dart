@@ -156,7 +156,10 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                                                                 ['id'],
                                                             "http://admin.esoptronsalon.com/${subCategoriesList[i]["image"]}",
                                                             subCategoriesList[i]
-                                                                ["name"]
+                                                                ["name"],
+                                                            subCategoriesList[i]
+                                                                    ["charge"]
+                                                                .toString()
                                                           ]),
                                                   child: Text(
                                                     "View Providers",

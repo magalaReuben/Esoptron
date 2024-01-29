@@ -23,7 +23,7 @@ class _ServicesListState extends ConsumerState<ServicesList> {
   Widget build(BuildContext context) {
     List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    print("my id is : ${arguments[0]}");
+    print("my arguments : $arguments");
     Future(() {
       ref.read(getServiceIdProvider.notifier).state = arguments[0];
     });
@@ -189,7 +189,8 @@ class _ServicesListState extends ConsumerState<ServicesList> {
                                                           arguments[1],
                                                           arguments[2],
                                                           servicesList[i]["id"],
-                                                          arguments[0]
+                                                          arguments[0],
+                                                          arguments[3]
                                                         ]),
                                                 child: Text(
                                                   "View Service",
