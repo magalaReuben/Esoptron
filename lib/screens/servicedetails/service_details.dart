@@ -685,7 +685,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             maxLines: 3,
                             style: GoogleFonts.nunitoSans(
                                 textStyle: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.black.withOpacity(0.8),
                                     fontSize: getProportionateScreenWidth(13),
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'krona'))),
@@ -889,429 +889,430 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         ]),
       ),
       arguments[7]
-          ? Align(
-              alignment: Alignment.bottomCenter,
-              child: DraggableScrollableSheet(
-                  key: const Key("sheet"),
-                  initialChildSize: sheetHeight,
-                  minChildSize: 0.2,
-                  maxChildSize: 0.85,
-                  builder: (_, ScrollController scrollController) => Scaffold(
-                        body: isServiceTypeScreen
-                            ? SingleChildScrollView(
-                                controller: scrollController,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(children: [
-                                    FutureBuilder<List<dynamic>>(
-                                      future: getServiceTypes(arguments),
-                                      builder: (context, snapshot) {
-                                        //print(arguments);
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          return Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(" Select Type",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize:
-                                                              getProportionateScreenWidth(
-                                                                  18),
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily: 'krona')),
-                                                ],
-                                              ),
-                                              for (var element
-                                                  in snapshot.data!)
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        isServiceTypeScreen =
-                                                            false;
-                                                        isServiceCategoryScreen =
-                                                            true;
-                                                        serviceTypeId =
-                                                            element["id"]
-                                                                .toString();
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              100),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          color: Colors.white
-                                                              .withOpacity(0.5),
-                                                          border: Border.all(
-                                                              color: kPrimaryColor
-                                                                  .withOpacity(
-                                                                      0.5))),
-                                                      child: ListTile(
-                                                        leading: Image(
-                                                          image: NetworkImage(
-                                                              "http://admin.esoptronsalon.com/${element["image"]}"),
-                                                        ),
-                                                        title: Text(
-                                                            "${element["name"]}",
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .black)),
+          ? Container()
+          // ? Align(
+          //     alignment: Alignment.bottomCenter,
+          //     child: DraggableScrollableSheet(
+          //         key: const Key("sheet"),
+          //         initialChildSize: sheetHeight,
+          //         minChildSize: 0.2,
+          //         maxChildSize: 0.85,
+          //         builder: (_, ScrollController scrollController) => Scaffold(
+          //               body: isServiceTypeScreen
+          //                   ? SingleChildScrollView(
+          //                       controller: scrollController,
+          //                       child: Padding(
+          //                         padding: const EdgeInsets.all(8.0),
+          //                         child: Column(children: [
+          //                           FutureBuilder<List<dynamic>>(
+          //                             future: getServiceTypes(arguments),
+          //                             builder: (context, snapshot) {
+          //                               //print(arguments);
+          //                               if (snapshot.connectionState ==
+          //                                   ConnectionState.done) {
+          //                                 return Column(
+          //                                   children: [
+          //                                     Row(
+          //                                       mainAxisAlignment:
+          //                                           MainAxisAlignment.start,
+          //                                       children: [
+          //                                         Text(" Select Type",
+          //                                             style: TextStyle(
+          //                                                 color: Colors.black,
+          //                                                 fontSize:
+          //                                                     getProportionateScreenWidth(
+          //                                                         18),
+          //                                                 fontWeight:
+          //                                                     FontWeight.bold,
+          //                                                 fontFamily: 'krona')),
+          //                                       ],
+          //                                     ),
+          //                                     for (var element
+          //                                         in snapshot.data!)
+          //                                       Padding(
+          //                                         padding:
+          //                                             const EdgeInsets.only(
+          //                                                 top: 10.0),
+          //                                         child: GestureDetector(
+          //                                           onTap: () {
+          //                                             setState(() {
+          //                                               isServiceTypeScreen =
+          //                                                   false;
+          //                                               isServiceCategoryScreen =
+          //                                                   true;
+          //                                               serviceTypeId =
+          //                                                   element["id"]
+          //                                                       .toString();
+          //                                             });
+          //                                           },
+          //                                           child: Container(
+          //                                             height:
+          //                                                 getProportionateScreenHeight(
+          //                                                     100),
+          //                                             decoration: BoxDecoration(
+          //                                                 borderRadius:
+          //                                                     BorderRadius
+          //                                                         .circular(10),
+          //                                                 color: Colors.white
+          //                                                     .withOpacity(0.5),
+          //                                                 border: Border.all(
+          //                                                     color: kPrimaryColor
+          //                                                         .withOpacity(
+          //                                                             0.5))),
+          //                                             child: ListTile(
+          //                                               leading: Image(
+          //                                                 image: NetworkImage(
+          //                                                     "http://admin.esoptronsalon.com/${element["image"]}"),
+          //                                               ),
+          //                                               title: Text(
+          //                                                   "${element["name"]}",
+          //                                                   style:
+          //                                                       const TextStyle(
+          //                                                           color: Colors
+          //                                                               .black)),
 
-                                                        // subtitle: Padding(
-                                                        //   padding:
-                                                        //       const EdgeInsets.only(
-                                                        //           top: 8.0),
-                                                        //   child: Text(
-                                                        //       "${element["charge"]}",
-                                                        //       style: const TextStyle(
-                                                        //           color:
-                                                        //               Colors.black,
-                                                        //           fontWeight:
-                                                        //               FontWeight
-                                                        //                   .bold)),
-                                                        // ),
-                                                        // trailing: Checkbox(
-                                                        //     value: selected1,
-                                                        //     onChanged:
-                                                        //         (bool? value) {
-                                                        //       setState(() {
-                                                        //         selected1 = value!;
-                                                        //       });
-                                                        //     }),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                            ],
-                                          );
-                                        } else {
-                                          // You can return a placeholder or loading indicator while the image is loading
-                                          return const CircularProgressIndicator();
-                                        }
-                                      },
-                                    ),
-                                  ]),
-                                ))
-                            : isServiceCategoryScreen
-                                ? SingleChildScrollView(
-                                    controller: scrollController,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(children: [
-                                        FutureBuilder<List<dynamic>>(
-                                          future: getServiceCategories(
-                                              arguments, serviceTypeId),
-                                          builder: (context, snapshot) {
-                                            //print(arguments);
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.done) {
-                                              //print(snapshot.data);
-                                              return Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(" Select Category",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      18),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontFamily:
-                                                                  'krona')),
-                                                    ],
-                                                  ),
-                                                  for (var element
-                                                      in snapshot.data!)
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10.0),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            isServiceCategoryScreen =
-                                                                false;
-                                                            isServiceSubCategoryScreen =
-                                                                true;
-                                                            categoryId =
-                                                                element["id"]
-                                                                    .toString();
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  100),
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius.circular(
-                                                                      10),
-                                                              color: Colors
-                                                                  .white
-                                                                  .withOpacity(
-                                                                      0.5),
-                                                              border: Border.all(
-                                                                  color: kPrimaryColor
-                                                                      .withOpacity(
-                                                                          0.5))),
-                                                          child: ListTile(
-                                                            leading: Image(
-                                                              image: NetworkImage(
-                                                                  "http://admin.esoptronsalon.com/storage/sub_categories/${element["image"]}"),
-                                                            ),
-                                                            title: Text(
-                                                                "${element["name"]}",
-                                                                style: const TextStyle(
-                                                                    color: Colors
-                                                                        .black)),
+          //                                               // subtitle: Padding(
+          //                                               //   padding:
+          //                                               //       const EdgeInsets.only(
+          //                                               //           top: 8.0),
+          //                                               //   child: Text(
+          //                                               //       "${element["charge"]}",
+          //                                               //       style: const TextStyle(
+          //                                               //           color:
+          //                                               //               Colors.black,
+          //                                               //           fontWeight:
+          //                                               //               FontWeight
+          //                                               //                   .bold)),
+          //                                               // ),
+          //                                               // trailing: Checkbox(
+          //                                               //     value: selected1,
+          //                                               //     onChanged:
+          //                                               //         (bool? value) {
+          //                                               //       setState(() {
+          //                                               //         selected1 = value!;
+          //                                               //       });
+          //                                               //     }),
+          //                                             ),
+          //                                           ),
+          //                                         ),
+          //                                       )
+          //                                   ],
+          //                                 );
+          //                               } else {
+          //                                 // You can return a placeholder or loading indicator while the image is loading
+          //                                 return const CircularProgressIndicator();
+          //                               }
+          //                             },
+          //                           ),
+          //                         ]),
+          //                       ))
+          //                   : isServiceCategoryScreen
+          //                       ? SingleChildScrollView(
+          //                           controller: scrollController,
+          //                           child: Padding(
+          //                             padding: const EdgeInsets.all(8.0),
+          //                             child: Column(children: [
+          //                               FutureBuilder<List<dynamic>>(
+          //                                 future: getServiceCategories(
+          //                                     arguments, serviceTypeId),
+          //                                 builder: (context, snapshot) {
+          //                                   //print(arguments);
+          //                                   if (snapshot.connectionState ==
+          //                                       ConnectionState.done) {
+          //                                     //print(snapshot.data);
+          //                                     return Column(
+          //                                       children: [
+          //                                         Row(
+          //                                           mainAxisAlignment:
+          //                                               MainAxisAlignment.start,
+          //                                           children: [
+          //                                             Text(" Select Category",
+          //                                                 style: TextStyle(
+          //                                                     color:
+          //                                                         Colors.black,
+          //                                                     fontSize:
+          //                                                         getProportionateScreenWidth(
+          //                                                             18),
+          //                                                     fontWeight:
+          //                                                         FontWeight
+          //                                                             .bold,
+          //                                                     fontFamily:
+          //                                                         'krona')),
+          //                                           ],
+          //                                         ),
+          //                                         for (var element
+          //                                             in snapshot.data!)
+          //                                           Padding(
+          //                                             padding:
+          //                                                 const EdgeInsets.only(
+          //                                                     top: 10.0),
+          //                                             child: GestureDetector(
+          //                                               onTap: () {
+          //                                                 setState(() {
+          //                                                   isServiceCategoryScreen =
+          //                                                       false;
+          //                                                   isServiceSubCategoryScreen =
+          //                                                       true;
+          //                                                   categoryId =
+          //                                                       element["id"]
+          //                                                           .toString();
+          //                                                 });
+          //                                               },
+          //                                               child: Container(
+          //                                                 height:
+          //                                                     getProportionateScreenHeight(
+          //                                                         100),
+          //                                                 decoration: BoxDecoration(
+          //                                                     borderRadius:
+          //                                                         BorderRadius.circular(
+          //                                                             10),
+          //                                                     color: Colors
+          //                                                         .white
+          //                                                         .withOpacity(
+          //                                                             0.5),
+          //                                                     border: Border.all(
+          //                                                         color: kPrimaryColor
+          //                                                             .withOpacity(
+          //                                                                 0.5))),
+          //                                                 child: ListTile(
+          //                                                   leading: Image(
+          //                                                     image: NetworkImage(
+          //                                                         "http://admin.esoptronsalon.com/storage/sub_categories/${element["image"]}"),
+          //                                                   ),
+          //                                                   title: Text(
+          //                                                       "${element["name"]}",
+          //                                                       style: const TextStyle(
+          //                                                           color: Colors
+          //                                                               .black)),
 
-                                                            // subtitle: Padding(
-                                                            //   padding:
-                                                            //       const EdgeInsets.only(
-                                                            //           top: 8.0),
-                                                            //   child: Text(
-                                                            //       "${element["charge"]}",
-                                                            //       style: const TextStyle(
-                                                            //           color:
-                                                            //               Colors.black,
-                                                            //           fontWeight:
-                                                            //               FontWeight
-                                                            //                   .bold)),
-                                                            // ),
-                                                            // trailing: Checkbox(
-                                                            //     value: selected1,
-                                                            //     onChanged:
-                                                            //         (bool? value) {
-                                                            //       setState(() {
-                                                            //         selected1 = value!;
-                                                            //       });
-                                                            //     }),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                ],
-                                              );
-                                            } else {
-                                              // You can return a placeholder or loading indicator while the image is loading
-                                              return const CircularProgressIndicator();
-                                            }
-                                          },
-                                        ),
-                                      ]),
-                                    ))
-                                : isServiceSubCategoryScreen
-                                    ? SingleChildScrollView(
-                                        controller: scrollController,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(children: [
-                                            FutureBuilder<List<dynamic>>(
-                                              future: getServiceSubCategories(
-                                                  arguments, categoryId),
-                                              builder: (context, snapshot) {
-                                                //print(arguments);
-                                                if (snapshot.connectionState ==
-                                                    ConnectionState.done) {
-                                                  for (int i = 0;
-                                                      i < snapshot.data!.length;
-                                                      i++) {
-                                                    checkboxvalues.add(false);
-                                                  }
-                                                  return Column(
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                              " Select Sub Category",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      getProportionateScreenWidth(
-                                                                          18),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'krona')),
-                                                        ],
-                                                      ),
-                                                      for (int i = 0;
-                                                          i <
-                                                              snapshot
-                                                                  .data!.length;
-                                                          i++)
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 10.0),
-                                                          child: Container(
-                                                            height:
-                                                                getProportionateScreenHeight(
-                                                                    120),
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                color: Colors
-                                                                    .white
-                                                                    .withOpacity(
-                                                                        0.5),
-                                                                border: Border.all(
-                                                                    color: kPrimaryColor
-                                                                        .withOpacity(
-                                                                            0.5))),
-                                                            child: ListTile(
-                                                              leading:
-                                                                  ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15),
-                                                                child: Image(
-                                                                  image: NetworkImage(
-                                                                      "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
-                                                                ),
-                                                              ),
-                                                              title: Text(
-                                                                  "${snapshot.data![i]["name"]}",
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .black)),
-                                                              subtitle: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        top:
-                                                                            8.0),
-                                                                child: Text(
-                                                                    "${snapshot.data![i]["charge"]}",
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                              ),
-                                                              trailing:
-                                                                  Checkbox(
-                                                                      value:
-                                                                          checkboxvalues[
-                                                                              i],
-                                                                      onChanged:
-                                                                          (bool?
-                                                                              value) {
-                                                                        setState(
-                                                                            () {
-                                                                          checkboxvalues[i] =
-                                                                              value!;
-                                                                        });
-                                                                        if (!selectedSubCategories.contains(snapshot.data![i]
-                                                                            [
-                                                                            "id"])) {
-                                                                          selectedSubCategories.add(snapshot.data![i]
-                                                                              [
-                                                                              "id"]);
-                                                                          selectedSubCategoriesNames.add(snapshot.data![i]
-                                                                              [
-                                                                              "name"]);
-                                                                          selectedSubCategoriesImages
-                                                                              .add("http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
-                                                                        } else {
-                                                                          selectedSubCategories.remove(snapshot.data![i]
-                                                                              [
-                                                                              "id"]);
-                                                                          selectedSubCategoriesNames.remove(snapshot.data![i]
-                                                                              [
-                                                                              "name"]);
-                                                                          selectedSubCategoriesImages
-                                                                              .remove("http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
-                                                                        }
-                                                                        //print(selectedSubCategories);
-                                                                      }),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      SizedBox(
-                                                        height:
-                                                            getProportionateScreenHeight(
-                                                                100),
-                                                      )
-                                                    ],
-                                                  );
-                                                } else {
-                                                  // You can return a placeholder or loading indicator while the image is loading
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ]),
-                                        ))
-                                    : Container(),
-                        appBar: AppBar(
-                          centerTitle: true,
-                          actions: [
-                            sheetHeight == 0.85
-                                ? GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        sheetHeight = 0.33;
-                                      });
-                                    },
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 30,
-                                      color: kPrimaryColor,
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        sheetHeight = 0.85;
-                                      });
-                                    },
-                                    child: const Icon(
-                                      Icons.keyboard_arrow_up,
-                                      size: 30,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ),
-                          ],
-                          automaticallyImplyLeading: false,
-                          shadowColor: Colors.transparent,
-                          backgroundColor: Colors.white,
-                          title: Text("",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona')),
-                        ),
-                      )))
+          //                                                   // subtitle: Padding(
+          //                                                   //   padding:
+          //                                                   //       const EdgeInsets.only(
+          //                                                   //           top: 8.0),
+          //                                                   //   child: Text(
+          //                                                   //       "${element["charge"]}",
+          //                                                   //       style: const TextStyle(
+          //                                                   //           color:
+          //                                                   //               Colors.black,
+          //                                                   //           fontWeight:
+          //                                                   //               FontWeight
+          //                                                   //                   .bold)),
+          //                                                   // ),
+          //                                                   // trailing: Checkbox(
+          //                                                   //     value: selected1,
+          //                                                   //     onChanged:
+          //                                                   //         (bool? value) {
+          //                                                   //       setState(() {
+          //                                                   //         selected1 = value!;
+          //                                                   //       });
+          //                                                   //     }),
+          //                                                 ),
+          //                                               ),
+          //                                             ),
+          //                                           )
+          //                                       ],
+          //                                     );
+          //                                   } else {
+          //                                     // You can return a placeholder or loading indicator while the image is loading
+          //                                     return const CircularProgressIndicator();
+          //                                   }
+          //                                 },
+          //                               ),
+          //                             ]),
+          //                           ))
+          //                       : isServiceSubCategoryScreen
+          //                           ? SingleChildScrollView(
+          //                               controller: scrollController,
+          //                               child: Padding(
+          //                                 padding: const EdgeInsets.all(8.0),
+          //                                 child: Column(children: [
+          //                                   FutureBuilder<List<dynamic>>(
+          //                                     future: getServiceSubCategories(
+          //                                         arguments, categoryId),
+          //                                     builder: (context, snapshot) {
+          //                                       //print(arguments);
+          //                                       if (snapshot.connectionState ==
+          //                                           ConnectionState.done) {
+          //                                         for (int i = 0;
+          //                                             i < snapshot.data!.length;
+          //                                             i++) {
+          //                                           checkboxvalues.add(false);
+          //                                         }
+          //                                         return Column(
+          //                                           children: [
+          //                                             Row(
+          //                                               mainAxisAlignment:
+          //                                                   MainAxisAlignment
+          //                                                       .start,
+          //                                               children: [
+          //                                                 Text(
+          //                                                     " Select Sub Category",
+          //                                                     style: TextStyle(
+          //                                                         color: Colors
+          //                                                             .black,
+          //                                                         fontSize:
+          //                                                             getProportionateScreenWidth(
+          //                                                                 18),
+          //                                                         fontWeight:
+          //                                                             FontWeight
+          //                                                                 .bold,
+          //                                                         fontFamily:
+          //                                                             'krona')),
+          //                                               ],
+          //                                             ),
+          //                                             for (int i = 0;
+          //                                                 i <
+          //                                                     snapshot
+          //                                                         .data!.length;
+          //                                                 i++)
+          //                                               Padding(
+          //                                                 padding:
+          //                                                     const EdgeInsets
+          //                                                         .only(
+          //                                                         top: 10.0),
+          //                                                 child: Container(
+          //                                                   height:
+          //                                                       getProportionateScreenHeight(
+          //                                                           120),
+          //                                                   decoration: BoxDecoration(
+          //                                                       borderRadius:
+          //                                                           BorderRadius
+          //                                                               .circular(
+          //                                                                   10),
+          //                                                       color: Colors
+          //                                                           .white
+          //                                                           .withOpacity(
+          //                                                               0.5),
+          //                                                       border: Border.all(
+          //                                                           color: kPrimaryColor
+          //                                                               .withOpacity(
+          //                                                                   0.5))),
+          //                                                   child: ListTile(
+          //                                                     leading:
+          //                                                         ClipRRect(
+          //                                                       borderRadius:
+          //                                                           BorderRadius
+          //                                                               .circular(
+          //                                                                   15),
+          //                                                       child: Image(
+          //                                                         image: NetworkImage(
+          //                                                             "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
+          //                                                       ),
+          //                                                     ),
+          //                                                     title: Text(
+          //                                                         "${snapshot.data![i]["name"]}",
+          //                                                         style: const TextStyle(
+          //                                                             color: Colors
+          //                                                                 .black)),
+          //                                                     subtitle: Padding(
+          //                                                       padding:
+          //                                                           const EdgeInsets
+          //                                                               .only(
+          //                                                               top:
+          //                                                                   8.0),
+          //                                                       child: Text(
+          //                                                           "${snapshot.data![i]["charge"]}",
+          //                                                           style: const TextStyle(
+          //                                                               color: Colors
+          //                                                                   .black,
+          //                                                               fontWeight:
+          //                                                                   FontWeight.bold)),
+          //                                                     ),
+          //                                                     trailing:
+          //                                                         Checkbox(
+          //                                                             value:
+          //                                                                 checkboxvalues[
+          //                                                                     i],
+          //                                                             onChanged:
+          //                                                                 (bool?
+          //                                                                     value) {
+          //                                                               setState(
+          //                                                                   () {
+          //                                                                 checkboxvalues[i] =
+          //                                                                     value!;
+          //                                                               });
+          //                                                               if (!selectedSubCategories.contains(snapshot.data![i]
+          //                                                                   [
+          //                                                                   "id"])) {
+          //                                                                 selectedSubCategories.add(snapshot.data![i]
+          //                                                                     [
+          //                                                                     "id"]);
+          //                                                                 selectedSubCategoriesNames.add(snapshot.data![i]
+          //                                                                     [
+          //                                                                     "name"]);
+          //                                                                 selectedSubCategoriesImages
+          //                                                                     .add("http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
+          //                                                               } else {
+          //                                                                 selectedSubCategories.remove(snapshot.data![i]
+          //                                                                     [
+          //                                                                     "id"]);
+          //                                                                 selectedSubCategoriesNames.remove(snapshot.data![i]
+          //                                                                     [
+          //                                                                     "name"]);
+          //                                                                 selectedSubCategoriesImages
+          //                                                                     .remove("http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
+          //                                                               }
+          //                                                               //print(selectedSubCategories);
+          //                                                             }),
+          //                                                   ),
+          //                                                 ),
+          //                                               ),
+          //                                             SizedBox(
+          //                                               height:
+          //                                                   getProportionateScreenHeight(
+          //                                                       100),
+          //                                             )
+          //                                           ],
+          //                                         );
+          //                                       } else {
+          //                                         // You can return a placeholder or loading indicator while the image is loading
+          //                                         return const CircularProgressIndicator();
+          //                                       }
+          //                                     },
+          //                                   ),
+          //                                 ]),
+          //                               ))
+          //                           : Container(),
+          //               appBar: AppBar(
+          //                 centerTitle: true,
+          //                 actions: [
+          //                   sheetHeight == 0.85
+          //                       ? GestureDetector(
+          //                           onTap: () {
+          //                             setState(() {
+          //                               sheetHeight = 0.33;
+          //                             });
+          //                           },
+          //                           child: const Icon(
+          //                             Icons.keyboard_arrow_down,
+          //                             size: 30,
+          //                             color: kPrimaryColor,
+          //                           ),
+          //                         )
+          //                       : GestureDetector(
+          //                           onTap: () {
+          //                             setState(() {
+          //                               sheetHeight = 0.85;
+          //                             });
+          //                           },
+          //                           child: const Icon(
+          //                             Icons.keyboard_arrow_up,
+          //                             size: 30,
+          //                             color: kPrimaryColor,
+          //                           ),
+          //                         ),
+          //                 ],
+          //                 automaticallyImplyLeading: false,
+          //                 shadowColor: Colors.transparent,
+          //                 backgroundColor: Colors.white,
+          //                 title: Text("",
+          //                     style: TextStyle(
+          //                         color: Colors.black,
+          //                         fontSize: getProportionateScreenWidth(18),
+          //                         fontWeight: FontWeight.bold,
+          //                         fontFamily: 'krona')),
+          //               ),
+          //             )))
           : Container(),
       arguments[7]
           ? Align(

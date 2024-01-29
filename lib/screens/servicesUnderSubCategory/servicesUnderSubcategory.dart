@@ -5,8 +5,10 @@ import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServicesUnderSubCategory extends ConsumerStatefulWidget {
   static String routeName = "/servicesUnderSubCategory";
@@ -159,35 +161,52 @@ class _ServicesUnderSubCategoryState
                                                         kPrimaryColor,
                                                     backgroundColor:
                                                         kPrimaryColor),
-                                                onPressed: () =>
-                                                    Navigator.pushNamed(
-                                                        context,
-                                                        ServiceDetails
-                                                            .routeName,
-                                                        arguments: [
-                                                          servicesList[i]
-                                                              ["name"],
-                                                          "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
-                                                          servicesList[i]
-                                                              ["description"],
-                                                          {
-                                                            'name': 'Joshua',
-                                                            'email':
-                                                                'jojo@gmail.com'
-                                                          },
-                                                          servicesList[i]
-                                                              ["ratings_count"],
-                                                          servicesList[i][
-                                                                      "is_available"] ==
-                                                                  0
-                                                              ? false
-                                                              : true,
-                                                          servicesList[i]
-                                                              ["ratings_count"],
-                                                          true,
-                                                          servicesList[i]["id"],
-                                                          arguments[0]
-                                                        ]),
+                                                onPressed: () async {
+                                                  SharedPreferences prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  String? authorizationToken =
+                                                      prefs.getString(
+                                                          "auth_token");
+                                                  final response =
+                                                      await http.post(
+                                                    Uri.parse(
+                                                        "http://admin.esoptronsalon.com/api/users/service_provider/${servicesList[i]["id"]}/details"),
+                                                    headers: {
+                                                      'Authorization':
+                                                          'Bearer $authorizationToken',
+                                                      'Content-Type':
+                                                          'application/json', // You may need to adjust the content type based on your API requirements
+                                                    },
+                                                  );
+                                                  print(response.body);
+                                                  // ignore: use_build_context_synchronously
+                                                  Navigator.pushNamed(context,
+                                                      ServiceDetails.routeName,
+                                                      arguments: [
+                                                        servicesList[i]["name"],
+                                                        "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
+                                                        servicesList[i]
+                                                            ["description"],
+                                                        {
+                                                          'name': 'Joshua',
+                                                          'email':
+                                                              'jojo@gmail.com'
+                                                        },
+                                                        servicesList[i]
+                                                            ["ratings_count"],
+                                                        servicesList[i][
+                                                                    "is_available"] ==
+                                                                0
+                                                            ? false
+                                                            : true,
+                                                        servicesList[i]
+                                                            ["ratings_count"],
+                                                        true,
+                                                        servicesList[i]["id"],
+                                                        arguments[0]
+                                                      ]);
+                                                },
                                                 child: Text(
                                                   "View Service",
                                                   style: GoogleFonts.nunitoSans(
