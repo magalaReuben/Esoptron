@@ -453,213 +453,278 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               Positioned(
                   bottom: 0,
                   left: 0,
-                  child: Text(
-                    arguments[0],
-                    style: GoogleFonts.nunitoSans(
-                        textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.w500,
-                    )),
-                  ))
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      arguments[0],
+                      style: GoogleFonts.nunitoSans(
+                          textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: getProportionateScreenWidth(18),
+                        fontWeight: FontWeight.w500,
+                      )),
+                    ),
+                  )),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        for (int i = 0; i < arguments[6]; i++)
+                          const Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Icon(
+                              FontAwesomeIcons.solidStar,
+                              size: 16,
+                              color: Colors.orangeAccent,
+                            ),
+                          ),
+                        for (int i = 0; i < 5 - arguments[6]; i++)
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              FontAwesomeIcons.solidStar,
+                              size: 16,
+                              color: Colors.white.withOpacity(0.7),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+          //   child: Row(
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: favoritesServiceId
+          //                 .contains(arguments[7] ? arguments[9] : arguments[10])
+          //             ? GestureDetector(
+          //                 onTap: () async {
+          //                   await getFavorites();
+          //                   SharedPreferences prefs =
+          //                       await SharedPreferences.getInstance();
+          //                   String? authorizationToken =
+          //                       prefs.getString("auth_token");
+          //                   final ApiResponse = await http.get(
+          //                     Uri.parse(
+          //                         "http://admin.esoptronsalon.com/api/user/favourites/services"),
+          //                     headers: {
+          //                       'Authorization': 'Bearer $authorizationToken',
+          //                       'Content-Type':
+          //                           'application/json', // You may need to adjust the content type based on your API requirements
+          //                     },
+          //                   );
+          //                   if (ApiResponse.statusCode >= 200 &&
+          //                       ApiResponse.statusCode < 300) {
+          //                     final responseData =
+          //                         json.decode(ApiResponse.body);
+          //                     setState(() {
+          //                       favorites =
+          //                           responseData['data']['favourite_services'];
+          //                     });
+          //                     for (var element in favorites) {
+          //                       if (!favoritesServiceId
+          //                           .contains(element["service_id"])) {
+          //                         favoritesServiceId.add(element["service_id"]);
+          //                       }
+          //                       favouritesServiceIdMapper[
+          //                               element["service_id"]] =
+          //                           element["favourite_service_id"];
+          //                     }
+          //                   } else {}
+          //                   final response = await http.delete(
+          //                     Uri.parse(
+          //                         "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[9]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
+          //                     headers: {
+          //                       'Authorization': 'Bearer $authorizationToken',
+          //                       'Content-Type':
+          //                           'application/json', // You may need to adjust the content type based on your API requirements
+          //                     },
+          //                   );
+          //                   var test = arguments[7]
+          //                       ? favouritesServiceIdMapper[arguments[9]]
+          //                       : favouritesServiceIdMapper[arguments[10]];
+          //                   // print(favouritesServiceIdMapper);
+          //                   // print(test);
+          //                   // print(response.body);
+          //                   if (response.statusCode >= 200 &&
+          //                       response.statusCode < 300) {
+          //                     // ignore: use_build_context_synchronously
+          //                     setState(() {
+          //                       favoritesServiceId.remove(arguments[7]
+          //                           ? arguments[9]
+          //                           : arguments[10]);
+          //                     });
+          //                     // ignore: use_build_context_synchronously
+          //                     ScaffoldMessenger.of(context)
+          //                         .showSnackBar(const SnackBar(
+          //                       content: Text("Service removed from favorites"),
+          //                       backgroundColor: kPrimaryColor,
+          //                       padding: EdgeInsets.all(25),
+          //                     ));
+          //                   } else {
+          //                     // ignore: use_build_context_synchronously
+          //                     ScaffoldMessenger.of(context)
+          //                         .showSnackBar(const SnackBar(
+          //                       content: Text("Something wrong happened"),
+          //                       backgroundColor: kPrimaryColor,
+          //                       padding: EdgeInsets.all(25),
+          //                     ));
+          //                   }
+          //                 },
+          //                 child: const Icon(Icons.favorite,
+          //                     color: kPrimaryColor, size: 25),
+          //               )
+          //             : GestureDetector(
+          //                 onTap: () async {
+          //                   SharedPreferences prefs =
+          //                       await SharedPreferences.getInstance();
+          //                   String? authorizationToken =
+          //                       prefs.getString("auth_token");
+          //                   await getFavorites();
+          //                   final response = await http.post(
+          //                     Uri.parse(
+          //                         "http://admin.esoptronsalon.com/api/user/service/${arguments[7] ? arguments[9] : arguments[10]}/add_favourites"),
+          //                     headers: {
+          //                       'Authorization': 'Bearer $authorizationToken',
+          //                       'Content-Type':
+          //                           'application/json', // You may need to adjust the content type based on your API requirements
+          //                     },
+          //                   );
+          //                   print(response.body);
+          //                   if (response.statusCode >= 200 &&
+          //                       response.statusCode < 300) {
+          //                     // ignore: use_build_context_synchronously
+          //                     setState(() {
+          //                       favoritesServiceId.add(arguments[7]
+          //                           ? arguments[9]
+          //                           : arguments[10]);
+          //                     });
+          //                     // ignore: use_build_context_synchronously
+          //                     ScaffoldMessenger.of(context)
+          //                         .showSnackBar(const SnackBar(
+          //                       content: Text("Service Added to favorites"),
+          //                       backgroundColor: kPrimaryColor,
+          //                       padding: EdgeInsets.all(25),
+          //                     ));
+          //                   } else {
+          //                     // ignore: use_build_context_synchronously
+          //                     ScaffoldMessenger.of(context)
+          //                         .showSnackBar(const SnackBar(
+          //                       content: Text("Something wrong happened"),
+          //                       backgroundColor: kPrimaryColor,
+          //                       padding: EdgeInsets.all(25),
+          //                     ));
+          //                   }
+          //                 },
+          //                 child: const Icon(Icons.favorite_outline)),
+          //       ),
+          //       Container(
+          //         height: getProportionateScreenHeight(30),
+          //         width: getProportionateScreenWidth(80),
+          //         decoration: const BoxDecoration(
+          //             color: Color.fromRGBO(175, 250, 140, 1),
+          //             borderRadius: BorderRadius.all(Radius.circular(15))),
+          //         child: Center(
+          //           child: Text(
+          //             arguments[5] ? "Available" : "Unavailable",
+          //             style: TextStyle(
+          //                 color: Colors.black,
+          //                 fontSize: getProportionateScreenWidth(12),
+          //                 fontWeight: FontWeight.bold),
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: favoritesServiceId
-                          .contains(arguments[7] ? arguments[9] : arguments[10])
-                      ? GestureDetector(
-                          onTap: () async {
-                            await getFavorites();
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            String? authorizationToken =
-                                prefs.getString("auth_token");
-                            final ApiResponse = await http.get(
-                              Uri.parse(
-                                  "http://admin.esoptronsalon.com/api/user/favourites/services"),
-                              headers: {
-                                'Authorization': 'Bearer $authorizationToken',
-                                'Content-Type':
-                                    'application/json', // You may need to adjust the content type based on your API requirements
-                              },
-                            );
-                            if (ApiResponse.statusCode >= 200 &&
-                                ApiResponse.statusCode < 300) {
-                              final responseData =
-                                  json.decode(ApiResponse.body);
-                              setState(() {
-                                favorites =
-                                    responseData['data']['favourite_services'];
-                              });
-                              for (var element in favorites) {
-                                if (!favoritesServiceId
-                                    .contains(element["service_id"])) {
-                                  favoritesServiceId.add(element["service_id"]);
-                                }
-                                favouritesServiceIdMapper[
-                                        element["service_id"]] =
-                                    element["favourite_service_id"];
-                              }
-                            } else {}
-                            final response = await http.delete(
-                              Uri.parse(
-                                  "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[9]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
-                              headers: {
-                                'Authorization': 'Bearer $authorizationToken',
-                                'Content-Type':
-                                    'application/json', // You may need to adjust the content type based on your API requirements
-                              },
-                            );
-                            var test = arguments[7]
-                                ? favouritesServiceIdMapper[arguments[9]]
-                                : favouritesServiceIdMapper[arguments[10]];
-                            // print(favouritesServiceIdMapper);
-                            // print(test);
-                            // print(response.body);
-                            if (response.statusCode >= 200 &&
-                                response.statusCode < 300) {
-                              // ignore: use_build_context_synchronously
-                              setState(() {
-                                favoritesServiceId.remove(arguments[7]
-                                    ? arguments[9]
-                                    : arguments[10]);
-                              });
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text("Service removed from favorites"),
-                                backgroundColor: kPrimaryColor,
-                                padding: EdgeInsets.all(25),
-                              ));
-                            } else {
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text("Something wrong happened"),
-                                backgroundColor: kPrimaryColor,
-                                padding: EdgeInsets.all(25),
-                              ));
-                            }
-                          },
-                          child: const Icon(Icons.favorite,
-                              color: kPrimaryColor, size: 25),
-                        )
-                      : GestureDetector(
-                          onTap: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            String? authorizationToken =
-                                prefs.getString("auth_token");
-                            await getFavorites();
-                            final response = await http.post(
-                              Uri.parse(
-                                  "http://admin.esoptronsalon.com/api/user/service/${arguments[7] ? arguments[9] : arguments[10]}/add_favourites"),
-                              headers: {
-                                'Authorization': 'Bearer $authorizationToken',
-                                'Content-Type':
-                                    'application/json', // You may need to adjust the content type based on your API requirements
-                              },
-                            );
-                            print(response.body);
-                            if (response.statusCode >= 200 &&
-                                response.statusCode < 300) {
-                              // ignore: use_build_context_synchronously
-                              setState(() {
-                                favoritesServiceId.add(arguments[7]
-                                    ? arguments[9]
-                                    : arguments[10]);
-                              });
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text("Service Added to favorites"),
-                                backgroundColor: kPrimaryColor,
-                                padding: EdgeInsets.all(25),
-                              ));
-                            } else {
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text("Something wrong happened"),
-                                backgroundColor: kPrimaryColor,
-                                padding: EdgeInsets.all(25),
-                              ));
-                            }
-                          },
-                          child: const Icon(Icons.favorite_outline)),
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          //padding: const EdgeInsets.only(top: 8.0),
+                          child: Text("Description",
+                              softWrap: true,
+                              maxLines: 3,
+                              style: GoogleFonts.nunitoSans(
+                                  textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(15),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona')))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        //padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(arguments[2],
+                            softWrap: true,
+                            maxLines: 3,
+                            style: GoogleFonts.nunitoSans(
+                                textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getProportionateScreenWidth(13),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'krona'))),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  height: getProportionateScreenHeight(30),
-                  width: getProportionateScreenWidth(80),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(175, 250, 140, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: Center(
-                    child: Text(
-                      arguments[5] ? "Available" : "Unavailable",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(12),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: Align(
-              alignment: Alignment.topLeft,
-              //padding: const EdgeInsets.only(top: 8.0),
-              child: Text(arguments[2],
-                  softWrap: true,
-                  maxLines: 3,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(15),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona')),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Row(
-              children: [
-                Text(
-                  "${arguments[6]}",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(13),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
-                ),
-                for (int i = 0; i < arguments[6]; i++)
-                  const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Icon(
-                      FontAwesomeIcons.solidStar,
-                      size: 13,
-                      color: Colors.orangeAccent,
-                    ),
-                  ),
-                for (int i = 0; i < 5 - arguments[6]; i++)
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      FontAwesomeIcons.solidStar,
-                      size: 13,
-                      color: Colors.black.withOpacity(0.4),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 8.0),
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         "${arguments[6]}",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: getProportionateScreenWidth(13),
+          //             fontWeight: FontWeight.bold,
+          //             fontFamily: 'krona'),
+          //       ),
+          //       for (int i = 0; i < arguments[6]; i++)
+          //         const Padding(
+          //           padding: EdgeInsets.all(4.0),
+          //           child: Icon(
+          //             FontAwesomeIcons.solidStar,
+          //             size: 13,
+          //             color: Colors.orangeAccent,
+          //           ),
+          //         ),
+          //       for (int i = 0; i < 5 - arguments[6]; i++)
+          //         Padding(
+          //           padding: const EdgeInsets.all(4.0),
+          //           child: Icon(
+          //             FontAwesomeIcons.solidStar,
+          //             size: 13,
+          //             color: Colors.black.withOpacity(0.4),
+          //           ),
+          //         ),
+          //     ],
+          //   ),
+          // ),
           arguments[7]
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
