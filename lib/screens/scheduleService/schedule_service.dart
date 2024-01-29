@@ -112,11 +112,11 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   "Choose Schedule Time",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
+                  style: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(18),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -182,14 +182,11 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(9.0),
-                child: Text(
-                  "☕️ Morning",
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(0.7),
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
-                ),
+                child: Text("☕️ Morning",
+                    style: GoogleFonts.nunitoSans(
+                        fontSize: getProportionateScreenWidth(17),
+                        color: Colors.black.withOpacity(0.9),
+                        fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -224,7 +221,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "9:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time1 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -258,7 +255,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "10:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time2 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -292,7 +289,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "11:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time3 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -326,7 +323,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "12:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time4 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -344,11 +341,10 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                 padding: const EdgeInsets.all(9.0),
                 child: Text(
                   "🍹 Afternoon",
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(0.7),
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'krona'),
+                  style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(17),
+                      color: Colors.black.withOpacity(0.9),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -384,7 +380,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "13:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time5 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -418,7 +414,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "14:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time6 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -452,7 +448,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "15:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time7 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
@@ -486,7 +482,7 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
                     child: Center(
                       child: Text(
                         "16:00",
-                        style: TextStyle(
+                        style: GoogleFonts.nunitoSans(
                             fontWeight: FontWeight.bold,
                             color: time8 ? Colors.white : Colors.black,
                             fontSize: getProportionateScreenWidth(18)),
