@@ -98,7 +98,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Icon(
-                      Icons.location_pin,
+                      Icons.map_rounded,
                       size: 23,
                       color: Colors.black,
                     ),
@@ -201,7 +201,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Icon(
-                      Icons.woman_rounded,
+                      Icons.shopping_bag_rounded,
                       size: 23,
                       color: Colors.black,
                     ),
@@ -236,22 +236,35 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
-                    child: Text(
-                      "Subcategories",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(18),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'krona'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.category_rounded,
+                      size: 23,
+                      color: Colors.black,
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: getProportionateScreenWidth(10),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
+                      child: Text(
+                        "Subcategories",
+                        style: GoogleFonts.nunitoSans(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(16),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               for (int i = 0; i < arguments[2].length; i++)
                 Padding(
@@ -283,22 +296,30 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
               //     ),
               //   ),
               // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
-                    child: Text(
-                      "Select Booking Time",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(18),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'krona'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.access_time_rounded,
+                      size: 23,
+                      color: Colors.black,
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: getProportionateScreenWidth(10),
+                    ),
+                    Text(
+                      "Select Booking Time",
+                      style: GoogleFonts.nunitoSans(
+                          textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(16),
+                        fontWeight: FontWeight.w500,
+                      )),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -313,7 +334,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                             padding: const EdgeInsets.all(8.0),
                             child: Card(
                               color: kPrimaryColor,
-                              elevation: 3,
+                              elevation: 2,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -322,6 +343,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         FontAwesomeIcons.solidClock,
+                                        size: 30,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -330,12 +352,14 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                             getProportionateScreenHeight(5)),
                                     Text(
                                       "Instant Service",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:
-                                              getProportionateScreenWidth(17),
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'krona'),
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            getProportionateScreenWidth(17),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'krona',
+                                      )),
                                     ),
                                   ],
                                 ),
@@ -366,6 +390,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         FontAwesomeIcons.solidClock,
+                                        size: 30,
                                         color: kPrimaryColor,
                                       ),
                                     ),
@@ -374,12 +399,14 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                             getProportionateScreenHeight(5)),
                                     Text(
                                       "Instant Service",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenWidth(17),
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'krona'),
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            getProportionateScreenWidth(17),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'krona',
+                                      )),
                                     ),
                                   ],
                                 ),
@@ -411,21 +438,22 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         FontAwesomeIcons.calendar,
+                                        size: 30,
                                         color: Colors.white,
                                       ),
                                     ),
                                     SizedBox(
                                         height:
                                             getProportionateScreenHeight(5)),
-                                    Text(
-                                      "Schedule Service",
-                                      style: TextStyle(
+                                    Text("Schedule Service",
+                                        style: GoogleFonts.nunitoSans(
+                                            textStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize:
                                               getProportionateScreenWidth(17),
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: 'krona'),
-                                    ),
+                                          fontFamily: 'krona',
+                                        ))),
                                   ],
                                 ),
                               ),
@@ -454,6 +482,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         FontAwesomeIcons.calendar,
+                                        size: 30,
                                         color: kPrimaryColor,
                                       ),
                                     ),
@@ -462,12 +491,14 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                                             getProportionateScreenHeight(5)),
                                     Text(
                                       "Schedule Service",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenWidth(17),
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'krona'),
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            getProportionateScreenWidth(17),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'krona',
+                                      )),
                                     ),
                                   ],
                                 ),
@@ -477,9 +508,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                         )
                 ],
               ),
-              const SizedBox(
-                height: 40,
-              ),
+              SizedBox(height: getProportionateScreenHeight(50)),
               DefaultButton(
                   text: "Continue",
                   press: () {

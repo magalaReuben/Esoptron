@@ -271,7 +271,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 leading: const Icon(
-                  FontAwesomeIcons.bell,
+                  Icons.notifications_active,
                   color: kPrimaryColor,
                 ),
                 onTap: () =>
@@ -289,7 +289,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 leading: const Icon(
-                  FontAwesomeIcons.heart,
+                  Icons.favorite,
                   color: kPrimaryColor,
                 ),
                 onTap: () {
