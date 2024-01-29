@@ -6,6 +6,7 @@ import 'package:esoptron_salon/screens/servicedetails/service_details.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ServicesUnderSubCategory extends ConsumerStatefulWidget {
   static String routeName = "/servicesUnderSubCategory";
@@ -29,8 +30,12 @@ class _ServicesUnderSubCategoryState
     final services = ref.watch(servicesProvider);
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(arguments[2]),
+        backgroundColor: kPrimaryColor.withOpacity(0.8),
+        title: Text(arguments[2],
+            style: GoogleFonts.nunitoSans(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: getProportionateScreenWidth(18))),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -60,51 +65,82 @@ class _ServicesUnderSubCategoryState
                       children: [
                         for (int i = 0; i < servicesList.length; i++)
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: getProportionateScreenHeight(150),
-                              width: getProportionateScreenWidth(360),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: kPrimaryColor,
-                                  )),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image(
-                                          //image: NetImage(image),
-                                          image: NetworkImage(
-                                              "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}"),
-                                          fit: BoxFit.cover),
-                                    ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                child: Container(
+                                  height: getProportionateScreenHeight(175),
+                                  width: getProportionateScreenWidth(350),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white.withOpacity(0.6),
                                   ),
-                                  Padding(
+                                  child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          "${servicesList[i]["name"]}",
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize:
-                                                  getProportionateScreenWidth(
-                                                      18),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'krona'),
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(8)),
+                                          child: Image(
+                                              height: 200,
+                                              width: 140,
+                                              image: NetworkImage(
+                                                  "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}"),
+                                              fit: BoxFit.cover),
                                         ),
-                                        Row(
+                                        SizedBox(
+                                          width:
+                                              getProportionateScreenWidth(10),
+                                        ),
+                                        Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            FilledButton(
+                                            Text(
+                                              servicesList[i]["name"],
+                                              style: GoogleFonts.nunitoSans(
+                                                  textStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        16),
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      5),
+                                            ),
+                                            SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      200),
+                                              child: Text(
+                                                servicesList[i]["description"],
+                                                style: GoogleFonts.nunitoSans(
+                                                    textStyle: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize:
+                                                      getProportionateScreenWidth(
+                                                          12),
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      5),
+                                            ),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    foregroundColor:
+                                                        kPrimaryColor,
+                                                    backgroundColor:
+                                                        kPrimaryColor),
                                                 onPressed: () =>
                                                     Navigator.pushNamed(
                                                         context,
@@ -132,24 +168,115 @@ class _ServicesUnderSubCategoryState
                                                           servicesList[i]["id"],
                                                           arguments[0]
                                                         ]),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(13.0),
-                                                  child: Text("Select"),
-                                                )),
-                                            SizedBox(
-                                              width:
-                                                  getProportionateScreenWidth(
-                                                      40),
-                                            )
+                                                child: Text(
+                                                  "View Service",
+                                                  style: GoogleFonts.nunitoSans(
+                                                      textStyle: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize:
+                                                              getProportionateScreenWidth(
+                                                                  12),
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                ))
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                ),
+                              )),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Container(
+                        //     height: getProportionateScreenHeight(150),
+                        //     width: getProportionateScreenWidth(360),
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: const BorderRadius.all(
+                        //             Radius.circular(10)),
+                        //         border: Border.all(
+                        //           width: 2,
+                        //           color: kPrimaryColor,
+                        //         )),
+                        //     child: Row(
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.all(4.0),
+                        //           child: ClipRRect(
+                        //             borderRadius: BorderRadius.circular(10),
+                        //             child: Image(
+                        //                 //image: NetImage(image),
+                        //                 image: NetworkImage(
+                        //                     "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}"),
+                        //                 fit: BoxFit.cover),
+                        //           ),
+                        //         ),
+                        //         Padding(
+                        //           padding: const EdgeInsets.all(8.0),
+                        //           child: Column(
+                        //             mainAxisAlignment:
+                        //                 MainAxisAlignment.spaceEvenly,
+                        //             children: [
+                        //               Text(
+                        //                 "${servicesList[i]["name"]}",
+                        //                 style: TextStyle(
+                        //                     color: kPrimaryColor,
+                        //                     fontSize:
+                        //                         getProportionateScreenWidth(
+                        //                             18),
+                        //                     fontWeight: FontWeight.bold,
+                        //                     fontFamily: 'krona'),
+                        //               ),
+                        //               Row(
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.start,
+                        //                 children: [
+                        //                   FilledButton(
+                        //                       onPressed: () =>
+                        //                           Navigator.pushNamed(
+                        //                               context,
+                        //                               ServiceDetails
+                        //                                   .routeName,
+                        //                               arguments: [
+                        //                                 servicesList[i]
+                        //                                     ["name"],
+                        //                                 "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
+                        //                                 servicesList[i]
+                        //                                     ["description"],
+                        //                                 {},
+                        //                                 servicesList[i]
+                        //                                     ["ratings_count"],
+                        //                                 servicesList[i][
+                        //                                             "is_available"] ==
+                        //                                         0
+                        //                                     ? false
+                        //                                     : true,
+                        //                                 servicesList[i]
+                        //                                     ["ratings_count"],
+                        //                                 false,
+                        //                                 arguments[1],
+                        //                                 arguments[2],
+                        //                                 servicesList[i]["id"],
+                        //                                 arguments[0]
+                        //                               ]),
+                        //                       child: const Padding(
+                        //                         padding: EdgeInsets.all(13.0),
+                        //                         child: Text("Select"),
+                        //                       )),
+                        //                   SizedBox(
+                        //                     width:
+                        //                         getProportionateScreenWidth(
+                        //                             40),
+                        //                   )
+                        //                 ],
+                        //               )
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(
                           width: getProportionateScreenWidth(15),
                         )

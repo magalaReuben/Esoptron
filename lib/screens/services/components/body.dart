@@ -213,7 +213,7 @@ class _BodyState extends ConsumerState<Body> {
                   //log(servicesState.data!.data.toString());
                   for (var element in servicesProvidersState
                       .data!.data['service_providers']) {
-                    print(element.toString());
+                    // print(element.toString());
                     serviceProviders.add(element);
                   }
                   return GridView.builder(

@@ -334,6 +334,9 @@ class _ScheduleServiceState extends ConsumerState<ScheduleService> {
               ],
             ),
           ),
+          SizedBox(
+            height: getProportionateScreenHeight(20),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
