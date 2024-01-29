@@ -449,6 +449,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                         color: Colors.black, size: 30)),
                           )),
                     ),
+                  )),
+              Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Text(
+                    arguments[0],
+                    style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.w500,
+                    )),
                   ))
             ],
           ),
