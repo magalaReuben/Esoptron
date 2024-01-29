@@ -851,7 +851,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     style: ElevatedButton.styleFrom(
                                         foregroundColor: kPrimaryColor,
                                         backgroundColor: kPrimaryColor),
-                                    onPressed: () => Null,
+                                    onPressed: () => Navigator.pushNamed(
+                                            context, ServiceBooking.routeName,
+                                            arguments: [
+                                              arguments[0],
+                                              [arguments[8]],
+                                              [arguments[9]],
+                                              arguments[10],
+                                              [arguments[11]]
+                                            ]),
                                     child: Text(
                                       "Proceed to Booking",
                                       style: GoogleFonts.nunitoSans(
@@ -1324,7 +1332,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                       ? checkboxvalues.contains(true)
                                           ? [kPrimaryColor, kPrimaryColor]
                                           : [Colors.grey, Colors.grey]
-                                      : [kPrimaryColor, kPrimaryColor]),
+                                      : [
+                                          kPrimaryColor,
+                                          kPrimaryColor.withOpacity(0.8)
+                                        ]),
                               borderRadius: BorderRadius.circular(15.0)),
                           child: TextButton(
                             style: TextButton.styleFrom(
