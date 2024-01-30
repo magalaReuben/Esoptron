@@ -7,6 +7,7 @@ import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/statementsAndReports/statements_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,7 +68,7 @@ class _BodyState extends ConsumerState<Body> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return CircleAvatar(
-                        radius: 20,
+                        radius: 35,
                         backgroundImage: snapshot.data,
                       );
                     } else {
@@ -78,11 +79,11 @@ class _BodyState extends ConsumerState<Body> {
                 ),
                 title: Text(
                   userName ?? "",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
+                  style: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(18),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 subtitle: const Text("View Profile"),
                 trailing: GestureDetector(

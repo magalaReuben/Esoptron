@@ -97,6 +97,7 @@ class _ServiceDetailsFromTrackingState
             if (snapshot.data!.isEmpty) {
               return const Center(child: Text("No Service Booked Yet"));
             }
+            print(snapshot.data![0]['service'][0]);
             return SingleChildScrollView(
               child: Column(children: [
                 SizedBox(height: getProportionateScreenHeight(5)),
@@ -144,7 +145,7 @@ class _ServiceDetailsFromTrackingState
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${snapshot.data![0]['service'][0]}',
+                                    '${snapshot.data![0]['service'][0]['name']}',
                                     style: GoogleFonts.nunitoSans(
                                         textStyle: TextStyle(
                                       color: Colors.black,
@@ -166,13 +167,21 @@ class _ServiceDetailsFromTrackingState
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
                     child: ListTile(
-                      leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'http://admin.esoptronsalon.com/storage/services/${snapshot.data![0]['service'][0]['logo']}')),
                       title: Text(
-                        "${snapshot.data![0]['service'][0]['name']}",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        "Description",
+                        style: GoogleFonts.nunitoSans(
+                          fontSize: getProportionateScreenWidth(18),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      subtitle: Text(
+                          "${snapshot.data![0]['service'][0]['description']}",
+                          style: GoogleFonts.nunitoSans(
+                            fontSize: getProportionateScreenWidth(15),
+                            color: Colors.black.withOpacity(0.9),
+                            fontWeight: FontWeight.bold,
+                          )),
                       // subtitle: Column(
                       //   crossAxisAlignment: CrossAxisAlignment.start,
                       //   children: [
