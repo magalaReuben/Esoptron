@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/controllers/getService.dart';
@@ -25,6 +27,7 @@ class _ServicesUnderSubCategoryState
   Widget build(BuildContext context) {
     List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    Map<dynamic, dynamic> serviceProvider = {};
     print("my id is : ${arguments[0]}");
     Future(() {
       ref.read(getServiceIdProvider.notifier).state = arguments[0];
@@ -162,6 +165,7 @@ class _ServicesUnderSubCategoryState
                                                     backgroundColor:
                                                         kPrimaryColor),
                                                 onPressed: () async {
+                                                  //print(arguments[0]);
                                                   SharedPreferences prefs =
                                                       await SharedPreferences
                                                           .getInstance();
@@ -169,9 +173,9 @@ class _ServicesUnderSubCategoryState
                                                       prefs.getString(
                                                           "auth_token");
                                                   final response =
-                                                      await http.post(
+                                                      await http.get(
                                                     Uri.parse(
-                                                        "http://admin.esoptronsalon.com/api/users/service_provider/${servicesList[i]["id"]}/details"),
+                                                        "http://admin.esoptronsalon.com/api/service/${servicesList[i]["id"]}/details"),
                                                     headers: {
                                                       'Authorization':
                                                           'Bearer $authorizationToken',
@@ -179,7 +183,27 @@ class _ServicesUnderSubCategoryState
                                                           'application/json', // You may need to adjust the content type based on your API requirements
                                                     },
                                                   );
-                                                  print(response.body);
+                                                  if (response.statusCode >=
+                                                          200 &&
+                                                      response.statusCode <
+                                                          300) {
+                                                    final responseData = json
+                                                        .decode(response.body);
+                                                    setState(() {
+                                                      serviceProvider =
+                                                          responseData['data'][
+                                                              'service_provider'];
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      serviceProvider = {
+                                                        'name': '',
+                                                        'email': '',
+                                                        'avatar': '',
+                                                        'phone': ''
+                                                      };
+                                                    });
+                                                  }
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(context,
                                                       ServiceDetails.routeName,
@@ -188,11 +212,7 @@ class _ServicesUnderSubCategoryState
                                                         "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
                                                         servicesList[i]
                                                             ["description"],
-                                                        {
-                                                          'name': 'Joshua',
-                                                          'email':
-                                                              'jojo@gmail.com'
-                                                        },
+                                                        serviceProvider,
                                                         servicesList[i]
                                                             ["ratings_count"],
                                                         servicesList[i][
