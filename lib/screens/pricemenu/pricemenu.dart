@@ -112,14 +112,12 @@ class _PriceMenuState extends State<PriceMenu> {
             // priceItem("Nail Clipping", "UGX 50000"),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "WAXING",
-                style: TextStyle(
-                    color: Colors.black,
+              child: Text("WAXING",
+                  style: GoogleFonts.nunitoSans(
                     fontSize: getProportionateScreenWidth(18),
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
-              ),
+                  )),
             ),
             priceItem("waxing", "UGX 150-300,000"),
             // priceItem("Body wax", "UGX 50000"),
@@ -148,7 +146,7 @@ class _PriceMenuState extends State<PriceMenu> {
 
   Padding priceItem(String item, String price) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8),
+      padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -704,7 +704,7 @@ class _BodyState extends State<Body> {
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Container(
-            height: getProportionateScreenHeight(150),
+            height: getProportionateScreenHeight(110),
             width: getProportionateScreenWidth(350),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -735,7 +735,7 @@ class _BodyState extends State<Body> {
                         style: GoogleFonts.nunitoSans(
                             textStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: getProportionateScreenWidth(18),
+                          fontSize: getProportionateScreenWidth(16),
                           fontWeight: FontWeight.w500,
                         )),
                       ),

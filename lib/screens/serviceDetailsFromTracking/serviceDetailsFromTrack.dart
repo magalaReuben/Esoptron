@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:background_location/background_location.dart';
+import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/contentProvisionProviders.dart';
 import 'package:esoptron_salon/services/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,8 +82,13 @@ class _ServiceDetailsFromTrackingState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        title: const Text("Service Details"),
+        backgroundColor: kPrimaryColor.withOpacity(0.8),
+        title: Text("Service Details",
+            style: GoogleFonts.nunitoSans(
+              fontSize: getProportionateScreenWidth(18),
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            )),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: getServiceDetails(),
@@ -93,18 +100,68 @@ class _ServiceDetailsFromTrackingState
             return SingleChildScrollView(
               child: Column(children: [
                 SizedBox(height: getProportionateScreenHeight(5)),
-                const Row(
+                Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Text("Service Provider Details",
-                          style: TextStyle(
-                            fontSize: 17,
+                          style: GoogleFonts.nunitoSans(
+                            fontSize: getProportionateScreenWidth(18),
                             fontWeight: FontWeight.bold,
                           )),
                     ),
                   ],
                 ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Container(
+                        height: getProportionateScreenHeight(110),
+                        width: getProportionateScreenWidth(350),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white.withOpacity(0.6),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                child: Image(
+                                    height: 200,
+                                    width: 100,
+                                    image: NetworkImage(
+                                        "http://admin.esoptronsalon.com/storage/services/${snapshot.data![0]['service'][0]['logo']}"),
+                                    fit: BoxFit.cover),
+                              ),
+                              SizedBox(
+                                width: getProportionateScreenWidth(10),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${snapshot.data![0]['service'][0]}',
+                                    style: GoogleFonts.nunitoSans(
+                                        textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(18),
+                                      fontWeight: FontWeight.w500,
+                                    )),
+                                  ),
+                                  SizedBox(
+                                    height: getProportionateScreenHeight(5),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
@@ -131,46 +188,73 @@ class _ServiceDetailsFromTrackingState
                     ),
                   ),
                 ),
-                const Row(
+                Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("Categories Details",
-                          style: TextStyle(
-                            fontSize: 17,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Service Details",
+                          style: GoogleFonts.nunitoSans(
+                            fontSize: getProportionateScreenWidth(18),
                             fontWeight: FontWeight.bold,
-                          )),
-                    ),
+                          ),
+                        )),
                   ],
                 ),
                 for (int i = 0;
                     i < snapshot.data![0]['sub_categories'].length;
                     i++)
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'http://admin.esoptronsalon.com/storage/sub_categories/${snapshot.data![0]['sub_categories'][i]['image']}')),
-                        title: Text(
-                            "${snapshot.data![0]['sub_categories'][i]['name']}"),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                "${snapshot.data![0]['sub_categories'][i]['description']}"),
-                            Text(
-                              "${snapshot.data![0]['sub_categories'][i]['charge']}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Container(
+                          height: getProportionateScreenHeight(110),
+                          width: getProportionateScreenWidth(350),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white.withOpacity(0.6),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8)),
+                                  child: Image(
+                                      height: 200,
+                                      width: 100,
+                                      image: NetworkImage(
+                                          "http://admin.esoptronsalon.com/storage/sub_categories/${snapshot.data![0]['sub_categories'][i]['image']}"),
+                                      fit: BoxFit.cover),
+                                ),
+                                SizedBox(
+                                  width: getProportionateScreenWidth(10),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${snapshot.data![0]['sub_categories'][i]['name']} \n UGX ${snapshot.data![0]['sub_categories'][i]['charge'].toString()}',
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            getProportionateScreenWidth(18),
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                    ),
+                                    SizedBox(
+                                      height: getProportionateScreenHeight(5),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
+                      ))
               ]),
             );
           } else {
