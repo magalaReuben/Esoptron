@@ -58,6 +58,32 @@ class _BodyState extends ConsumerState<Body> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  height: getProportionateScreenHeight(350),
+                  width: getProportionateScreenWidth(450),
+                  child: FutureBuilder<NetworkImage>(
+                    future: getImage(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Image(
+                            image: NetworkImage(snapshot.data.toString()),
+                            //height: getProportionateScreenHeight(300),
+                            width: getProportionateScreenWidth(450),
+                            fit: BoxFit.cover);
+                      } else {
+                        // You can return a placeholder or loading indicator while the image is loading
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
@@ -129,99 +155,6 @@ class _BodyState extends ConsumerState<Body> {
                         );
                       },
                     );
-                    // builder: (_) => SizedBox(
-                    //         // height: MediaQuery.of(context).size.height * 0.6,
-                    //         // width: MediaQuery.of(context).size.height * 0.5,
-                    //         child: Padding(
-                    //       padding:
-                    //           const EdgeInsets.only(top: 150, bottom: 120),
-                    //       child: Container(
-                    //         margin: EdgeInsets.all(
-                    //             getProportionateScreenWidth(20)),
-                    //         width: MediaQuery.of(context).size.width,
-                    //         height:
-                    //             MediaQuery.of(context).size.height * 0.7,
-                    //         clipBehavior: Clip.hardEdge,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.white,
-                    //             borderRadius: BorderRadius.circular(20),
-                    //             border: Border.all(
-                    //                 color: kPrimaryColor, width: 5)),
-                    //         child: Center(
-                    //             child: Column(
-                    //           children: [
-                    //             Padding(
-                    //               padding: const EdgeInsets.all(8.0),
-                    //               child: Row(
-                    //                 mainAxisAlignment:
-                    //                     MainAxisAlignment.end,
-                    //                 children: [
-                    //                   GestureDetector(
-                    //                       onTap: () {
-                    //                         Navigator.pop(context);
-                    //                       },
-                    //                       child: const Icon(Icons.cancel))
-                    //                 ],
-                    //               ),
-                    //             ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Text(userName ?? "",
-                    //       style: TextStyle(
-                    //           color: Colors.black,
-                    //           fontSize:
-                    //               getProportionateScreenWidth(
-                    //                   25),
-                    //           fontWeight: FontWeight.bold,
-                    //           fontFamily: 'krona')),
-                    // ),
-                    //             Padding(
-                    //               padding: const EdgeInsets.all(8.0),
-                    //               child: Text(
-                    //                   "Are you sure you want to logout?",
-                    //                   style: TextStyle(
-                    //                       color: Colors.black,
-                    //                       fontSize:
-                    //                           getProportionateScreenWidth(
-                    //                               15),
-                    //                       fontWeight: FontWeight.normal,
-                    //                       fontFamily: 'krona')),
-                    //             ),
-                    //             Padding(
-                    //               padding: const EdgeInsets.all(8.0),
-                    //               child: Row(
-                    //                   mainAxisAlignment:
-                    //                       MainAxisAlignment.spaceAround,
-                    //                   children: [
-                    //                     ElevatedButton(
-                    //                         child: const Text("Logout"),
-                    //                         onPressed: () async {
-                    //                           SharedPreferences prefs =
-                    //                               await SharedPreferences
-                    //                                   .getInstance();
-                    //                           prefs.setBool(
-                    //                               "isLoggedin", false);
-                    //                           prefs.setString(
-                    //                               "firstName", "");
-                    //                           prefs.setString(
-                    //                               "lastName", "");
-                    //                           prefs.setString(
-                    //                               "userEmail", "");
-                    //                           // ignore: use_build_context_synchronously
-                    //                           Navigator.pushNamed(context,
-                    //                               LoginScreen.routeName);
-                    //                         }),
-                    //                     ElevatedButton(
-                    //                         child: const Text("Cancel"),
-                    //                         onPressed: () {
-                    //                           Navigator.pop(context);
-                    //                         })
-                    //                   ]),
-                    //             )
-                    //           ],
-                    //         )),
-                    //       ),
-                    //     )));
                   },
                   child: const Icon(
                     Icons.logout,
