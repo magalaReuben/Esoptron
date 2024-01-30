@@ -34,15 +34,14 @@ class _BodyState extends ConsumerState<Body> {
     ref.read(emailProvider.notifier).state = email;
   }
 
-  Future<NetworkImage> getImage() async {
+  Future<String> getImage() async {
     final profileUrl = ref.watch(profilePicProvider);
     final response = await http
         .head(Uri.parse("http://admin.esoptronsalon.com/$profileUrl"));
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return NetworkImage("http://admin.esoptronsalon.com/$profileUrl");
+      return "http://admin.esoptronsalon.com/$profileUrl";
     } else {
-      return const NetworkImage(
-          "http://admin.esoptronsalon.com/storage/users/user.png");
+      return "http://admin.esoptronsalon.com/storage/users/user.png";
     }
   }
 
@@ -60,42 +59,48 @@ class _BodyState extends ConsumerState<Body> {
         children: [
           Stack(
             children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  height: getProportionateScreenHeight(350),
-                  width: getProportionateScreenWidth(450),
-                  child: FutureBuilder<NetworkImage>(
-                    future: getImage(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Image(
-                            image: NetworkImage(snapshot.data.toString()),
-                            //height: getProportionateScreenHeight(300),
-                            width: getProportionateScreenWidth(450),
-                            fit: BoxFit.cover);
-                      } else {
-                        // You can return a placeholder or loading indicator while the image is loading
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-                onTap: () =>
-                    Navigator.pushNamed(context, EditProfile.routeName),
-                leading: FutureBuilder<NetworkImage>(
+              Positioned(
+                child: FutureBuilder<String>(
                   future: getImage(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      return CircleAvatar(
-                        radius: 35,
-                        backgroundImage: snapshot.data,
+                      return Container(
+                          height: getProportionateScreenHeight(300),
+                          width: getProportionateScreenWidth(450),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(snapshot.data!),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  kPrimaryColor.withOpacity(0.3),
+                                  BlendMode.darken),
+                            ),
+                          ));
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              ),
+              Positioned(
+                bottom: getProportionateScreenHeight(10),
+                left: getProportionateScreenWidth(140),
+                child: FutureBuilder<String>(
+                  future: getImage(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                          shape: BoxShape.circle,
+                        ),
+                        child: CircleAvatar(
+                          radius: 45,
+                          backgroundImage: NetworkImage(snapshot.data!),
+                        ),
                       );
                     } else {
                       // You can return a placeholder or loading indicator while the image is loading
@@ -103,259 +108,335 @@ class _BodyState extends ConsumerState<Body> {
                     }
                   },
                 ),
-                title: Text(
-                  userName ?? "",
-                  style: GoogleFonts.nunitoSans(
-                    fontSize: getProportionateScreenWidth(18),
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                subtitle: const Text("View Profile"),
-                trailing: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(userName ?? "",
-                              style: TextStyle(
+              ),
+              Positioned(
+                  top: getProportionateScreenHeight(10),
+                  right: getProportionateScreenWidth(10),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(userName ?? "",
+                                style: GoogleFonts.nunitoSans(
+                                  fontSize: getProportionateScreenWidth(18),
                                   color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(17),
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona')),
-                          content: Text("Are you sure you want to logout?",
-                              style: TextStyle(
+                                )),
+                            content: Text("Are you sure you want to logout?",
+                                style: GoogleFonts.nunitoSans(
+                                  fontSize: getProportionateScreenWidth(13),
                                   color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(15),
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: 'krona')),
-                          actions: [
-                            TextButton(
-                              onPressed: () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setBool("isLoggedin", false);
-                                prefs.setString("firstName", "");
-                                prefs.setString("lastName", "");
-                                prefs.setString("userEmail", "");
-                                // ignore: use_build_context_synchronously
-                                Navigator.pushNamed(
-                                    context, LoginScreen.routeName);
-                              },
-                              child: const Text("OK"),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: const Icon(
-                    Icons.logout,
-                    color: kPrimaryColor,
-                    size: 25,
-                    weight: 10,
-                  ),
-                )),
-            // child: Row(
-            //   children: [
-            //     FutureBuilder<NetworkImage>(
-            //       future: getImage(),
-            //       builder: (context, snapshot) {
-            //         if (snapshot.connectionState == ConnectionState.done) {
-            //           return CircleAvatar(
-            //             radius: 20,
-            //             backgroundImage: snapshot.data,
-            //           );
-            //         } else {
-            //           // You can return a placeholder or loading indicator while the image is loading
-            //           return const CircularProgressIndicator();
-            //         }
-            //       },
-            //     ),
-            //     SizedBox(
-            //       width: getProportionateScreenWidth(15),
-            //     ),
-            //     Column(
-            //       children: [
-            //         Padding(
-            //           padding: const EdgeInsets.all(3.0),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             children: [
-            //               Text(userName ?? "",
-            //                   style: TextStyle(
-            //                       color: Colors.black,
-            //                       fontSize: getProportionateScreenWidth(18),
-            //                       fontWeight: FontWeight.bold,
-            //                       fontFamily: 'krona')),
-            //               SizedBox(
-            //                   width: userName == null
-            //                       ? getProportionateScreenWidth(130)
-            //                       : getProportionateScreenWidth(
-            //                           1550 / userName!.length.toDouble())),
-            //               GestureDetector(
-            //                 onTap: () {
-            //                   showDialog(
-            //                       context: context,
-            //                       builder: (_) => SizedBox(
-            //                           height:
-            //                               MediaQuery.of(context).size.height *
-            //                                   0.6,
-            //                           width:
-            //                               MediaQuery.of(context).size.height *
-            //                                   0.5,
-            //                           child: Padding(
-            //                             padding: const EdgeInsets.only(
-            //                                 top: 150, bottom: 120),
-            //                             child: Container(
-            //                               margin: EdgeInsets.all(
-            //                                   getProportionateScreenWidth(20)),
-            //                               width:
-            //                                   MediaQuery.of(context).size.width,
-            //                               height: MediaQuery.of(context)
-            //                                       .size
-            //                                       .height *
-            //                                   0.7,
-            //                               clipBehavior: Clip.hardEdge,
-            //                               decoration: BoxDecoration(
-            //                                   color: Colors.white,
-            //                                   borderRadius:
-            //                                       BorderRadius.circular(20),
-            //                                   border: Border.all(
-            //                                       color: kPrimaryColor,
-            //                                       width: 5)),
-            //                               child: Center(
-            //                                   child: Column(
-            //                                 children: [
-            //                                   Padding(
-            //                                     padding:
-            //                                         const EdgeInsets.all(8.0),
-            //                                     child: Row(
-            //                                       mainAxisAlignment:
-            //                                           MainAxisAlignment.end,
-            //                                       children: [
-            //                                         GestureDetector(
-            //                                             onTap: () {
-            //                                               Navigator.pop(
-            //                                                   context);
-            //                                             },
-            //                                             child: const Icon(
-            //                                                 Icons.cancel))
-            //                                       ],
-            //                                     ),
-            //                                   ),
-            //                                   Padding(
-            //                                     padding:
-            //                                         const EdgeInsets.all(8.0),
-            //                                     child: Text(userName ?? "",
-            //                                         style: TextStyle(
-            //                                             color: Colors.black,
-            //                                             fontSize:
-            //                                                 getProportionateScreenWidth(
-            //                                                     25),
-            //                                             fontWeight:
-            //                                                 FontWeight.bold,
-            //                                             fontFamily: 'krona')),
-            //                                   ),
-            //                                   Padding(
-            //                                     padding:
-            //                                         const EdgeInsets.all(8.0),
-            //                                     child: Text(
-            //                                         "Are you sure you want to logout?",
-            //                                         style: TextStyle(
-            //                                             color: Colors.black,
-            //                                             fontSize:
-            //                                                 getProportionateScreenWidth(
-            //                                                     15),
-            //                                             fontWeight:
-            //                                                 FontWeight.normal,
-            //                                             fontFamily: 'krona')),
-            //                                   ),
-            //                                   Padding(
-            //                                     padding:
-            //                                         const EdgeInsets.all(8.0),
-            //                                     child: Row(
-            //                                         mainAxisAlignment:
-            //                                             MainAxisAlignment
-            //                                                 .spaceAround,
-            //                                         children: [
-            //                                           ElevatedButton(
-            //                                               child: const Text(
-            //                                                   "Logout"),
-            //                                               onPressed: () async {
-            //                                                 SharedPreferences
-            //                                                     prefs =
-            //                                                     await SharedPreferences
-            //                                                         .getInstance();
-            //                                                 prefs.setBool(
-            //                                                     "isLoggedin",
-            //                                                     false);
-            //                                                 prefs.setString(
-            //                                                     "firstName",
-            //                                                     "");
-            //                                                 prefs.setString(
-            //                                                     "lastName", "");
-            //                                                 prefs.setString(
-            //                                                     "userEmail",
-            //                                                     "");
-            //                                                 // ignore: use_build_context_synchronously
-            //                                                 Navigator.pushNamed(
-            //                                                     context,
-            //                                                     LoginScreen
-            //                                                         .routeName);
-            //                                               }),
-            //                                           ElevatedButton(
-            //                                               child: const Text(
-            //                                                   "Cancel"),
-            //                                               onPressed: () {
-            //                                                 Navigator.pop(
-            //                                                     context);
-            //                                               })
-            //                                         ]),
-            //                                   )
-            //                                 ],
-            //                               )),
-            //                             ),
-            //                           )));
-            //                 },
-            //                 child: const Icon(Icons.logout,
-            //                     size: 25, color: kPrimaryColor),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //         Padding(
-            //           padding: const EdgeInsets.all(3.0),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.end,
-            //             children: [
-            //               SizedBox(
-            //                 width: getProportionateScreenWidth(200),
-            //               ),
-            //               Text("Log Out",
-            //                   style: TextStyle(
-            //                       color: Colors.black,
-            //                       fontSize: getProportionateScreenWidth(17),
-            //                       fontWeight: FontWeight.bold,
-            //                       fontFamily: 'krona'))
-            //             ],
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           height: getProportionateScreenHeight(10),
-            //         ),
-            //       ],
-            //     )
-            //   ],
-            // ),
+                                )),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setBool("isLoggedin", false);
+                                  prefs.setString("firstName", "");
+                                  prefs.setString("lastName", "");
+                                  prefs.setString("userEmail", "");
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pushNamed(
+                                      context, LoginScreen.routeName);
+                                },
+                                child: const Text("OK"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                      size: getProportionateScreenWidth(25),
+                      weight: getProportionateScreenWidth(15),
+                    ),
+                  ))
+            ],
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(userName ?? "",
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(18),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: ListTile(
+          //       onTap: () =>
+          //           Navigator.pushNamed(context, EditProfile.routeName),
+          //       title: Text(
+          //         userName ?? "",
+          //         style: GoogleFonts.nunitoSans(
+          //           fontSize: getProportionateScreenWidth(18),
+          //           color: Colors.black,
+          //           fontWeight: FontWeight.w600,
+          //         ),
+          //       ),
+          //       subtitle: const Text("View Profile"),
+          //       trailing: GestureDetector(
+          //         onTap: () {
+          //           showDialog(
+          //             context: context,
+          //             builder: (BuildContext context) {
+          //               return AlertDialog(
+          //                 title: Text(userName ?? "",
+          //                     style: TextStyle(
+          //                         color: Colors.black,
+          //                         fontSize: getProportionateScreenWidth(17),
+          //                         fontWeight: FontWeight.bold,
+          //                         fontFamily: 'krona')),
+          //                 content: Text("Are you sure you want to logout?",
+          //                     style: TextStyle(
+          //                         color: Colors.black,
+          //                         fontSize: getProportionateScreenWidth(15),
+          //                         fontWeight: FontWeight.normal,
+          //                         fontFamily: 'krona')),
+          //                 actions: [
+          //                   TextButton(
+          //                     onPressed: () async {
+          //                       SharedPreferences prefs =
+          //                           await SharedPreferences.getInstance();
+          //                       prefs.setBool("isLoggedin", false);
+          //                       prefs.setString("firstName", "");
+          //                       prefs.setString("lastName", "");
+          //                       prefs.setString("userEmail", "");
+          //                       // ignore: use_build_context_synchronously
+          //                       Navigator.pushNamed(
+          //                           context, LoginScreen.routeName);
+          //                     },
+          //                     child: const Text("OK"),
+          //                   ),
+          //                   TextButton(
+          //                     onPressed: () {
+          //                       Navigator.pop(context);
+          //                     },
+          //                     child: const Text("Cancel"),
+          //                   ),
+          //                 ],
+          //               );
+          //             },
+          //           );
+          //         },
+          //         child: const Icon(
+          //           Icons.logout,
+          //           color: kPrimaryColor,
+          //           size: 25,
+          //           weight: 10,
+          //         ),
+          //       )),
+          // child: Row(
+          //   children: [
+          //     FutureBuilder<NetworkImage>(
+          //       future: getImage(),
+          //       builder: (context, snapshot) {
+          //         if (snapshot.connectionState == ConnectionState.done) {
+          //           return CircleAvatar(
+          //             radius: 20,
+          //             backgroundImage: snapshot.data,
+          //           );
+          //         } else {
+          //           // You can return a placeholder or loading indicator while the image is loading
+          //           return const CircularProgressIndicator();
+          //         }
+          //       },
+          //     ),
+          //     SizedBox(
+          //       width: getProportionateScreenWidth(15),
+          //     ),
+          //     Column(
+          //       children: [
+          //         Padding(
+          //           padding: const EdgeInsets.all(3.0),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Text(userName ?? "",
+          //                   style: TextStyle(
+          //                       color: Colors.black,
+          //                       fontSize: getProportionateScreenWidth(18),
+          //                       fontWeight: FontWeight.bold,
+          //                       fontFamily: 'krona')),
+          //               SizedBox(
+          //                   width: userName == null
+          //                       ? getProportionateScreenWidth(130)
+          //                       : getProportionateScreenWidth(
+          //                           1550 / userName!.length.toDouble())),
+          //               GestureDetector(
+          //                 onTap: () {
+          //                   showDialog(
+          //                       context: context,
+          //                       builder: (_) => SizedBox(
+          //                           height:
+          //                               MediaQuery.of(context).size.height *
+          //                                   0.6,
+          //                           width:
+          //                               MediaQuery.of(context).size.height *
+          //                                   0.5,
+          //                           child: Padding(
+          //                             padding: const EdgeInsets.only(
+          //                                 top: 150, bottom: 120),
+          //                             child: Container(
+          //                               margin: EdgeInsets.all(
+          //                                   getProportionateScreenWidth(20)),
+          //                               width:
+          //                                   MediaQuery.of(context).size.width,
+          //                               height: MediaQuery.of(context)
+          //                                       .size
+          //                                       .height *
+          //                                   0.7,
+          //                               clipBehavior: Clip.hardEdge,
+          //                               decoration: BoxDecoration(
+          //                                   color: Colors.white,
+          //                                   borderRadius:
+          //                                       BorderRadius.circular(20),
+          //                                   border: Border.all(
+          //                                       color: kPrimaryColor,
+          //                                       width: 5)),
+          //                               child: Center(
+          //                                   child: Column(
+          //                                 children: [
+          //                                   Padding(
+          //                                     padding:
+          //                                         const EdgeInsets.all(8.0),
+          //                                     child: Row(
+          //                                       mainAxisAlignment:
+          //                                           MainAxisAlignment.end,
+          //                                       children: [
+          //                                         GestureDetector(
+          //                                             onTap: () {
+          //                                               Navigator.pop(
+          //                                                   context);
+          //                                             },
+          //                                             child: const Icon(
+          //                                                 Icons.cancel))
+          //                                       ],
+          //                                     ),
+          //                                   ),
+          //                                   Padding(
+          //                                     padding:
+          //                                         const EdgeInsets.all(8.0),
+          //                                     child: Text(userName ?? "",
+          //                                         style: TextStyle(
+          //                                             color: Colors.black,
+          //                                             fontSize:
+          //                                                 getProportionateScreenWidth(
+          //                                                     25),
+          //                                             fontWeight:
+          //                                                 FontWeight.bold,
+          //                                             fontFamily: 'krona')),
+          //                                   ),
+          //                                   Padding(
+          //                                     padding:
+          //                                         const EdgeInsets.all(8.0),
+          //                                     child: Text(
+          //                                         "Are you sure you want to logout?",
+          //                                         style: TextStyle(
+          //                                             color: Colors.black,
+          //                                             fontSize:
+          //                                                 getProportionateScreenWidth(
+          //                                                     15),
+          //                                             fontWeight:
+          //                                                 FontWeight.normal,
+          //                                             fontFamily: 'krona')),
+          //                                   ),
+          //                                   Padding(
+          //                                     padding:
+          //                                         const EdgeInsets.all(8.0),
+          //                                     child: Row(
+          //                                         mainAxisAlignment:
+          //                                             MainAxisAlignment
+          //                                                 .spaceAround,
+          //                                         children: [
+          //                                           ElevatedButton(
+          //                                               child: const Text(
+          //                                                   "Logout"),
+          //                                               onPressed: () async {
+          //                                                 SharedPreferences
+          //                                                     prefs =
+          //                                                     await SharedPreferences
+          //                                                         .getInstance();
+          //                                                 prefs.setBool(
+          //                                                     "isLoggedin",
+          //                                                     false);
+          //                                                 prefs.setString(
+          //                                                     "firstName",
+          //                                                     "");
+          //                                                 prefs.setString(
+          //                                                     "lastName", "");
+          //                                                 prefs.setString(
+          //                                                     "userEmail",
+          //                                                     "");
+          //                                                 // ignore: use_build_context_synchronously
+          //                                                 Navigator.pushNamed(
+          //                                                     context,
+          //                                                     LoginScreen
+          //                                                         .routeName);
+          //                                               }),
+          //                                           ElevatedButton(
+          //                                               child: const Text(
+          //                                                   "Cancel"),
+          //                                               onPressed: () {
+          //                                                 Navigator.pop(
+          //                                                     context);
+          //                                               })
+          //                                         ]),
+          //                                   )
+          //                                 ],
+          //                               )),
+          //                             ),
+          //                           )));
+          //                 },
+          //                 child: const Icon(Icons.logout,
+          //                     size: 25, color: kPrimaryColor),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: const EdgeInsets.all(3.0),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.end,
+          //             children: [
+          //               SizedBox(
+          //                 width: getProportionateScreenWidth(200),
+          //               ),
+          //               Text("Log Out",
+          //                   style: TextStyle(
+          //                       color: Colors.black,
+          //                       fontSize: getProportionateScreenWidth(17),
+          //                       fontWeight: FontWeight.bold,
+          //                       fontFamily: 'krona'))
+          //             ],
+          //           ),
+          //         ),
+          //         SizedBox(
+          //           height: getProportionateScreenHeight(10),
+          //         ),
+          //       ],
+          //     )
+          //   ],
+          // ),
+          //),
           // Padding(
           //   padding: const EdgeInsets.all(8.0),
           //   child: Row(
@@ -387,16 +468,31 @@ class _BodyState extends ConsumerState<Body> {
               child: ListTile(
                 onTap: () =>
                     Navigator.pushNamed(context, EditProfile.routeName),
-                leading: const Icon(Icons.account_circle, color: kPrimaryColor),
+                leading: const Icon(
+                  Icons.account_circle,
+                  color: Colors.black,
+                  size: 35,
+                ),
                 title: Text(
                   "Edit Profile",
-                  style: TextStyle(
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: TextStyle(
                       color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
+                      fontSize: getProportionateScreenWidth(16),
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
+                    ),
+                  ),
                 ),
-                subtitle: const Text("Name, Phone Number, Adress"),
+                subtitle: Text(
+                  "Name, Phone Number, Adress",
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -444,19 +540,60 @@ class _BodyState extends ConsumerState<Body> {
           //   ),
           // ),
           Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: ListTile(
+                  leading:
+                      const Icon(Icons.group, color: Colors.black, size: 35),
+                  title: Text(
+                    "Referrals",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(17),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    "check no of friends and earn",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(12),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              )),
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: ListTile(
-                leading: const Icon(Icons.money, color: kPrimaryColor),
-                title: Text(
-                  "Referrals",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
+                leading: const Icon(
+                  Icons.star,
+                  color: Colors.black,
+                  size: 35,
                 ),
-                subtitle: const Text("check no of friends and earn"),
+                title: Text("Loyalty Points",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(17),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )),
+                subtitle: Text(
+                  "Check your points as a loyal customer",
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -464,34 +601,25 @@ class _BodyState extends ConsumerState<Body> {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: ListTile(
-                leading: const Icon(Icons.star, color: kPrimaryColor),
-                title: Text(
-                  "Loyalty Points",
-                  style: TextStyle(
+                leading: const Icon(Icons.map, color: Colors.black, size: 35),
+                title: Text("About Us",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(17),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )),
+                subtitle: Text(
+                  "know more about us, terms and conditions",
+                  style: GoogleFonts.nunitoSans(
+                    textStyle: const TextStyle(
                       color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
+                    ),
+                  ),
                 ),
-                subtitle: const Text("Check your points as a loyal customer"),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: ListTile(
-                leading: const Icon(Icons.map, color: kPrimaryColor),
-                title: Text(
-                  "About Us",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenWidth(17),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'krona'),
-                ),
-                subtitle:
-                    const Text("know more about us, terms and conditions"),
               ),
             ),
           ),

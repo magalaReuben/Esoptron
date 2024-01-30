@@ -10,6 +10,7 @@ import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/states/global_state.dart';
 import 'package:esoptron_salon/utils/enums/global_state.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,64 +69,68 @@ class _BodyState extends ConsumerState<Body> {
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(children: [
-                FutureBuilder<NetworkImage>(
-                  future: getImage(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return CircleAvatar(
-                        radius: 30,
-                        backgroundImage: snapshot.data,
-                      );
-                    } else {
-                      // You can return a placeholder or loading indicator while the image is loading
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(13),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(
-                      allowMultiple: true,
-                      type: FileType.custom,
-                      allowedExtensions: ['jpg', 'png'],
-                    );
-                    if (result != null) {
-                      String fileName = result!.files.first.name;
-                      // FormData formData = FormData.fromMap({
-                      //   "file": await MultipartFile.fromFile(
-                      //     result.files.first.path!,
-                      //     filename: fileName,
-                      //   ),
-                      // });
-                      final file = await MultipartFile.fromFile(
-                        result.files.first.path!,
-                        filename: fileName,
-                      );
-                      final body = FormData.fromMap({"avatar": file});
-                      ref
-                          .read(uploadPicNotifierProvider.notifier)
-                          .uploadPic(body);
-                    } else {
-                      // User canceled the picker
-                    }
-                  },
-                  child: Text("Edit Picture",
-                      style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: getProportionateScreenWidth(15),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'krona')),
-                ),
-              ])
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(children: [
+                  FutureBuilder<NetworkImage>(
+                    future: getImage(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return CircleAvatar(
+                          radius: 45,
+                          backgroundImage: snapshot.data,
+                        );
+                      } else {
+                        // You can return a placeholder or loading indicator while the image is loading
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(13),
+                  ),
+                  GestureDetector(
+                      onTap: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles(
+                          allowMultiple: true,
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'png'],
+                        );
+                        if (result != null) {
+                          String fileName = result!.files.first.name;
+                          // FormData formData = FormData.fromMap({
+                          //   "file": await MultipartFile.fromFile(
+                          //     result.files.first.path!,
+                          //     filename: fileName,
+                          //   ),
+                          // });
+                          final file = await MultipartFile.fromFile(
+                            result.files.first.path!,
+                            filename: fileName,
+                          );
+                          final body = FormData.fromMap({"avatar": file});
+                          ref
+                              .read(uploadPicNotifierProvider.notifier)
+                              .uploadPic(body);
+                        } else {
+                          // User canceled the picker
+                        }
+                      },
+                      child: Text("Edit Picture",
+                          style: GoogleFonts.nunitoSans(
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenWidth(15),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ))),
+                ])
+              ],
+            ),
           ),
           //SizedBox(
 //            height: getProportionateScreenHeight(5),
@@ -138,7 +143,7 @@ class _BodyState extends ConsumerState<Body> {
           //SizedBox(
 //            height: getProportionateScreenHeight(5),
           //         ),
-          inputForm("Adress", false),
+          inputForm("Address", false),
           //SizedBox(
 //            height: getProportionateScreenHeight(5),
           //         ),
@@ -166,23 +171,37 @@ class _BodyState extends ConsumerState<Body> {
       child: TextFormField(
         initialValue: helperText,
         decoration: InputDecoration(
-            hintText: helperText,
-            suffix: toggle
-                ? Switch(
-                    // thumb color (round icon)
-                    activeColor: Colors.white,
-                    activeTrackColor: kPrimaryColor,
-                    inactiveThumbColor: kPrimaryColor,
-                    inactiveTrackColor: Colors.grey.shade400,
-                    splashRadius: 50.0,
-                    // boolean variable value
-                    value: forAndroid,
-                    // changes the state of the switch
-                    onChanged: (value) => setState(() => forAndroid = value),
-                  )
-                : null,
-            label: Text(label),
-            labelStyle: const TextStyle(fontWeight: FontWeight.bold)),
+          hintText: helperText,
+          hintStyle: GoogleFonts.nunitoSans(
+            textStyle: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenWidth(15),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          suffix: toggle
+              ? Switch(
+                  // thumb color (round icon)
+                  activeColor: Colors.white,
+                  activeTrackColor: kPrimaryColor,
+                  inactiveThumbColor: kPrimaryColor,
+                  inactiveTrackColor: Colors.grey.shade400,
+                  splashRadius: 50.0,
+                  // boolean variable value
+                  value: forAndroid,
+                  // changes the state of the switch
+                  onChanged: (value) => setState(() => forAndroid = value),
+                )
+              : null,
+          label: Text(label,
+              style: GoogleFonts.nunitoSans(
+                textStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ),
       ),
     );
   }
