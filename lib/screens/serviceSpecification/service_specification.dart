@@ -47,7 +47,8 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
         detailsHolder.add({
           "unit": responseData['data']['charge_unit'],
           "charge": responseData['data']['charge'],
-          "description": responseData['data']['description']
+          "description": responseData['data']['description'],
+          "image": responseData['data']['image']
         });
       } else {
         return [];
@@ -122,8 +123,8 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                           child: Image.network(
                             "${arguments[0][index]}",
                             fit: BoxFit.cover,
-                            height: getProportionateScreenHeight(360),
-                            width: getProportionateScreenWidth(380),
+                            height: getProportionateScreenHeight(300),
+                            width: getProportionateScreenWidth(390),
                           ),
                         ),
                       );
@@ -261,52 +262,108 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                     children: [
                       for (int i = 0; i < snapshot.data!.length; i++)
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 6.0, top: 6.0, bottom: 6.0),
-                                    child: Text(
-                                      "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenWidth(15),
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'krona'),
-                                    ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: Container(
+                                height: getProportionateScreenHeight(120),
+                                width: getProportionateScreenWidth(350),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white.withOpacity(0.6),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8)),
+                                        child: Image(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    120),
+                                            width: getProportionateScreenWidth(
+                                                100),
+                                            image: NetworkImage(
+                                                "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
+                                            fit: BoxFit.cover),
+                                      ),
+                                      SizedBox(
+                                        width: getProportionateScreenWidth(10),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${snapshot.data![i]['description']} \n UGX ${snapshot.data![i]['charge'].toString()}',
+                                            style: GoogleFonts.nunitoSans(
+                                                textStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      16),
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                getProportionateScreenHeight(5),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: Divider(
-                                  color: Colors.black.withOpacity(0.9),
-                                  thickness: 1.5,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 6.0, top: 14, bottom: 6),
-                                child: Text(
-                                  "${snapshot.data![i]['description']} ",
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: getProportionateScreenWidth(18),
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'krona'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            )),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Column(
+                      //     children: [
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Padding(
+                      //             padding: const EdgeInsets.only(
+                      //                 left: 6.0, top: 6.0, bottom: 6.0),
+                      //             child: Text(
+                      //               "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
+                      //               style: TextStyle(
+                      //                   color: Colors.black,
+                      //                   fontSize:
+                      //                       getProportionateScreenWidth(15),
+                      //                   fontWeight: FontWeight.bold,
+                      //                   fontFamily: 'krona'),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       Padding(
+                      //         padding: const EdgeInsets.only(left: 8, right: 8),
+                      //         child: Divider(
+                      //           color: Colors.black.withOpacity(0.9),
+                      //           thickness: 1.5,
+                      //         ),
+                      //       ),
+                      //       Padding(
+                      //         padding: const EdgeInsets.only(
+                      //             left: 6.0, top: 14, bottom: 6),
+                      //         child: Text(
+                      //           "${snapshot.data![i]['description']} ",
+                      //           softWrap: true,
+                      //           style: TextStyle(
+                      //               color: Colors.black,
+                      //               fontSize: getProportionateScreenWidth(18),
+                      //               fontWeight: FontWeight.bold,
+                      //               fontFamily: 'krona'),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       // ListTile(
                       //   subtitle: Padding(
                       //     padding: const EdgeInsets.all(8.0),
