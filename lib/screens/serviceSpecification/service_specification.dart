@@ -8,6 +8,7 @@ import 'package:esoptron_salon/screens/addPaymentmethod/add_payment.dart';
 import 'package:esoptron_salon/screens/scheduleService/schedule_service.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -95,7 +96,13 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
     //print("arguments: $arguments");
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Service Specification"),
+        backgroundColor: kPrimaryColor.withOpacity(0.8),
+        title: Text("Service Specification",
+            style: GoogleFonts.nunito(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(20),
+              fontWeight: FontWeight.w400,
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -111,12 +118,12 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(12),
                           child: Image.network(
                             "${arguments[0][index]}",
                             fit: BoxFit.cover,
-                            height: getProportionateScreenHeight(350),
-                            width: getProportionateScreenWidth(360),
+                            height: getProportionateScreenHeight(360),
+                            width: getProportionateScreenWidth(380),
                           ),
                         ),
                       );
@@ -159,32 +166,59 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
             //       ),
             //   ],
             // ),
-            ListTile(
-              title: Text(
-                "${arguments[3]}",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(18),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+            SizedBox(
+              height: getProportionateScreenHeight(20),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text("Booking Time",
+                      style: GoogleFonts.nunito(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(17),
+                        fontWeight: FontWeight.bold,
+                      ))
+                ],
               ),
-              subtitle: Text(
-                "${arguments[4]}",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(15),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
-              ),
-              trailing: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, ScheduleService.routeName,
-                      arguments: arguments);
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.calendarAlt,
-                  color: kPrimaryColor,
+            ),
+            Card(
+              child: ListTile(
+                title: Text("${arguments[3]}",
+                    style: GoogleFonts.nunito(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.w400,
+                    )),
+                subtitle: Text("${arguments[4]}",
+                    style: GoogleFonts.nunito(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(15),
+                      fontWeight: FontWeight.w400,
+                    )),
+                trailing: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, ScheduleService.routeName,
+                        arguments: arguments);
+                  },
+                  icon: const Icon(
+                    FontAwesomeIcons.calendarAlt,
+                    color: kPrimaryColor,
+                  ),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text("Service Details",
+                      style: GoogleFonts.nunito(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(17),
+                        fontWeight: FontWeight.bold,
+                      ))
+                ],
               ),
             ),
             // Row(
