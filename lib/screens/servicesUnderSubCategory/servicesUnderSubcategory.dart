@@ -191,7 +191,8 @@ class _ServicesUnderSubCategoryState
                                                         .decode(response.body);
                                                     setState(() {
                                                       serviceProvider =
-                                                          responseData['data'][
+                                                          responseData['data']
+                                                                  ['service'][
                                                               'service_provider'];
                                                     });
                                                   } else {

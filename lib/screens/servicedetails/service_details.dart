@@ -187,8 +187,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    print("These are our arguments: ${arguments}");
-    CarouselController buttonCarouselController = CarouselController();
+    //print("These are our arguments: ${arguments}");
+    //CarouselController buttonCarouselController = CarouselController();
     //log(arguments.toString());
     return Scaffold(
         //bottomNavigationBar: Container(),
@@ -732,80 +732,206 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           arguments[7]
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      height: getProportionateScreenHeight(125),
-                      width: getProportionateScreenWidth(360),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(
-                            width: 2,
-                            color: kPrimaryColor.withOpacity(0.2),
-                          )),
-                      child: Center(
-                        child: ListTile(
-                          leading: FutureBuilder<NetworkImage>(
-                            future: getImage(arguments[3]["avatar"]),
-                            builder: (context, snapshot) {
-                              //print(snapshot);
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: snapshot.data,
-                                );
-                              } else {
-                                // You can return a placeholder or loading indicator while the image is loading
-                                return const CircularProgressIndicator();
-                              }
-                            },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                //padding: const EdgeInsets.only(top: 8.0),
+                                child: Text("Contact",
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    style: GoogleFonts.nunitoSans(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                getProportionateScreenWidth(15),
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'krona')))),
                           ),
-                          title: Text("Service Provider",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(18),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona')),
-                          subtitle: Column(
-                            children: [
-                              Row(
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              //padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
                                 children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 25,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                   Text(arguments[3]["name"].toString(),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              getProportionateScreenWidth(18),
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: 'krona')),
+                                      softWrap: true,
+                                      maxLines: 3,
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                              color:
+                                                  Colors.black.withOpacity(0.8),
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      13),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'))),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              //padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
                                 children: [
                                   const Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Icon(
                                       Icons.email,
-                                      size: 15,
-                                      color: kPrimaryColor,
+                                      size: 25,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                  Text(
-                                    arguments[3]["email"].toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenWidth(13),
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'krona'),
-                                  ),
+                                  Text(arguments[3]["email"].toString(),
+                                      softWrap: true,
+                                      maxLines: 3,
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                              color:
+                                                  Colors.black.withOpacity(0.8),
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      13),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'))),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      )),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              //padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.phone,
+                                      size: 25,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(arguments[3]["phone"].toString(),
+                                      softWrap: true,
+                                      maxLines: 3,
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                              color:
+                                                  Colors.black.withOpacity(0.8),
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      13),
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'krona'))),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 )
+              // Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: Container(
+              //         height: getProportionateScreenHeight(125),
+              //         width: getProportionateScreenWidth(360),
+              //         decoration: BoxDecoration(
+              //             borderRadius:
+              //                 const BorderRadius.all(Radius.circular(10)),
+              //             border: Border.all(
+              //               width: 2,
+              //               color: kPrimaryColor.withOpacity(0.2),
+              //             )),
+              //         child: Center(
+              //           child: ListTile(
+              //             leading: FutureBuilder<NetworkImage>(
+              //               future: getImage(arguments[3]["avatar"]),
+              //               builder: (context, snapshot) {
+              //                 //print(snapshot);
+              //                 if (snapshot.connectionState ==
+              //                     ConnectionState.done) {
+              //                   return CircleAvatar(
+              //                     radius: 20,
+              //                     backgroundImage: snapshot.data,
+              //                   );
+              //                 } else {
+              //                   // You can return a placeholder or loading indicator while the image is loading
+              //                   return const CircularProgressIndicator();
+              //                 }
+              //               },
+              //             ),
+              //             title: Text("Service Provider",
+              //                 style: TextStyle(
+              //                     color: Colors.black,
+              //                     fontSize: getProportionateScreenWidth(18),
+              //                     fontWeight: FontWeight.bold,
+              //                     fontFamily: 'krona')),
+              //             subtitle: Column(
+              //               children: [
+              //                 Row(
+              //                   children: [
+              //                     Text(arguments[3]["name"].toString(),
+              //                         style: TextStyle(
+              //                             color: Colors.black,
+              //                             fontSize:
+              //                                 getProportionateScreenWidth(18),
+              //                             fontWeight: FontWeight.normal,
+              //                             fontFamily: 'krona')),
+              //                   ],
+              //                 ),
+              //                 Row(
+              //                   mainAxisAlignment: MainAxisAlignment.start,
+              //                   children: [
+              //                     const Padding(
+              //                       padding: EdgeInsets.all(8.0),
+              //                       child: Icon(
+              //                         Icons.email,
+              //                         size: 15,
+              //                         color: kPrimaryColor,
+              //                       ),
+              //                     ),
+              //                     Text(
+              //                       arguments[3]["email"].toString(),
+              //                       style: TextStyle(
+              //                           color: Colors.black,
+              //                           fontSize:
+              //                               getProportionateScreenWidth(13),
+              //                           fontWeight: FontWeight.w500,
+              //                           fontFamily: 'krona'),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         )),
+              //   )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(

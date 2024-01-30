@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -77,10 +78,13 @@ class _BodyState extends State<Body> {
         length: 3,
         child: Scaffold(
             appBar: AppBar(
+              backgroundColor: kPrimaryColor.withOpacity(0.8),
               bottom: TabBar(
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: kPrimaryColor,
+                  indicator: const UnderlineTabIndicator(
+                    borderSide: BorderSide(
+                      width: 3.0,
+                      color: Colors.white,
+                    ),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorWeight: 3.0,
@@ -89,8 +93,11 @@ class _BodyState extends State<Body> {
                   isScrollable: true,
                   indicatorColor: Colors.transparent,
                   physics: const BouncingScrollPhysics(),
-                  labelStyle:
-                      TextStyle(fontSize: getProportionateScreenWidth(18)),
+                  labelStyle: GoogleFonts.nunitoSans(
+                    fontSize: getProportionateScreenWidth(17),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                   tabs: const [
                     Tab(text: "Accepted"),
                     Tab(text: 'Pending'),
@@ -107,14 +114,14 @@ class _BodyState extends State<Body> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Accepted Services",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(20),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'),
-                            ),
+                            Text("Accepted Services",
+                                style: GoogleFonts.nunitoSans(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getProportionateScreenWidth(18),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
                           ],
                         ),
                       ),
@@ -148,6 +155,7 @@ class _BodyState extends State<Body> {
                                 (element) => element['status'] == 'accepted',
                               );
                               return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   for (int i = 0;
                                       i < snapshot.data!.length;
@@ -181,13 +189,18 @@ class _BodyState extends State<Body> {
                                                       image: const AssetImage(
                                                           "assets/images/home/nodata.png"),
                                                       fit: BoxFit.cover),
-                                                  const Text(
+                                                  Text(
                                                     "No Accepted Services",
-                                                    style: TextStyle(
+                                                    style:
+                                                        GoogleFonts.nunitoSans(
+                                                      textStyle:
+                                                          const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 16,
                                                         fontWeight:
-                                                            FontWeight.normal),
+                                                            FontWeight.normal,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -283,14 +296,14 @@ class _BodyState extends State<Body> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Pending Services",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(20),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'),
-                            ),
+                            Text("Pending Services",
+                                style: GoogleFonts.nunitoSans(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getProportionateScreenWidth(18),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
                           ],
                         ),
                       ),
@@ -343,14 +356,17 @@ class _BodyState extends State<Body> {
                                                       image: const AssetImage(
                                                           "assets/images/home/nodata.png"),
                                                       fit: BoxFit.cover),
-                                                  const Text(
-                                                    "No Pending Services",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
+                                                  Text("No Pending Services",
+                                                      style: GoogleFonts
+                                                          .nunitoSans(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -445,14 +461,14 @@ class _BodyState extends State<Body> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Rejected Services",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: getProportionateScreenWidth(20),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'krona'),
-                            ),
+                            Text("Rejected Services",
+                                style: GoogleFonts.nunitoSans(
+                                  textStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getProportionateScreenWidth(18),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
                           ],
                         ),
                       ),
@@ -505,13 +521,18 @@ class _BodyState extends State<Body> {
                                                       image: const AssetImage(
                                                           "assets/images/home/nodata.png"),
                                                       fit: BoxFit.cover),
-                                                  const Text(
+                                                  Text(
                                                     "No Rejected Services",
-                                                    style: TextStyle(
+                                                    style:
+                                                        GoogleFonts.nunitoSans(
+                                                      textStyle:
+                                                          const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 16,
                                                         fontWeight:
-                                                            FontWeight.normal),
+                                                            FontWeight.normal,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -680,54 +701,103 @@ class _BodyState extends State<Body> {
   Padding serviceBoooked(
       String title, String subTitle, String price, String image) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-        // trailing:
-        //     const Icon(Icons.favorite_outline, color: kPrimaryColor, size: 25),
-        tileColor: Colors.transparent,
-        subtitle: Row(
-          children: [
-            Text(
-              "\$$price",
-              style: TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: getProportionateScreenWidth(18),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'krona'),
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: Container(
+            height: getProportionateScreenHeight(150),
+            width: getProportionateScreenWidth(350),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(0.6),
             ),
-            SizedBox(width: getProportionateScreenWidth(5)),
-            Text(
-              subTitle,
-              style: TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: getProportionateScreenWidth(18),
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'krona'),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: Image(
+                        height: 180,
+                        width: 100,
+                        image: NetworkImage(
+                            'http://admin.esoptronsalon.com/storage/sub_categories/$image'),
+                        fit: BoxFit.cover),
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(10),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$title \n UGX $price',
+                        style: GoogleFonts.nunitoSans(
+                            textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(18),
+                          fontWeight: FontWeight.w500,
+                        )),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(5),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            title,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: getProportionateScreenWidth(18),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'krona'),
           ),
-        ),
-        leading: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: Image(
-              // height: 200,
-              width: getProportionateScreenWidth(80),
-              height: getProportionateScreenHeight(120),
-              image: NetworkImage(
-                  "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
-              fit: BoxFit.fill),
-        ),
-      ),
-    );
+        ));
+    // return Padding(
+    //   padding: const EdgeInsets.all(8.0),
+    //   child: ListTile(
+    //     // trailing:
+    //     //     const Icon(Icons.favorite_outline, color: kPrimaryColor, size: 25),
+    //     tileColor: Colors.transparent,
+    //     subtitle: Row(
+    //       children: [
+    //         Text(
+    //           "\$$price",
+    //           style: TextStyle(
+    //               color: kPrimaryColor,
+    //               fontSize: getProportionateScreenWidth(18),
+    //               fontWeight: FontWeight.bold,
+    //               fontFamily: 'krona'),
+    //         ),
+    //         SizedBox(width: getProportionateScreenWidth(5)),
+    //         Text(
+    //           subTitle,
+    //           style: TextStyle(
+    //               color: kPrimaryColor,
+    //               fontSize: getProportionateScreenWidth(18),
+    //               fontWeight: FontWeight.normal,
+    //               fontFamily: 'krona'),
+    //         ),
+    //       ],
+    //     ),
+    //     title: Padding(
+    //       padding: const EdgeInsets.only(bottom: 8.0),
+    //       child: Text(
+    //         title,
+    //         style: TextStyle(
+    //             color: Colors.black,
+    //             fontSize: getProportionateScreenWidth(18),
+    //             fontWeight: FontWeight.bold,
+    //             fontFamily: 'krona'),
+    //       ),
+    //     ),
+    //     leading: ClipRRect(
+    //       borderRadius: const BorderRadius.all(Radius.circular(8)),
+    //       child: Image(
+    //           // height: 200,
+    //           width: getProportionateScreenWidth(80),
+    //           height: getProportionateScreenHeight(120),
+    //           image: NetworkImage(
+    //               "http://admin.esoptronsalon.com/storage/sub_categories/$image"),
+    //           fit: BoxFit.fill),
+    //     ),
+    //   ),
+    // );
   }
 }
