@@ -10,6 +10,7 @@ import 'package:esoptron_salon/services/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -194,6 +195,31 @@ class _BodyState extends ConsumerState<Body> {
                       ),
               )
             : Container(),
+        type != "ServiceProvider" && !noServiceRequested
+            ? Padding(
+                padding:
+                    const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      "assets/images/track/marker.png",
+                      height: getProportionateScreenHeight(135),
+                      width: getProportionateScreenWidth(70),
+                    ),
+                    SizedBox(
+                      width: getProportionateScreenWidth(10),
+                    ),
+                    Text(
+                        "Your Location is being tracked\nby a service provider",
+                        style: GoogleFonts.nunitoSans(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(17),
+                            fontWeight: FontWeight.bold))
+                  ],
+                ),
+              )
+            : Container(),
         noServiceRequested
             ? Container()
             : Padding(
@@ -237,7 +263,10 @@ class _BodyState extends ConsumerState<Body> {
                     ElevatedButton(
                         onPressed: () => Navigator.pushNamed(
                             context, ServiceDetailsFromTracking.routeName),
-                        child: const Text("Service Details"))
+                        child: Text("Service Details",
+                            style: GoogleFonts.nunitoSans(
+                                fontSize: getProportionateScreenWidth(17),
+                                fontWeight: FontWeight.bold)))
                   ],
                 ),
               ),
@@ -251,11 +280,10 @@ class _BodyState extends ConsumerState<Body> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text("Package Status",
-                            style: TextStyle(
+                            style: GoogleFonts.nunitoSans(
                                 color: Colors.black,
                                 fontSize: getProportionateScreenWidth(17),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'krona')),
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -270,9 +298,10 @@ class _BodyState extends ConsumerState<Body> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "No Service Requested Yet!",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: getProportionateScreenWidth(17)),
+                            style: GoogleFonts.nunitoSans(
+                                color: Colors.black,
+                                fontSize: getProportionateScreenWidth(17),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -299,10 +328,10 @@ class _BodyState extends ConsumerState<Body> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "Service Rejected",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          getProportionateScreenWidth(17)),
+                                  style: GoogleFonts.nunitoSans(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(17),
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               // Text(
@@ -336,10 +365,11 @@ class _BodyState extends ConsumerState<Body> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       "Service requested",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      style: GoogleFonts.nunitoSans(
+                                          color: Colors.black,
                                           fontSize:
-                                              getProportionateScreenWidth(17)),
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ],
@@ -368,10 +398,11 @@ class _BodyState extends ConsumerState<Body> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       "Service read",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      style: GoogleFonts.nunitoSans(
+                                          color: Colors.black,
                                           fontSize:
-                                              getProportionateScreenWidth(17)),
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   SizedBox(
@@ -398,10 +429,11 @@ class _BodyState extends ConsumerState<Body> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       "Service on the way",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      style: GoogleFonts.nunitoSans(
+                                          color: Colors.black,
                                           fontSize:
-                                              getProportionateScreenWidth(17)),
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ],
@@ -424,10 +456,11 @@ class _BodyState extends ConsumerState<Body> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       "Service Arrives",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      style: GoogleFonts.nunitoSans(
+                                          color: Colors.black,
                                           fontSize:
-                                              getProportionateScreenWidth(17)),
+                                              getProportionateScreenWidth(17),
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   SizedBox(

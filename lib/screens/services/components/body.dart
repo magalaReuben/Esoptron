@@ -73,7 +73,7 @@ class _BodyState extends ConsumerState<Body> {
                           fontWeight: FontWeight.bold,
                         ),
                       )),
-                  SizedBox(width: getProportionateScreenWidth(60)),
+                  SizedBox(width: getProportionateScreenWidth(70)),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FutureBuilder<NetworkImage>(

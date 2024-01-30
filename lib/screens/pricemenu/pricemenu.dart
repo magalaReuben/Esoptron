@@ -4,6 +4,7 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PriceMenu extends StatefulWidget {
   bool selected = false;
@@ -18,67 +19,70 @@ class _PriceMenuState extends State<PriceMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: SizedBox(
-          height: getProportionateScreenHeight(90),
-          child: const Padding(
-            padding: EdgeInsets.all(13.0),
-            child: DefaultButton(
-              text: "Book Now",
-            ),
-          ),
-        ),
-      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   child: SizedBox(
+      //     height: getProportionateScreenHeight(90),
+      //     child: const Padding(
+      //       padding: EdgeInsets.all(13.0),
+      //       child: DefaultButton(
+      //         text: "Book Now",
+      //       ),
+      //     ),
+      //   ),
+      // ),
       appBar: AppBar(
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              FontAwesomeIcons.filter,
+        backgroundColor: kPrimaryColor.withOpacity(0.8),
+        // actions: const [
+        //   Padding(
+        //     padding: EdgeInsets.all(8.0),
+        //     child: Icon(
+        //       FontAwesomeIcons.filter,
+        //       color: Colors.white,
+        //       size: 20,
+        //     ),
+        //   )
+        // ],
+        centerTitle: false,
+        title: Text("Price Menu",
+            style: GoogleFonts.nunitoSans(
+              fontSize: getProportionateScreenWidth(18),
               color: Colors.white,
-              size: 20,
-            ),
-          )
-        ],
-        centerTitle: true,
-        title: Text(
-          "Price Menu",
-          style: TextStyle(fontSize: getProportionateScreenWidth(18)),
-        ),
+              fontWeight: FontWeight.w600,
+            )),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFieldWidget(
-                radiusBottomLeft: 30,
-                radiusBottomRight: 30,
-                radiusTopLeft: 30,
-                radiusTopRight: 30,
-                hintText: "Search for service",
-                suffixWidget: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: const BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.all(Radius.circular(60))),
-                      child: const Icon(
-                        FontAwesomeIcons.search,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: TextFieldWidget(
+            //     radiusBottomLeft: 30,
+            //     radiusBottomRight: 30,
+            //     radiusTopLeft: 30,
+            //     radiusTopRight: 30,
+            //     hintText: "Search for service",
+            //     suffixWidget: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Container(
+            //           decoration: const BoxDecoration(
+            //               color: kPrimaryColor,
+            //               borderRadius: BorderRadius.all(Radius.circular(60))),
+            //           child: const Icon(
+            //             FontAwesomeIcons.search,
+            //             color: Colors.white,
+            //           )),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "HAIRSTYLES",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(18),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+                style: GoogleFonts.nunitoSans(
+                  fontSize: getProportionateScreenWidth(18),
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             priceItem("Crotchets", "UGX 45,000"),
@@ -94,11 +98,11 @@ class _PriceMenuState extends State<PriceMenu> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "MANICURE & PEDICURE",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(18),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+                style: GoogleFonts.nunitoSans(
+                  fontSize: getProportionateScreenWidth(18),
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             priceItem("Manicure & Pedicure", "UGX 30-100,000"),
@@ -125,11 +129,11 @@ class _PriceMenuState extends State<PriceMenu> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "ADDS ON",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(18),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'krona'),
+                style: GoogleFonts.nunitoSans(
+                  fontSize: getProportionateScreenWidth(18),
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             priceItem("Adds on", "UGX 5-10,000"),
@@ -150,31 +154,31 @@ class _PriceMenuState extends State<PriceMenu> {
         children: [
           Row(
             children: [
-              Checkbox(
-                  checkColor: Colors.white,
-                  value: widget.selected,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      widget.selected = value!;
-                    });
-                  }),
+              // Checkbox(
+              //     checkColor: Colors.white,
+              //     value: widget.selected,
+              //     onChanged: (bool? value) {
+              //       setState(() {
+              //         widget.selected = value!;
+              //       });
+              //     }),
               Text(
                 item,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(15),
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'krona'),
+                style: GoogleFonts.nunitoSans(
+                  fontSize: getProportionateScreenWidth(14),
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
           Text(
             price,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: getProportionateScreenWidth(15),
-                fontWeight: FontWeight.w600,
-                fontFamily: 'krona'),
+            style: GoogleFonts.nunitoSans(
+              fontSize: getProportionateScreenWidth(14),
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           )
         ],
       ),

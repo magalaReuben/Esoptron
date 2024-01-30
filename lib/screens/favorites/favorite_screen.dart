@@ -20,11 +20,14 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Favorites",
-          style: TextStyle(fontSize: getProportionateScreenWidth(18)),
-        ),
+        backgroundColor: kPrimaryColor.withOpacity(0.8),
+        title: Text("Favorites",
+            style: GoogleFonts.nunitoSans(
+                textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: getProportionateScreenWidth(20),
+              fontWeight: FontWeight.w600,
+            ))),
       ),
       body: Builder(builder: (context) {
         // ref.invalidate(documentsProvider);
