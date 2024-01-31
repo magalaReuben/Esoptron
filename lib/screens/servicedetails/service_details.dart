@@ -187,23 +187,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   Widget build(BuildContext context) {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    //print("These are our arguments: ${arguments}");
-    //CarouselController buttonCarouselController = CarouselController();
-    //log(arguments.toString());
     return Scaffold(
-        //bottomNavigationBar: Container(),
-        // appBar: AppBar(
-        //   backgroundColor: kPrimaryColor.withOpacity(0.8),
-        //   title: Text(
-        //     arguments[0],
-        //     style: GoogleFonts.nunitoSans(
-        //         textStyle: TextStyle(
-        //       color: Colors.white,
-        //       fontSize: getProportionateScreenWidth(18),
-        //       fontWeight: FontWeight.w500,
-        //     )),
-        //   ),
-        // ),
         body: Stack(children: [
       SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -222,53 +206,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       return Column(
                         children: [
                           SizedBox(
-                            height: getProportionateScreenHeight(350),
-                            width: getProportionateScreenWidth(450),
-                            child: Image(
-                                image: NetworkImage(
-                                    "http://admin.esoptronsalon.com/${snapshot.data![0]['url']}"),
-                                //height: getProportionateScreenHeight(300),
-                                width: getProportionateScreenWidth(450),
-                                fit: BoxFit.cover),
-
-                            // CarouselSlider(
-                            //     items: [
-                            //       for (int i = 0;
-                            //           i < snapshot.data!.length;
-                            //           i++)
-                            //         SizedBox(
-                            //           //height: getProportionateScreenHeight(100),
-                            //           child: Image(
-                            //               image: NetworkImage(
-                            //                   "http://admin.esoptronsalon.com/${snapshot.data![i]['url']}"),
-                            //               //height: getProportionateScreenHeight(300),
-                            //               width: getProportionateScreenWidth(
-                            //                   450),
-                            //               fit: BoxFit.cover),
-                            //         ),
-                            //     ],
-                            //     carouselController: buttonCarouselController,
-                            //     options: CarouselOptions(
-                            //         autoPlay: false,
-                            //         enlargeCenterPage: true,
-                            //         viewportFraction: 1,
-                            //         onPageChanged: (index, reason) {
-                            //           print(index);
-                            //           setState(() {
-                            //             currentImageIndex = index;
-                            //           });
-                            //         },
-                            //         aspectRatio: 1.5,
-                            //         initialPage: 1)),
-                            // DotsIndicator(
-                            //   dotsCount: snapshot.data!.length,
-                            //   position: currentImageIndex,
-                            //   decorator: const DotsDecorator(
-                            //     color: Colors.grey, // Inactive dot color
-                            //     activeColor:
-                            //         kPrimaryColor, // Active dot color
-                            //   ),
-                          ),
+                              height: getProportionateScreenHeight(350),
+                              width: getProportionateScreenWidth(450),
+                              child: Image(
+                                  image: NetworkImage(
+                                      "http://admin.esoptronsalon.com/${snapshot.data![0]['url']}"),
+                                  //height: getProportionateScreenHeight(300),
+                                  width: getProportionateScreenWidth(450),
+                                  fit: BoxFit.cover)),
                         ],
                       );
                     } else {
@@ -500,154 +445,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               )
             ],
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-          //   child: Row(
-          //     children: [
-          //       Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: favoritesServiceId
-          //                 .contains(arguments[7] ? arguments[9] : arguments[10])
-          //             ? GestureDetector(
-          //                 onTap: () async {
-          //                   await getFavorites();
-          //                   SharedPreferences prefs =
-          //                       await SharedPreferences.getInstance();
-          //                   String? authorizationToken =
-          //                       prefs.getString("auth_token");
-          //                   final ApiResponse = await http.get(
-          //                     Uri.parse(
-          //                         "http://admin.esoptronsalon.com/api/user/favourites/services"),
-          //                     headers: {
-          //                       'Authorization': 'Bearer $authorizationToken',
-          //                       'Content-Type':
-          //                           'application/json', // You may need to adjust the content type based on your API requirements
-          //                     },
-          //                   );
-          //                   if (ApiResponse.statusCode >= 200 &&
-          //                       ApiResponse.statusCode < 300) {
-          //                     final responseData =
-          //                         json.decode(ApiResponse.body);
-          //                     setState(() {
-          //                       favorites =
-          //                           responseData['data']['favourite_services'];
-          //                     });
-          //                     for (var element in favorites) {
-          //                       if (!favoritesServiceId
-          //                           .contains(element["service_id"])) {
-          //                         favoritesServiceId.add(element["service_id"]);
-          //                       }
-          //                       favouritesServiceIdMapper[
-          //                               element["service_id"]] =
-          //                           element["favourite_service_id"];
-          //                     }
-          //                   } else {}
-          //                   final response = await http.delete(
-          //                     Uri.parse(
-          //                         "http://admin.esoptronsalon.com/api/user/favourite_service/${arguments[7] ? favouritesServiceIdMapper[arguments[9]] : favouritesServiceIdMapper[arguments[10]]}/remove"),
-          //                     headers: {
-          //                       'Authorization': 'Bearer $authorizationToken',
-          //                       'Content-Type':
-          //                           'application/json', // You may need to adjust the content type based on your API requirements
-          //                     },
-          //                   );
-          //                   var test = arguments[7]
-          //                       ? favouritesServiceIdMapper[arguments[9]]
-          //                       : favouritesServiceIdMapper[arguments[10]];
-          //                   // print(favouritesServiceIdMapper);
-          //                   // print(test);
-          //                   // print(response.body);
-          //                   if (response.statusCode >= 200 &&
-          //                       response.statusCode < 300) {
-          //                     // ignore: use_build_context_synchronously
-          //                     setState(() {
-          //                       favoritesServiceId.remove(arguments[7]
-          //                           ? arguments[9]
-          //                           : arguments[10]);
-          //                     });
-          //                     // ignore: use_build_context_synchronously
-          //                     ScaffoldMessenger.of(context)
-          //                         .showSnackBar(const SnackBar(
-          //                       content: Text("Service removed from favorites"),
-          //                       backgroundColor: kPrimaryColor,
-          //                       padding: EdgeInsets.all(25),
-          //                     ));
-          //                   } else {
-          //                     // ignore: use_build_context_synchronously
-          //                     ScaffoldMessenger.of(context)
-          //                         .showSnackBar(const SnackBar(
-          //                       content: Text("Something wrong happened"),
-          //                       backgroundColor: kPrimaryColor,
-          //                       padding: EdgeInsets.all(25),
-          //                     ));
-          //                   }
-          //                 },
-          //                 child: const Icon(Icons.favorite,
-          //                     color: kPrimaryColor, size: 25),
-          //               )
-          //             : GestureDetector(
-          //                 onTap: () async {
-          //                   SharedPreferences prefs =
-          //                       await SharedPreferences.getInstance();
-          //                   String? authorizationToken =
-          //                       prefs.getString("auth_token");
-          //                   await getFavorites();
-          //                   final response = await http.post(
-          //                     Uri.parse(
-          //                         "http://admin.esoptronsalon.com/api/user/service/${arguments[7] ? arguments[9] : arguments[10]}/add_favourites"),
-          //                     headers: {
-          //                       'Authorization': 'Bearer $authorizationToken',
-          //                       'Content-Type':
-          //                           'application/json', // You may need to adjust the content type based on your API requirements
-          //                     },
-          //                   );
-          //                   print(response.body);
-          //                   if (response.statusCode >= 200 &&
-          //                       response.statusCode < 300) {
-          //                     // ignore: use_build_context_synchronously
-          //                     setState(() {
-          //                       favoritesServiceId.add(arguments[7]
-          //                           ? arguments[9]
-          //                           : arguments[10]);
-          //                     });
-          //                     // ignore: use_build_context_synchronously
-          //                     ScaffoldMessenger.of(context)
-          //                         .showSnackBar(const SnackBar(
-          //                       content: Text("Service Added to favorites"),
-          //                       backgroundColor: kPrimaryColor,
-          //                       padding: EdgeInsets.all(25),
-          //                     ));
-          //                   } else {
-          //                     // ignore: use_build_context_synchronously
-          //                     ScaffoldMessenger.of(context)
-          //                         .showSnackBar(const SnackBar(
-          //                       content: Text("Something wrong happened"),
-          //                       backgroundColor: kPrimaryColor,
-          //                       padding: EdgeInsets.all(25),
-          //                     ));
-          //                   }
-          //                 },
-          //                 child: const Icon(Icons.favorite_outline)),
-          //       ),
-          //       Container(
-          //         height: getProportionateScreenHeight(30),
-          //         width: getProportionateScreenWidth(80),
-          //         decoration: const BoxDecoration(
-          //             color: Color.fromRGBO(175, 250, 140, 1),
-          //             borderRadius: BorderRadius.all(Radius.circular(15))),
-          //         child: Center(
-          //           child: Text(
-          //             arguments[5] ? "Available" : "Unavailable",
-          //             style: TextStyle(
-          //                 color: Colors.black,
-          //                 fontSize: getProportionateScreenWidth(12),
-          //                 fontWeight: FontWeight.bold),
-          //           ),
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
           SizedBox(
             height: getProportionateScreenHeight(25),
           ),
@@ -696,39 +493,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8.0),
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         "${arguments[6]}",
-          //         style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: getProportionateScreenWidth(13),
-          //             fontWeight: FontWeight.bold,
-          //             fontFamily: 'krona'),
-          //       ),
-          //       for (int i = 0; i < arguments[6]; i++)
-          //         const Padding(
-          //           padding: EdgeInsets.all(4.0),
-          //           child: Icon(
-          //             FontAwesomeIcons.solidStar,
-          //             size: 13,
-          //             color: Colors.orangeAccent,
-          //           ),
-          //         ),
-          //       for (int i = 0; i < 5 - arguments[6]; i++)
-          //         Padding(
-          //           padding: const EdgeInsets.all(4.0),
-          //           child: Icon(
-          //             FontAwesomeIcons.solidStar,
-          //             size: 13,
-          //             color: Colors.black.withOpacity(0.4),
-          //           ),
-          //         ),
-          //     ],
-          //   ),
-          // ),
           arguments[7]
               ? Container()
               : Padding(
@@ -874,82 +638,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     ),
                   ),
                 )
-              // Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Container(
-              //         height: getProportionateScreenHeight(125),
-              //         width: getProportionateScreenWidth(360),
-              //         decoration: BoxDecoration(
-              //             borderRadius:
-              //                 const BorderRadius.all(Radius.circular(10)),
-              //             border: Border.all(
-              //               width: 2,
-              //               color: kPrimaryColor.withOpacity(0.2),
-              //             )),
-              //         child: Center(
-              //           child: ListTile(
-              //             leading: FutureBuilder<NetworkImage>(
-              //               future: getImage(arguments[3]["avatar"]),
-              //               builder: (context, snapshot) {
-              //                 //print(snapshot);
-              //                 if (snapshot.connectionState ==
-              //                     ConnectionState.done) {
-              //                   return CircleAvatar(
-              //                     radius: 20,
-              //                     backgroundImage: snapshot.data,
-              //                   );
-              //                 } else {
-              //                   // You can return a placeholder or loading indicator while the image is loading
-              //                   return const CircularProgressIndicator();
-              //                 }
-              //               },
-              //             ),
-              //             title: Text("Service Provider",
-              //                 style: TextStyle(
-              //                     color: Colors.black,
-              //                     fontSize: getProportionateScreenWidth(18),
-              //                     fontWeight: FontWeight.bold,
-              //                     fontFamily: 'krona')),
-              //             subtitle: Column(
-              //               children: [
-              //                 Row(
-              //                   children: [
-              //                     Text(arguments[3]["name"].toString(),
-              //                         style: TextStyle(
-              //                             color: Colors.black,
-              //                             fontSize:
-              //                                 getProportionateScreenWidth(18),
-              //                             fontWeight: FontWeight.normal,
-              //                             fontFamily: 'krona')),
-              //                   ],
-              //                 ),
-              //                 Row(
-              //                   mainAxisAlignment: MainAxisAlignment.start,
-              //                   children: [
-              //                     const Padding(
-              //                       padding: EdgeInsets.all(8.0),
-              //                       child: Icon(
-              //                         Icons.email,
-              //                         size: 15,
-              //                         color: kPrimaryColor,
-              //                       ),
-              //                     ),
-              //                     Text(
-              //                       arguments[3]["email"].toString(),
-              //                       style: TextStyle(
-              //                           color: Colors.black,
-              //                           fontSize:
-              //                               getProportionateScreenWidth(13),
-              //                           fontWeight: FontWeight.w500,
-              //                           fontFamily: 'krona'),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         )),
-              //   )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
