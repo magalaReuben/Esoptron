@@ -84,96 +84,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
           ),
-          // leading: Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: FutureBuilder<NetworkImage>(
-          //     future: getImage(),
-          //     builder: (context, snapshot) {
-          //       //print(snapshot);
-          //       if (snapshot.connectionState == ConnectionState.done) {
-          //         return CircleAvatar(
-          //           radius: 15,
-          //           backgroundImage: snapshot.data,
-          //         );
-          //       } else {
-          //         // You can return a placeholder or loading indicator while the image is loading
-          //         return const CircularProgressIndicator();
-          //       }
-          //     },
-          //   ),
-          // ),
           title: Text('Esoptron Salon',
               style: GoogleFonts.pacifico(
                 textStyle: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(20)),
               )),
-          // title: TextFieldWidget(
-          //   controller: searchController,
-          //   radiusBottomLeft: 30,
-          //   radiusBottomRight: 30,
-          //   radiusTopLeft: 30,
-          //   radiusTopRight: 30,
-          //   hintText: "Search for service category",
-          //   suffixWidget: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Container(
-          //         decoration: const BoxDecoration(
-          //             color: kPrimaryColor,
-          //             borderRadius: BorderRadius.all(Radius.circular(60))),
-          //         child: GestureDetector(
-          //           onTap: () async {
-          //             if (searchController.text.isEmpty) {
-          //               ScaffoldMessenger.of(context)
-          //                   .showSnackBar(const SnackBar(
-          //                 content: Text("Please enter a search query"),
-          //                 backgroundColor: kPrimaryColor,
-          //                 padding: EdgeInsets.all(25),
-          //               ));
-          //               return;
-          //             }
-          //             setState(() {
-          //               isSearching = true;
-          //             });
-          //             final result = await search(searchController.text);
-          //             setState(() {
-          //               isSearching = false;
-          //             });
-          //             if (result.isEmpty) {
-          //               // ignore: use_build_context_synchronously
-          //               ScaffoldMessenger.of(context)
-          //                   .showSnackBar(const SnackBar(
-          //                 content: Text("No results found"),
-          //                 backgroundColor: kPrimaryColor,
-          //                 padding: EdgeInsets.all(25),
-          //               ));
-          //               return;
-          //             } else {
-          //               //print(result);
-          //               // ignore: use_build_context_synchronously
-          //               Navigator.pushNamed(
-          //                   context, SearchedSubCategories.routeName,
-          //                   arguments: result);
-          //             }
-          //           },
-          //           child: isSearching
-          //               ? SizedBox(
-          //                   height: getProportionateScreenHeight(8),
-          //                   width: getProportionateScreenWidth(8),
-          //                   child: const Padding(
-          //                     padding: EdgeInsets.all(8.0),
-          //                     child: CircularProgressIndicator(
-          //                       color: Colors.white,
-          //                     ),
-          //                   ),
-          //                 )
-          //               : const Icon(
-          //                   FontAwesomeIcons.search,
-          //                   color: Colors.white,
-          //                 ),
-          //         )),
-          //   ),
-          // ),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -193,33 +109,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
               ),
             )
-            // SizedBox(
-            //   width: getProportionateScreenWidth(5),
-            // ),
-            // GestureDetector(
-            //   onTap: () =>
-            //       Navigator.pushNamed(context, ServicesBooked.routeName),
-            //   child: const Icon(
-            //     FontAwesomeIcons.bell,
-            //     color: kPrimaryColor,
-            //   ),
-            // ),
-            // SizedBox(
-            //   width: getProportionateScreenWidth(5),
-            // ),
-            // GestureDetector(
-            //   onTap: () {
-            //     showDialog(
-            //         context: context,
-            //         builder: (_) => SizedBox(
-            //             height: getProportionateScreenHeight(300),
-            //             child: PriceMenu()));
-            //   },
-            //   child: const Icon(
-            //     FontAwesomeIcons.clipboardList,
-            //     color: kPrimaryColor,
-            //   ),
-            // )
           ],
         ),
         drawer: Drawer(

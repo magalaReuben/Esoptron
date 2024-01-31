@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
@@ -654,6 +655,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                                   response.statusCode < 300) {
                                                 final responseData =
                                                     json.decode(response.body);
+                                                //log(responseData['data']);
                                                 setState(() {
                                                   serviceProvider =
                                                       responseData['data']
@@ -679,15 +681,17 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                                     snapshot
                                                         .data!["description"],
                                                     serviceProvider,
-                                                    snapshot
-                                                        .data!["ratings_count"],
+                                                    // snapshot
+                                                    //     .data!["ratings_count"],
+                                                    0,
                                                     snapshot.data![
                                                                 "is_available"] ==
                                                             0
                                                         ? false
                                                         : true,
-                                                    snapshot
-                                                        .data!["ratings_count"],
+                                                    // snapshot
+                                                    //     .data!["ratings_count"],
+                                                    0,
                                                     true,
                                                     snapshot.data!["id"],
                                                     arguments[1]
