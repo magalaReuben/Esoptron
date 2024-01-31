@@ -3,6 +3,7 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/screens/mobileMoneyPayment/mobile_money_payment.dart';
 import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AddPaymentMethod extends StatefulWidget {
   static String routeName = "add_payment_method";
@@ -24,8 +25,16 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
     print("These are our arguments: $aruments");
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add Payment Method"),
-          centerTitle: true,
+          title: Text("Add Payment Method",
+              style: GoogleFonts.nunitoSans(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: getProportionateScreenWidth(20),
+                  fontWeight: FontWeight.w400,
+                ),
+              )),
+          // centerTitle: true,
+          backgroundColor: kPrimaryColor.withOpacity(0.8),
         ),
         body: Column(
           children: [
@@ -122,7 +131,7 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                     leading: Checkbox(
                         value: isChecked2,
                         fillColor: MaterialStateProperty.resolveWith(
-                            (states) => kPrimaryColor),
+                            (states) => kPrimaryColor.withOpacity(0.7)),
                         shape: const CircleBorder(),
                         onChanged: (bool? value) {
                           setState(() {
@@ -131,11 +140,13 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                         }),
                     title: Text(
                       "Pay with mobile money",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(17),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'krona'),
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(17),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'krona'),
+                      ),
                     ),
                     subtitle: const Text(
                         "complete the payment using your mobile money"),
@@ -160,20 +171,34 @@ class _AddPaymentMethodState extends State<AddPaymentMethod> {
                     leading: Checkbox(
                         value: isChecked3,
                         fillColor: MaterialStateProperty.resolveWith(
-                            (states) => kPrimaryColor),
+                            (states) => kPrimaryColor.withOpacity(0.7)),
                         shape: const CircleBorder(),
                         onChanged: (bool? value) {
-                          setState(() {
-                            isChecked3 = value!;
-                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: kPrimaryColor,
+                              content: Text(
+                                'This payment method is not available',
+                                style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: getProportionateScreenWidth(14),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'krona'),
+                                ),
+                              )));
+                          // setState(() {
+                          //   isChecked3 = value!;
+                          // });
                         }),
                     title: Text(
                       "Pay on Cash",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(17),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'krona'),
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(17),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'krona'),
+                      ),
                     ),
                     subtitle: const Text(
                         "complete the payment on cash after the service"),

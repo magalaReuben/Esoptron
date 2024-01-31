@@ -222,30 +222,6 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                 ],
               ),
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     const Padding(
-            //       padding: EdgeInsets.all(8.0),
-            //       child: Icon(
-            //         FontAwesomeIcons.clock,
-            //         color: kPrimaryColor,
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding:
-            //           const EdgeInsets.only(left: 6.0, top: 6.0, bottom: 6.0),
-            //       child: Text(
-            //         "${arguments[3]} ${arguments[4]}",
-            //         style: TextStyle(
-            //             color: Colors.black,
-            //             fontSize: getProportionateScreenWidth(15),
-            //             fontWeight: FontWeight.w600,
-            //             fontFamily: 'krona'),
-            //       ),
-            //     ),
-            //   ],
-            // ),
             FutureBuilder<List<dynamic>>(
               future: getTotalSubCategoryDetails(arguments[5]),
               builder: (context, snapshot) {
@@ -319,123 +295,6 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                 ),
                               ),
                             )),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Column(
-                      //     children: [
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Padding(
-                      //             padding: const EdgeInsets.only(
-                      //                 left: 6.0, top: 6.0, bottom: 6.0),
-                      //             child: Text(
-                      //               "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
-                      //               style: TextStyle(
-                      //                   color: Colors.black,
-                      //                   fontSize:
-                      //                       getProportionateScreenWidth(15),
-                      //                   fontWeight: FontWeight.bold,
-                      //                   fontFamily: 'krona'),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //       Padding(
-                      //         padding: const EdgeInsets.only(left: 8, right: 8),
-                      //         child: Divider(
-                      //           color: Colors.black.withOpacity(0.9),
-                      //           thickness: 1.5,
-                      //         ),
-                      //       ),
-                      //       Padding(
-                      //         padding: const EdgeInsets.only(
-                      //             left: 6.0, top: 14, bottom: 6),
-                      //         child: Text(
-                      //           "${snapshot.data![i]['description']} ",
-                      //           softWrap: true,
-                      //           style: TextStyle(
-                      //               color: Colors.black,
-                      //               fontSize: getProportionateScreenWidth(18),
-                      //               fontWeight: FontWeight.bold,
-                      //               fontFamily: 'krona'),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // ListTile(
-                      //   subtitle: Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Text(
-                      //       "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
-                      //       style: TextStyle(
-                      //           color: Colors.black,
-                      //           fontSize: getProportionateScreenWidth(15),
-                      //           fontWeight: FontWeight.bold,
-                      //           fontFamily: 'krona'),
-                      //     ),
-                      //   ),
-                      //   title: Text(
-                      //     "${snapshot.data![i]['description']} ",
-                      //     softWrap: true,
-                      //     style: TextStyle(
-                      //         color: Colors.black,
-                      //         fontSize: getProportionateScreenWidth(15),
-                      //         fontWeight: FontWeight.normal,
-                      //         fontFamily: 'krona'),
-                      //   ),
-                      //   trailing: Image.asset(
-                      //     "assets/images/serviceBooking/cut.png",
-                      //     height: getProportionateScreenHeight(35),
-                      //   ),
-                      // )
-                      // Column(
-                      //   children: [
-                      //     Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                      //         Padding(
-                      //           padding: const EdgeInsets.only(
-                      //               left: 6.0, top: 6.0, bottom: 6.0),
-                      //           child: Text(
-                      //             "${snapshot.data![i]['unit']} ${snapshot.data![i]['charge']}",
-                      //             style: TextStyle(
-                      //                 color: Colors.black,
-                      //                 fontSize:
-                      //                     getProportionateScreenWidth(15),
-                      //                 fontWeight: FontWeight.bold,
-                      //                 fontFamily: 'krona'),
-                      //           ),
-                      //         ),
-                      //         Image.asset(
-                      //           "assets/images/serviceBooking/cut.png",
-                      //           height: getProportionateScreenHeight(35),
-                      //         )
-                      //       ],
-                      //     ),
-                      //     Padding(
-                      //       padding: const EdgeInsets.only(left: 8, right: 8),
-                      //       child: Divider(
-                      //         color: Colors.black.withOpacity(0.9),
-                      //         thickness: 1.5,
-                      //       ),
-                      //     ),
-                      //     Padding(
-                      //       padding: const EdgeInsets.only(
-                      //           left: 6.0, top: 14, bottom: 6),
-                      //       child: Text(
-                      //         "${snapshot.data![i]['description']} ",
-                      //         softWrap: true,
-                      //         style: TextStyle(
-                      //             color: Colors.black,
-                      //             fontSize: getProportionateScreenWidth(15),
-                      //             fontWeight: FontWeight.normal,
-                      //             fontFamily: 'krona'),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // )
                     ],
                   );
                 } else {
@@ -460,6 +319,15 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                     //         (states) => kPrimaryColor)),
                     text: "Proceed to Pay",
                     press: () async {
+                      Navigator.pushNamed(context, AddPaymentMethod.routeName,
+                          arguments: [
+                            bookingId,
+                            arguments[9],
+                            currency,
+                            charge,
+                            arguments[3],
+                            arguments[5]
+                          ]);
                       // print(
                       //     "date: ${arguments[3]} time: ${arguments[4]} latitude:  ${arguments[6]} longitude: ${arguments[7]} address: ${arguments[8]} serviceSubCategory: ${arguments[5]} serviceId: ${arguments[2]} ");
                       setState(() {
@@ -512,7 +380,9 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                               bookingId,
                               arguments[9],
                               currency,
-                              charge
+                              charge,
+                              arguments[3],
+                              arguments[5]
                             ]);
                         //print(responseData['data']);
                       } else {
