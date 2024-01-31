@@ -166,45 +166,45 @@ class _ServicesUnderSubCategoryState
                                                         kPrimaryColor),
                                                 onPressed: () async {
                                                   //print(arguments[0]);
-                                                  SharedPreferences prefs =
-                                                      await SharedPreferences
-                                                          .getInstance();
-                                                  String? authorizationToken =
-                                                      prefs.getString(
-                                                          "auth_token");
-                                                  final response =
-                                                      await http.get(
-                                                    Uri.parse(
-                                                        "http://admin.esoptronsalon.com/api/service/${servicesList[i]["id"]}/details"),
-                                                    headers: {
-                                                      'Authorization':
-                                                          'Bearer $authorizationToken',
-                                                      'Content-Type':
-                                                          'application/json', // You may need to adjust the content type based on your API requirements
-                                                    },
-                                                  );
-                                                  if (response.statusCode >=
-                                                          200 &&
-                                                      response.statusCode <
-                                                          300) {
-                                                    final responseData = json
-                                                        .decode(response.body);
-                                                    setState(() {
-                                                      serviceProvider =
-                                                          responseData['data']
-                                                                  ['service'][
-                                                              'service_provider'];
-                                                    });
-                                                  } else {
-                                                    setState(() {
-                                                      serviceProvider = {
-                                                        'name': '',
-                                                        'email': '',
-                                                        'avatar': '',
-                                                        'phone': ''
-                                                      };
-                                                    });
-                                                  }
+                                                  // SharedPreferences prefs =
+                                                  //     await SharedPreferences
+                                                  //         .getInstance();
+                                                  // String? authorizationToken =
+                                                  //     prefs.getString(
+                                                  //         "auth_token");
+                                                  // final response =
+                                                  //     await http.get(
+                                                  //   Uri.parse(
+                                                  //       "http://admin.esoptronsalon.com/api/service/${servicesList[i]["id"]}/details"),
+                                                  //   headers: {
+                                                  //     'Authorization':
+                                                  //         'Bearer $authorizationToken',
+                                                  //     'Content-Type':
+                                                  //         'application/json', // You may need to adjust the content type based on your API requirements
+                                                  //   },
+                                                  // );
+                                                  // if (response.statusCode >=
+                                                  //         200 &&
+                                                  //     response.statusCode <
+                                                  //         300) {
+                                                  //   final responseData = json
+                                                  //       .decode(response.body);
+                                                  //   setState(() {
+                                                  //     serviceProvider =
+                                                  //         responseData['data']
+                                                  //                 ['service'][
+                                                  //             'service_provider'];
+                                                  //   });
+                                                  // } else {
+                                                  //   setState(() {
+                                                  //     serviceProvider = {
+                                                  //       'name': '',
+                                                  //       'email': '',
+                                                  //       'avatar': '',
+                                                  //       'phone': ''
+                                                  //     };
+                                                  //   });
+                                                  // }
                                                   // ignore: use_build_context_synchronously
                                                   Navigator.pushNamed(context,
                                                       ServiceDetails.routeName,
@@ -213,7 +213,7 @@ class _ServicesUnderSubCategoryState
                                                         "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
                                                         servicesList[i]
                                                             ["description"],
-                                                        serviceProvider,
+                                                        {},
                                                         servicesList[i]
                                                             ["ratings_count"],
                                                         servicesList[i][
@@ -223,10 +223,33 @@ class _ServicesUnderSubCategoryState
                                                             : true,
                                                         servicesList[i]
                                                             ["ratings_count"],
-                                                        true,
+                                                        false,
+                                                        arguments[1],
+                                                        arguments[2],
                                                         servicesList[i]["id"],
-                                                        arguments[0]
+                                                        arguments[0],
+                                                        arguments[3]
                                                       ]);
+
+                                                  //  [
+                                                  //   servicesList[i]["name"],
+                                                  //   "http://admin.esoptronsalon.com/${servicesList[i]["logo"]}",
+                                                  //   servicesList[i]
+                                                  //       ["description"],
+                                                  //   serviceProvider,
+                                                  //   servicesList[i]
+                                                  //       ["ratings_count"],
+                                                  //   servicesList[i][
+                                                  //               "is_available"] ==
+                                                  //           0
+                                                  //       ? false
+                                                  //       : true,
+                                                  //   servicesList[i]
+                                                  //       ["ratings_count"],
+                                                  //   true,
+                                                  //   servicesList[i]["id"],
+                                                  //   arguments[0]
+                                                  // ]);
                                                 },
                                                 child: Text(
                                                   "View Service",

@@ -412,7 +412,7 @@ class _BodyState extends ConsumerState<Body> {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
           context, ServicesUnderSubCategory.routeName,
-          arguments: [id, image, name]),
+          arguments: [id, image, name, charge]),
       child: Container(
         width: getProportionateScreenWidth(160),
         height: getProportionateScreenHeight(300),

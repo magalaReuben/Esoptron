@@ -70,6 +70,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
     final List<dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     Map<String, dynamic> serviceProvider = {};
+    print("Our arguments: $arguments");
     // Future(() {
     //   ref.read(getServiceProviderDetailsIdProvider.notifier).state =
     //       arguments[1];
@@ -689,7 +690,7 @@ class _ServiceProviderState extends ConsumerState<ServiceProvider> {
                                                         .data!["ratings_count"],
                                                     true,
                                                     snapshot.data!["id"],
-                                                    arguments[0]
+                                                    arguments[1]
                                                   ]);
                                             },
                                             child: Text(
