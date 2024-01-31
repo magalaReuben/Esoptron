@@ -29,6 +29,12 @@ class _MobileMoneyPaymentScreenState
   int? bookingId;
   bool isCurrencyLoading = true;
 
+  @override
+  void initState() {
+    super.initState();
+    getUserNames();
+  }
+
   Future<List<dynamic>> getTotalSubCategoryDetails(ids) async {
     List<dynamic> detailsHolder = [];
     for (var id in ids) {
@@ -236,15 +242,20 @@ class _MobileMoneyPaymentScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '${snapshot.data![i]['description']} \n UGX ${snapshot.data![i]['charge'].toString()}',
-                                          style: GoogleFonts.nunitoSans(
-                                              textStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize:
-                                                getProportionateScreenWidth(16),
-                                            fontWeight: FontWeight.w500,
-                                          )),
+                                        SizedBox(
+                                          width:
+                                              getProportionateScreenWidth(200),
+                                          child: Text(
+                                            '${snapshot.data![i]['description']} \n UGX ${snapshot.data![i]['charge'].toString()}',
+                                            style: GoogleFonts.nunitoSans(
+                                                textStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  getProportionateScreenWidth(
+                                                      16),
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                          ),
                                         ),
                                         SizedBox(
                                           height:
@@ -286,7 +297,7 @@ class _MobileMoneyPaymentScreenState
                       String? authorizationToken =
                           prefs.getString("auth_token");
                       final data = jsonEncode({
-                        "charged_amount": "${aruments[3]}",
+                        "amount": "${aruments[3]}",
                         "payment_type": "mobile money",
                         "booking_id": '${aruments[0]}',
                         "phone_number": "${aruments[1]}"

@@ -273,16 +273,20 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            '${snapshot.data![i]['description']} \n UGX ${snapshot.data![i]['charge'].toString()}',
-                                            style: GoogleFonts.nunitoSans(
-                                                textStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                                  getProportionateScreenWidth(
-                                                      16),
-                                              fontWeight: FontWeight.w500,
-                                            )),
+                                          SizedBox(
+                                            width: getProportionateScreenWidth(
+                                                200),
+                                            child: Text(
+                                              '${snapshot.data![i]['description']} \nUGX ${snapshot.data![i]['charge'].toString()}',
+                                              style: GoogleFonts.nunitoSans(
+                                                  textStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize:
+                                                    getProportionateScreenWidth(
+                                                        16),
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                            ),
                                           ),
                                           SizedBox(
                                             height:
@@ -319,15 +323,15 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                     //         (states) => kPrimaryColor)),
                     text: "Proceed to Pay",
                     press: () async {
-                      Navigator.pushNamed(context, AddPaymentMethod.routeName,
-                          arguments: [
-                            bookingId,
-                            arguments[9],
-                            currency,
-                            charge,
-                            arguments[3],
-                            arguments[5]
-                          ]);
+                      // Navigator.pushNamed(context, AddPaymentMethod.routeName,
+                      //     arguments: [
+                      //       bookingId,
+                      //       arguments[9],
+                      //       currency,
+                      //       charge,
+                      //       arguments[3],
+                      //       arguments[5]
+                      //     ]);
                       // print(
                       //     "date: ${arguments[3]} time: ${arguments[4]} latitude:  ${arguments[6]} longitude: ${arguments[7]} address: ${arguments[8]} serviceSubCategory: ${arguments[5]} serviceId: ${arguments[2]} ");
                       setState(() {

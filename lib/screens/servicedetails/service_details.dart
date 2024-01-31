@@ -730,6 +730,24 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           //   ),
           // ),
           arguments[7]
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Text("Service",
+                          softWrap: true,
+                          maxLines: 3,
+                          style: GoogleFonts.nunitoSans(
+                              textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getProportionateScreenWidth(15),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'krona'))),
+                    ],
+                  ),
+                ),
+          arguments[7]
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
@@ -936,7 +954,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
                     child: Container(
-                      height: getProportionateScreenHeight(150),
+                      height: getProportionateScreenHeight(170),
                       width: getProportionateScreenWidth(350),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -962,14 +980,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  '${arguments[9]} \n UGX ${arguments[12]}',
-                                  style: GoogleFonts.nunitoSans(
-                                      textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: getProportionateScreenWidth(18),
-                                    fontWeight: FontWeight.w500,
-                                  )),
+                                SizedBox(
+                                  width: getProportionateScreenWidth(200),
+                                  child: Text(
+                                    '${arguments[9]} \n UGX ${arguments[12]}',
+                                    style: GoogleFonts.nunitoSans(
+                                        textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(18),
+                                      fontWeight: FontWeight.w500,
+                                    )),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: getProportionateScreenHeight(5),
