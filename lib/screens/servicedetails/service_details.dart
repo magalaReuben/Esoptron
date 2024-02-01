@@ -801,89 +801,141 @@ class _ServiceDetailsState extends State<ServiceDetails>
                               }
                               return Column(
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(" Select Sub Category",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize:
-                                                  getProportionateScreenWidth(
-                                                      18),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'krona')),
-                                    ],
-                                  ),
                                   for (int i = 0;
                                       i < snapshot.data!.length;
                                       i++)
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Container(
-                                        height:
-                                            getProportionateScreenHeight(120),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color:
-                                                Colors.white.withOpacity(0.5),
-                                            border: Border.all(
-                                                color: kPrimaryColor
-                                                    .withOpacity(0.5))),
-                                        child: ListTile(
-                                          leading: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: Image(
-                                              image: NetworkImage(
-                                                  "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Card(
+                                          child: Container(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    150),
+                                            width: getProportionateScreenWidth(
+                                                350),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(8)),
+                                                    child: Image(
+                                                        height: 200,
+                                                        width: 100,
+                                                        image: NetworkImage(
+                                                            "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                  SizedBox(
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            10),
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        '${snapshot.data![i]["name"]} \n UGX ${snapshot.data![i]["charge"].toString()}',
+                                                        style: GoogleFonts
+                                                            .nunitoSans(
+                                                                textStyle:
+                                                                    TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              getProportionateScreenWidth(
+                                                                  18),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        )),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            getProportionateScreenHeight(
+                                                                5),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                          title: Text(
-                                              "${snapshot.data![i]["name"]}",
-                                              style: const TextStyle(
-                                                  color: Colors.black)),
-                                          subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: Text(
-                                                "${snapshot.data![i]["charge"]}",
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                        )),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: Container(
+                                      height: getProportionateScreenHeight(120),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white.withOpacity(0.5),
+                                          border: Border.all(
+                                              color: kPrimaryColor
+                                                  .withOpacity(0.5))),
+                                      child: ListTile(
+                                        leading: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image(
+                                            image: NetworkImage(
+                                                "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}"),
                                           ),
-                                          trailing: Checkbox(
-                                              value: checkboxvalues[i],
-                                              onChanged: (bool? value) {
-                                                setState(() {
-                                                  checkboxvalues[i] = value!;
-                                                });
-                                                if (!selectedSubCategories
-                                                    .contains(snapshot.data![i]
-                                                        ["id"])) {
-                                                  selectedSubCategories.add(
-                                                      snapshot.data![i]["id"]);
-                                                  selectedSubCategoriesNames
-                                                      .add(snapshot.data![i]
-                                                          ["name"]);
-                                                  selectedSubCategoriesImages.add(
-                                                      "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
-                                                } else {
-                                                  selectedSubCategories.remove(
-                                                      snapshot.data![i]["id"]);
-                                                  selectedSubCategoriesNames
-                                                      .remove(snapshot.data![i]
-                                                          ["name"]);
-                                                  selectedSubCategoriesImages
-                                                      .remove(
-                                                          "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
-                                                }
-                                                //print(selectedSubCategories);
-                                              }),
                                         ),
+                                        title: Text(
+                                            "${snapshot.data![i]["name"]}",
+                                            style: const TextStyle(
+                                                color: Colors.black)),
+                                        subtitle: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Text(
+                                              "${snapshot.data![i]["charge"]}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        trailing: Checkbox(
+                                            value: checkboxvalues[i],
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                checkboxvalues[i] = value!;
+                                              });
+                                              if (!selectedSubCategories
+                                                  .contains(snapshot.data![i]
+                                                      ["id"])) {
+                                                selectedSubCategories.add(
+                                                    snapshot.data![i]["id"]);
+                                                selectedSubCategoriesNames.add(
+                                                    snapshot.data![i]["name"]);
+                                                selectedSubCategoriesImages.add(
+                                                    "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
+                                              } else {
+                                                selectedSubCategories.remove(
+                                                    snapshot.data![i]["id"]);
+                                                selectedSubCategoriesNames
+                                                    .remove(snapshot.data![i]
+                                                        ["name"]);
+                                                selectedSubCategoriesImages.remove(
+                                                    "http://admin.esoptronsalon.com/${snapshot.data![i]["image"]}");
+                                              }
+                                              //print(selectedSubCategories);
+                                            }),
                                       ),
                                     ),
+                                  ),
                                   SizedBox(
                                     height: getProportionateScreenHeight(100),
                                   )
