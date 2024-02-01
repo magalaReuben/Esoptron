@@ -54,6 +54,8 @@ class _BodyState extends ConsumerState<Body> {
   @override
   Widget build(BuildContext context) {
     final userName = ref.watch(userNameProvider);
+    final phoneNumber = ref.watch(phoneNumberProvider);
+    final email = ref.watch(emailProvider);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -64,18 +66,25 @@ class _BodyState extends ConsumerState<Body> {
                   future: getImage(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      return Container(
-                          height: getProportionateScreenHeight(300),
-                          width: getProportionateScreenWidth(450),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(snapshot.data!),
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  kPrimaryColor.withOpacity(0.3),
-                                  BlendMode.darken),
-                            ),
-                          ));
+                      return Column(
+                        children: [
+                          Container(
+                              height: getProportionateScreenHeight(300),
+                              width: getProportionateScreenWidth(450),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(snapshot.data!),
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      kPrimaryColor.withOpacity(0.5),
+                                      BlendMode.darken),
+                                ),
+                              )),
+                          SizedBox(
+                            height: getProportionateScreenHeight(50),
+                          ),
+                        ],
+                      );
                     } else {
                       return const Center(child: CircularProgressIndicator());
                     }
@@ -93,12 +102,12 @@ class _BodyState extends ConsumerState<Body> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.white,
-                            width: 2,
+                            width: 4,
                           ),
                           shape: BoxShape.circle,
                         ),
                         child: CircleAvatar(
-                          radius: 45,
+                          radius: 50,
                           backgroundImage: NetworkImage(snapshot.data!),
                         ),
                       );
@@ -166,7 +175,7 @@ class _BodyState extends ConsumerState<Body> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -175,6 +184,34 @@ class _BodyState extends ConsumerState<Body> {
                       fontSize: getProportionateScreenWidth(18),
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(email ?? "",
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(14),
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                    )),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(phoneNumber ?? "",
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(14),
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
                     )),
               ],
             ),

@@ -217,7 +217,7 @@ class _ServiceDetailsFromTrackingState
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
                         child: Container(
-                          height: getProportionateScreenHeight(110),
+                          height: getProportionateScreenHeight(125),
                           width: getProportionateScreenWidth(350),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -244,15 +244,18 @@ class _ServiceDetailsFromTrackingState
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      '${snapshot.data![0]['sub_categories'][i]['name']} \n UGX ${snapshot.data![0]['sub_categories'][i]['charge'].toString()}',
-                                      style: GoogleFonts.nunitoSans(
-                                          textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenWidth(18),
-                                        fontWeight: FontWeight.w500,
-                                      )),
+                                    SizedBox(
+                                      width: getProportionateScreenWidth(200),
+                                      child: Text(
+                                        '${snapshot.data![0]['sub_categories'][i]['name']} \n UGX ${snapshot.data![0]['sub_categories'][i]['charge'].toString()}',
+                                        style: GoogleFonts.nunitoSans(
+                                            textStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenWidth(18),
+                                          fontWeight: FontWeight.w500,
+                                        )),
+                                      ),
                                     ),
                                     SizedBox(
                                       height: getProportionateScreenHeight(5),
