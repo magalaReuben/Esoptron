@@ -810,7 +810,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                           child: Container(
                                             height:
                                                 getProportionateScreenHeight(
-                                                    150),
+                                                    100),
                                             width: getProportionateScreenWidth(
                                                 350),
                                             decoration: BoxDecoration(
@@ -849,7 +849,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        '${snapshot.data![i]["name"]} \n UGX ${snapshot.data![i]["charge"].toString()}',
+                                                        '${snapshot.data![i]["name"]} \nUGX ${snapshot.data![i]["charge"].toString()}',
                                                         style: GoogleFonts
                                                             .nunitoSans(
                                                                 textStyle:
@@ -857,7 +857,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                                           color: Colors.black,
                                                           fontSize:
                                                               getProportionateScreenWidth(
-                                                                  18),
+                                                                  14),
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         )),
@@ -869,6 +869,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                                       )
                                                     ],
                                                   ),
+                                                  Expanded(child: Container()),
                                                   Checkbox(
                                                       value: checkboxvalues[i],
                                                       onChanged: (bool? value) {

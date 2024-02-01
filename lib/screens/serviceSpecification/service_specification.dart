@@ -119,7 +119,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(8),
                           child: Image.network(
                             "${arguments[0][index]}",
                             fit: BoxFit.cover,
@@ -130,7 +130,9 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                       );
                     },
                     options: CarouselOptions(
-                      height: getProportionateScreenHeight(350),
+                      enableInfiniteScroll: false,
+                      height: getProportionateScreenHeight(300),
+                      enlargeCenterPage: true,
                       autoPlay: false,
                       autoPlayInterval: const Duration(seconds: 3),
                       autoPlayAnimationDuration:
@@ -139,9 +141,9 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                       pauseAutoPlayOnTouch: true,
                       aspectRatio: 0.5,
                       onPageChanged: (index, reason) {
-                        setState(() {
-                          //currentIndex = index;
-                        });
+                        // setState(() {
+                        //   //currentIndex = index;
+                        // });
                       },
                     ))),
             // Column(
@@ -167,6 +169,13 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
             //       ),
             //   ],
             // ),
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              child: Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
+            ),
             SizedBox(
               height: getProportionateScreenHeight(20),
             ),
