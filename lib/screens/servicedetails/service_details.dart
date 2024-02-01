@@ -989,8 +989,48 @@ class _ServiceDetailsState extends State<ServiceDetails>
                     )),
                   ),
                   Center(
-                    child: Text(
-                      'Screen 3',
+                    child: FutureBuilder<List<dynamic>>(
+                      future: getServiceImages(arguments[8]),
+                      builder: (context, snapshot) {
+                        //print(snapshot);
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                GridView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 1,
+                                      crossAxisCount: 2,
+                                    ),
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (BuildContext context,
+                                            int index) =>
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(8)),
+                                            child: Image(
+                                                height: 220,
+                                                width: 900,
+                                                image: NetworkImage(
+                                                    "http://admin.esoptronsalon.com/${snapshot.data![index]['url']}"),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        )),
+                              ],
+                            ),
+                          );
+                        } else {
+                          // You can return a placeholder or loading indicator while the image is loading
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
                   ),
                 ],
