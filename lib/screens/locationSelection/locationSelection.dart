@@ -1,20 +1,22 @@
 import 'package:esoptron_salon/utils/env.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 
-class LocationSelection extends StatefulWidget {
+class LocationSelection extends ConsumerStatefulWidget {
   static String routeName = 'locationSelection';
   const LocationSelection({super.key});
 
   @override
-  State<LocationSelection> createState() => _LocationSelectionState();
+  ConsumerState<LocationSelection> createState() => _LocationSelectionState();
 }
 
-class _LocationSelectionState extends State<LocationSelection> {
+class _LocationSelectionState extends ConsumerState<LocationSelection> {
   @override
   Widget build(BuildContext context) {
     return PlacePicker(
+      hintText: 'Search Location',
       apiKey: ENV.googleMapsApiKey,
       onPlacePicked: (result) {
         print(result);
