@@ -1,3 +1,4 @@
+import 'package:esoptron_salon/utils/env.dart';
 import 'package:flutter/material.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
@@ -13,7 +14,7 @@ class _LocationSelectionState extends State<LocationSelection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MapLocationPicker(apiKey: apiKey),
+      body: MapLocationPicker(apiKey: ENV.googleMapsApiKey),
     );
   }
 }
