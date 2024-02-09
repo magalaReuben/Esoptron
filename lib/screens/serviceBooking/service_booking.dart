@@ -2,6 +2,7 @@ import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/profileProviders.dart';
+import 'package:esoptron_salon/screens/locationSelection/locationSelection.dart';
 import 'package:esoptron_salon/screens/scheduleService/schedule_service.dart';
 import 'package:esoptron_salon/screens/serviceSpecification/service_specification.dart';
 import 'package:esoptron_salon/services/location.dart';
@@ -26,6 +27,7 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
   Position? _currentPosition;
   bool _isInstantSelected = false;
   bool _isScheduleSelected = false;
+  bool _isReadOnly = true;
   TextEditingController phoneNumberController = TextEditingController();
 
   void getLocation() async {
@@ -124,16 +126,24 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: TextField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        hintText: _currentAddress ?? "Getting Address...",
-                        hintStyle: GoogleFonts.nunitoSans(
-                            textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(13),
-                          fontWeight: FontWeight.w400,
-                        )),
+                    readOnly: _isReadOnly,
+                    decoration: InputDecoration(
+                      hintText: _currentAddress ?? "Getting Address...",
+                      hintStyle: GoogleFonts.nunitoSans(
+                          textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(13),
+                        fontWeight: FontWeight.w400,
                       )),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _isReadOnly = false;
+                        Navigator.pushNamed(
+                            context, LocationSelection.routeName);
+                      });
+                    },
+                  ),
                 ),
               ),
             ),

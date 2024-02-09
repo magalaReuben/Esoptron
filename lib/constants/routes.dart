@@ -5,6 +5,7 @@ import 'package:esoptron_salon/screens/editprofile/edit_profile.dart';
 import 'package:esoptron_salon/screens/favorites/favorite_screen.dart';
 import 'package:esoptron_salon/screens/forgot/forgot_scren.dart';
 import 'package:esoptron_salon/screens/landing/landing_screen.dart';
+import 'package:esoptron_salon/screens/locationSelection/locationSelection.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/mobileMoneyPayment/mobile_money_payment.dart';
 import 'package:esoptron_salon/screens/onboarding/onboarding.dart';
@@ -58,4 +59,5 @@ final Map<String, WidgetBuilder> routes = {
   TermsAndConditions.routeName: (context) => const TermsAndConditions(),
   ServicesUnderSubCategory.routeName: (context) =>
       const ServicesUnderSubCategory(),
+  LocationSelection.routeName: (context) => const LocationSelection()
 };

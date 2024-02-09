@@ -25,4 +25,6 @@ class ENV {
   static String uploadPic = 'user/profileUpload';
 
   static String getFavorites = 'user/favourites/services';
+
+  static String googleMapsApiKey = 'AIzaSyCyFwKC9xXdG7il0R-Dr0feluviWMT0YBw';
 }

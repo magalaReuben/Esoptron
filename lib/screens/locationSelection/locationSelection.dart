@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 
 class LocationSelection extends StatefulWidget {
   static String routeName = 'locationSelection';
@@ -11,6 +12,8 @@ class LocationSelection extends StatefulWidget {
 class _LocationSelectionState extends State<LocationSelection> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: MapLocationPicker(apiKey: apiKey),
+    );
   }
 }
