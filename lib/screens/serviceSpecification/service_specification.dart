@@ -146,29 +146,6 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                         // });
                       },
                     ))),
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     for (var element in arguments[1])
-            //       Padding(
-            //         padding:
-            //             const EdgeInsets.only(left: 6.0, top: 5, bottom: 3),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.start,
-            //           children: [
-            //             Text(
-            //               "$element",
-            //               style: TextStyle(
-            //                   color: Colors.black,
-            //                   fontSize: getProportionateScreenWidth(18),
-            //                   fontWeight: FontWeight.bold,
-            //                   fontFamily: 'krona'),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //   ],
-            // ),
             const Padding(
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
               child: Divider(

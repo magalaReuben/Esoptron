@@ -89,127 +89,170 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.map_rounded,
-                      size: 23,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: getProportionateScreenWidth(10),
-                    ),
-                    Text(
-                      "Destination Details",
-                      style: GoogleFonts.nunitoSans(
-                        textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: getProportionateScreenWidth(16),
-                          fontWeight: FontWeight.w500,
-                        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.map_rounded,
+                    size: 23,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(10),
+                  ),
+                  Text(
+                    "Destination Details",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(16),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Card(
+                elevation: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        hintText: _currentAddress ?? "Getting Address...",
+                        hintStyle: GoogleFonts.nunitoSans(
+                            textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(13),
+                          fontWeight: FontWeight.w400,
+                        )),
+                      )),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          hintText: _currentAddress ?? "Getting Address...",
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Card(
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextFormField(
+                      controller: phoneNumberController,
+                      decoration: InputDecoration(
+                          hintText: "Enter Phone Number",
                           hintStyle: GoogleFonts.nunitoSans(
                               textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: getProportionateScreenWidth(13),
                             fontWeight: FontWeight.w400,
-                          )),
-                        )),
+                          )))),
+                ),
+              ),
+            ),
+            // const Padding(
+            //   padding: EdgeInsets.only(top: 4.0),
+            //   child: Card(
+            //     elevation: 2,
+            //     child: Padding(
+            //       padding: EdgeInsets.only(left: 8.0),
+            //       child: TextField(
+            //         decoration: InputDecoration(
+            //             hintText: "Others",
+            //             hintStyle: TextStyle(color: Colors.black)),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: [
+            //       const Icon(
+            //         Icons.add_box,
+            //         size: 30,
+            //         color: Colors.black,
+            //       ),
+            //       SizedBox(
+            //         width: getProportionateScreenWidth(5),
+            //       ),
+            //       Text(
+            //         "Add Destination",
+            //         style: TextStyle(
+            //             color: Colors.black,
+            //             fontSize: getProportionateScreenWidth(14),
+            //             fontWeight: FontWeight.normal,
+            //             fontFamily: 'krona'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.shopping_bag_rounded,
+                    size: 23,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(10),
+                  ),
+                  Text(
+                    "Service Details",
+                    style: GoogleFonts.nunitoSans(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenWidth(16),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Card(
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextField(
+                    readOnly: true,
+                    decoration: InputDecoration(
+                        hintText: arguments[0],
+                        hintStyle: const TextStyle(color: Colors.black)),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextFormField(
-                        controller: phoneNumberController,
-                        decoration: InputDecoration(
-                            hintText: "Enter Phone Number",
-                            hintStyle: GoogleFonts.nunitoSans(
-                                textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: getProportionateScreenWidth(13),
-                              fontWeight: FontWeight.w400,
-                            )))),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.category_rounded,
+                    size: 23,
+                    color: Colors.black,
                   ),
-                ),
-              ),
-              // const Padding(
-              //   padding: EdgeInsets.only(top: 4.0),
-              //   child: Card(
-              //     elevation: 2,
-              //     child: Padding(
-              //       padding: EdgeInsets.only(left: 8.0),
-              //       child: TextField(
-              //         decoration: InputDecoration(
-              //             hintText: "Others",
-              //             hintStyle: TextStyle(color: Colors.black)),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: [
-              //       const Icon(
-              //         Icons.add_box,
-              //         size: 30,
-              //         color: Colors.black,
-              //       ),
-              //       SizedBox(
-              //         width: getProportionateScreenWidth(5),
-              //       ),
-              //       Text(
-              //         "Add Destination",
-              //         style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: getProportionateScreenWidth(14),
-              //             fontWeight: FontWeight.normal,
-              //             fontFamily: 'krona'),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.shopping_bag_rounded,
-                      size: 23,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: getProportionateScreenWidth(10),
-                    ),
-                    Text(
-                      "Service Details",
+                  SizedBox(
+                    width: getProportionateScreenWidth(10),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
+                    child: Text(
+                      "Subcategories",
                       style: GoogleFonts.nunitoSans(
                         textStyle: TextStyle(
                           color: Colors.black,
@@ -218,9 +261,11 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
+            for (int i = 0; i < arguments[2].length; i++)
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Card(
@@ -230,286 +275,235 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                     child: TextField(
                       readOnly: true,
                       decoration: InputDecoration(
-                          hintText: arguments[0],
+                          hintText: arguments[2][i],
                           hintStyle: const TextStyle(color: Colors.black)),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.category_rounded,
-                      size: 23,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: getProportionateScreenWidth(10),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 6.0, top: 14, bottom: 6),
-                      child: Text(
-                        "Subcategories",
-                        style: GoogleFonts.nunitoSans(
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: getProportionateScreenWidth(16),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              for (int i = 0; i < arguments[2].length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: TextField(
-                        readOnly: true,
-                        decoration: InputDecoration(
-                            hintText: arguments[2][i],
-                            hintStyle: const TextStyle(color: Colors.black)),
-                      ),
-                    ),
-                  ),
-                ),
-              // const Padding(
-              //   padding: EdgeInsets.only(top: 4.0),
-              //   child: Card(
-              //     elevation: 2,
-              //     child: Padding(
-              //       padding: EdgeInsets.only(left: 8.0),
-              //       child: TextField(
-              //         decoration: InputDecoration(
-              //             hintText: "Expected Time",
-              //             hintStyle: TextStyle(color: Colors.black)),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.access_time_rounded,
-                      size: 23,
-                      color: Colors.black,
-                    ),
-                    SizedBox(
-                      width: getProportionateScreenWidth(10),
-                    ),
-                    Text(
-                      "Select Booking Time",
-                      style: GoogleFonts.nunitoSans(
-                          textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenWidth(16),
-                        fontWeight: FontWeight.w500,
-                      )),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // const Padding(
+            //   padding: EdgeInsets.only(top: 4.0),
+            //   child: Card(
+            //     elevation: 2,
+            //     child: Padding(
+            //       padding: EdgeInsets.only(left: 8.0),
+            //       child: TextField(
+            //         decoration: InputDecoration(
+            //             hintText: "Expected Time",
+            //             hintStyle: TextStyle(color: Colors.black)),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  _isInstantSelected
-                      ? GestureDetector(
-                          onTap: () => setState(() {
-                            _isInstantSelected = false;
-                            _isScheduleSelected = true;
-                          }),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              color: kPrimaryColor,
-                              elevation: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesomeIcons.solidClock,
-                                        size: 30,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(5)),
-                                    Text(
-                                      "Instant Service",
-                                      style: GoogleFonts.nunitoSans(
-                                          textStyle: TextStyle(
-                                        color: Colors.white,
-                                        fontSize:
-                                            getProportionateScreenWidth(17),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'krona',
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isInstantSelected = true;
-                              _isScheduleSelected = false;
-                            });
-                            ref.read(scheduledTimeProvider.notifier).state =
-                                DateFormat('hh:mm a').format(DateTime.now());
-                            ref.read(scheduledDateProvider.notifier).state =
-                                DateFormat("dd/MM/yyyy").format(DateTime.now());
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              elevation: 3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesomeIcons.solidClock,
-                                        size: 30,
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(5)),
-                                    Text(
-                                      "Instant Service",
-                                      style: GoogleFonts.nunitoSans(
-                                          textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenWidth(17),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'krona',
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                  _isScheduleSelected
-                      ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isInstantSelected = false;
-                              _isScheduleSelected = true;
-                            });
-                            Navigator.pushNamed(
-                                context, ScheduleService.routeName,
-                                arguments: arguments);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              color: kPrimaryColor,
-                              elevation: 3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesomeIcons.calendarCheck,
-                                        size: 30,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(5)),
-                                    Text("Schedule Service",
-                                        style: GoogleFonts.nunitoSans(
-                                            textStyle: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:
-                                              getProportionateScreenWidth(17),
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'krona',
-                                        ))),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isInstantSelected = false;
-                              _isScheduleSelected = true;
-                            });
-                            Navigator.pushNamed(
-                                context, ScheduleService.routeName,
-                                arguments: arguments);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              elevation: 3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        FontAwesomeIcons.calendarCheck,
-                                        size: 30,
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height:
-                                            getProportionateScreenHeight(5)),
-                                    Text(
-                                      "Schedule Service",
-                                      style: GoogleFonts.nunitoSans(
-                                          textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenWidth(17),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'krona',
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                  const Icon(
+                    Icons.access_time_rounded,
+                    size: 23,
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(10),
+                  ),
+                  Text(
+                    "Select Booking Time",
+                    style: GoogleFonts.nunitoSans(
+                        textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(16),
+                      fontWeight: FontWeight.w500,
+                    )),
+                  ),
                 ],
               ),
-              SizedBox(height: getProportionateScreenHeight(50)),
-              DefaultButton(
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _isInstantSelected
+                    ? GestureDetector(
+                        onTap: () => setState(() {
+                          _isInstantSelected = false;
+                          _isScheduleSelected = true;
+                        }),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            color: kPrimaryColor,
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.solidClock,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: getProportionateScreenHeight(5)),
+                                  Text(
+                                    "Instant Service",
+                                    style: GoogleFonts.nunitoSans(
+                                        textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: getProportionateScreenWidth(17),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona',
+                                    )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isInstantSelected = true;
+                            _isScheduleSelected = false;
+                          });
+                          ref.read(scheduledTimeProvider.notifier).state =
+                              DateFormat('hh:mm a').format(DateTime.now());
+                          ref.read(scheduledDateProvider.notifier).state =
+                              DateFormat("dd/MM/yyyy").format(DateTime.now());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.solidClock,
+                                      size: 30,
+                                      color: kPrimaryColor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: getProportionateScreenHeight(5)),
+                                  Text(
+                                    "Instant Service",
+                                    style: GoogleFonts.nunitoSans(
+                                        textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(17),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona',
+                                    )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                _isScheduleSelected
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isInstantSelected = false;
+                            _isScheduleSelected = true;
+                          });
+                          Navigator.pushNamed(
+                              context, ScheduleService.routeName,
+                              arguments: arguments);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            color: kPrimaryColor,
+                            elevation: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.calendarCheck,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: getProportionateScreenHeight(5)),
+                                  Text("Schedule Service",
+                                      style: GoogleFonts.nunitoSans(
+                                          textStyle: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            getProportionateScreenWidth(17),
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'krona',
+                                      ))),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isInstantSelected = false;
+                            _isScheduleSelected = true;
+                          });
+                          Navigator.pushNamed(
+                              context, ScheduleService.routeName,
+                              arguments: arguments);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.calendarCheck,
+                                      size: 30,
+                                      color: kPrimaryColor,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: getProportionateScreenHeight(5)),
+                                  Text(
+                                    "Schedule Service",
+                                    style: GoogleFonts.nunitoSans(
+                                        textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getProportionateScreenWidth(17),
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'krona',
+                                    )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+              ],
+            ),
+            Expanded(child: Container()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DefaultButton(
                   text: "Continue",
                   press: () {
                     // ignore: dead_code
@@ -550,9 +544,9 @@ class _ServiceBookingState extends ConsumerState<ServiceBooking> {
                             ]);
                       }
                     }
-                  })
-            ],
-          ),
+                  }),
+            )
+          ],
         ),
       ),
     );

@@ -101,8 +101,8 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               if (value!.isEmpty) {
                 return "First Name cannot be empty";
               }
-              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                return "Please enter only letters in name";
+              if (!RegExp(r'^[a-zA-Z]+ *$').hasMatch(value)) {
+                return "Please enter only letters in name, and spaces are only allowed at the end";
               }
               return null;
             },
@@ -121,9 +121,10 @@ class _SignUpFormState extends ConsumerState<SignUpForm> {
               if (value!.isEmpty) {
                 return "Last Name cannot be empty";
               }
-              if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                return "Please enter only letters in name";
+              if (!RegExp(r'^[a-zA-Z]+ *$').hasMatch(value)) {
+                return "Please enter only letters in name, and spaces are only allowed at the end";
               }
+
               return null;
             },
           ),
