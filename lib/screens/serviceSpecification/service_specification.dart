@@ -76,6 +76,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
             'application/json', // You may need to adjust the content type based on your API requirements
       },
     );
+    print("Hey big man, this is our response now now: ${response.body}");
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final responseData = json.decode(response.body);
       for (var element in responseData['data']['sub_categories']) {
@@ -339,6 +340,7 @@ class _ServiceSpecificationState extends State<ServiceSpecification> {
                         'service_sub_categories': serviceSubCategoryIds,
                         'service_id': '${arguments[2]}'
                       });
+                      print("Hey this is the data: $data");
                       final response = await http.post(
                         Uri.parse(
                             "http://admin.esoptronsalon.com/api/bookings/new_request"),

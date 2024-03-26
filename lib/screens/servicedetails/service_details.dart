@@ -1351,7 +1351,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                             style: TextButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
-                              primary: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                             ),
                             onPressed: () {
                               if (arguments[7]) {
