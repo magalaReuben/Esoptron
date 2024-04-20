@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.19.2 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -51,7 +51,7 @@ dependencies:
   flutter_polyline_points: ^2.0.0
   dots_indicator: ^3.0.0
   calendar_timeline: ^1.1.2
-  google_fonts: ^6.1.0
+  google_fonts: 6.1.0
   sliding_clipped_nav_bar: ^3.1.0+4
   easy_date_timeline: ^1.0.3
   

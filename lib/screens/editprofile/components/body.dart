@@ -115,7 +115,8 @@ class _BodyState extends ConsumerState<Body> {
                           final body = FormData.fromMap({"avatar": file});
                           ref
                               .read(uploadPicNotifierProvider.notifier)
-                              .uploadPic(body);
+                              .uploadPic(body)
+                              .then((value) {});
                         } else {
                           // User canceled the picker
                         }
