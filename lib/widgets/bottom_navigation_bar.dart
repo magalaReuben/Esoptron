@@ -1,11 +1,9 @@
-import 'dart:developer';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class BottomNavWidget extends ConsumerStatefulWidget {
@@ -68,7 +66,7 @@ class _BottomNavWidgetState extends ConsumerState<BottomNavWidget> {
                       ),
                     ),
                   ),
-                  widget.isCustomer!
+                  widget.isCustomer
                       ? Expanded(
                           child: InkWell(
                             onTap: () => widget.onChange(1),

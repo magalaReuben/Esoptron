@@ -111,6 +111,7 @@ class _BodyState extends ConsumerState<Body> {
         },
       );
       final responseBody = json.decode(response.body);
+      print(responseBody);
       if (true) {
         if (responseBody['message'].endsWith("pending")) {
           setState(() {
@@ -176,7 +177,9 @@ class _BodyState extends ConsumerState<Body> {
       child: Column(children: [
         type == "ServiceProvider"
             ? SizedBox(
-                height: getProportionateScreenHeight(500),
+                height: noServiceRequested
+                    ? getProportionateScreenHeight(600)
+                    : MediaQuery.of(context).size.width,
                 child: _latitude == null || _longitude == null
                     ? const Center(child: CircularProgressIndicator())
                     : GoogleMap(
@@ -220,7 +223,7 @@ class _BodyState extends ConsumerState<Body> {
                 ),
               )
             : Container(),
-        noServiceRequested
+        type != "ServiceProvider" && noServiceRequested
             ? Container()
             : Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -228,37 +231,7 @@ class _BodyState extends ConsumerState<Body> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Column(
-                      children: [
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: [
-                        //     // Text("Tracking Number",
-                        //     //     style: TextStyle(
-                        //     //         color: Colors.black,
-                        //     //         fontSize: getProportionateScreenWidth(17),
-                        //     //         fontWeight: FontWeight.bold,
-                        //     //         fontFamily: 'krona')),
-                        //     SizedBox(
-                        //       width: getProportionateScreenWidth(70),
-                        //     )
-                        //   ],
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Image.asset("assets/images/track/trackIcon.png"),
-                        //     SizedBox(
-                        //       width: getProportionateScreenWidth(13),
-                        //     ),
-                        //     Text("R-7458-4567-4434-5854",
-                        //         style: TextStyle(
-                        //             color: Colors.black,
-                        //             fontSize: getProportionateScreenWidth(15),
-                        //             fontWeight: FontWeight.normal,
-                        //             fontFamily: 'krona'))
-                        //   ],
-                        // )
-                      ],
+                      children: [],
                     ),
                     ElevatedButton(
                         onPressed: () => Navigator.pushNamed(

@@ -1,23 +1,28 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:awesome_icons/awesome_icons.dart';
 import 'package:background_location/background_location.dart';
 import 'package:esoptron_salon/constants/constants.dart';
 import 'package:esoptron_salon/constants/size_config.dart';
+import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/serviceBookedDetails/serviceBookedDetails.dart';
 import 'package:esoptron_salon/services/location.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ServiceProviderMenu extends StatefulWidget {
+class ServiceProviderMenu extends ConsumerStatefulWidget {
   const ServiceProviderMenu({super.key});
 
   @override
-  State<ServiceProviderMenu> createState() => _ServiceProviderMenuState();
+  ConsumerState<ServiceProviderMenu> createState() =>
+      _ServiceProviderMenuState();
 }
 
-class _ServiceProviderMenuState extends State<ServiceProviderMenu> {
+class _ServiceProviderMenuState extends ConsumerState<ServiceProviderMenu> {
   Future<List<dynamic>> getBookings() async {
     List<dynamic> bookedServiceIds = [];
     List<dynamic> bookingDetails = [];
@@ -83,34 +88,164 @@ class _ServiceProviderMenuState extends State<ServiceProviderMenu> {
     super.initState();
   }
 
+  Future<NetworkImage> getImage() async {
+    final profileUrl = ref.watch(profilePicProvider);
+    final response = await http
+        .head(Uri.parse("http://admin.esoptronsalon.com/$profileUrl"));
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return NetworkImage("http://admin.esoptronsalon.com/$profileUrl");
+    } else {
+      return const NetworkImage(
+          "http://admin.esoptronsalon.com/storage/users/user.png");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text("Bookings"),
-          centerTitle: true,
-          backgroundColor: kPrimaryColor,
+          backgroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(FontAwesomeIcons.bars, color: Colors.black),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+          // leading: Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: FutureBuilder<NetworkImage>(
+          //     future: getImage(),
+          //     builder: (context, snapshot) {
+          //       //print(snapshot);
+          //       if (snapshot.connectionState == ConnectionState.done) {
+          //         return CircleAvatar(
+          //           radius: 15,
+          //           backgroundImage: snapshot.data,
+          //         );
+          //       } else {
+          //         // You can return a placeholder or loading indicator while the image is loading
+          //         return const CircularProgressIndicator();
+          //       }
+          //     },
+          //   ),
+          // ),
+          title: Text('Esoptron Salon',
+              style: GoogleFonts.pacifico(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(20)),
+              )),
+          // title: TextFieldWidget(
+          //   controller: searchController,
+          //   radiusBottomLeft: 30,
+          //   radiusBottomRight: 30,
+          //   radiusTopLeft: 30,
+          //   radiusTopRight: 30,
+          //   hintText: "Search for service category",
+          //   suffixWidget: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Container(
+          //         decoration: const BoxDecoration(
+          //             color: kPrimaryColor,
+          //             borderRadius: BorderRadius.all(Radius.circular(60))),
+          //         child: GestureDetector(
+          //           onTap: () async {
+          //             if (searchController.text.isEmpty) {
+          //               ScaffoldMessenger.of(context)
+          //                   .showSnackBar(const SnackBar(
+          //                 content: Text("Please enter a search query"),
+          //                 backgroundColor: kPrimaryColor,
+          //                 padding: EdgeInsets.all(25),
+          //               ));
+          //               return;
+          //             }
+          //             setState(() {
+          //               isSearching = true;
+          //             });
+          //             final result = await search(searchController.text);
+          //             setState(() {
+          //               isSearching = false;
+          //             });
+          //             if (result.isEmpty) {
+          //               // ignore: use_build_context_synchronously
+          //               ScaffoldMessenger.of(context)
+          //                   .showSnackBar(const SnackBar(
+          //                 content: Text("No results found"),
+          //                 backgroundColor: kPrimaryColor,
+          //                 padding: EdgeInsets.all(25),
+          //               ));
+          //               return;
+          //             } else {
+          //               //print(result);
+          //               // ignore: use_build_context_synchronously
+          //               Navigator.pushNamed(
+          //                   context, SearchedSubCategories.routeName,
+          //                   arguments: result);
+          //             }
+          //           },
+          //           child: isSearching
+          //               ? SizedBox(
+          //                   height: getProportionateScreenHeight(8),
+          //                   width: getProportionateScreenWidth(8),
+          //                   child: const Padding(
+          //                     padding: EdgeInsets.all(8.0),
+          //                     child: CircularProgressIndicator(
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                 )
+          //               : const Icon(
+          //                   FontAwesomeIcons.search,
+          //                   color: Colors.white,
+          //                 ),
+          //         )),
+          //   ),
+          // ),
           actions: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: PopupMenuButton<int>(
-            //     child: const Icon(Icons.more_horiz),
-            //     itemBuilder: (context) => [
-            //       // PopupMenuItem 1
-            //       const PopupMenuItem(
-            //         value: 1,
-            //         // row with 2 children
-            //         child: Row(
-            //           children: [
-            //             SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text("Schedules")
-            //           ],
-            //         ),
-            //       ),
-            //     ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder<NetworkImage>(
+                future: getImage(),
+                builder: (context, snapshot) {
+                  //print(snapshot);
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return CircleAvatar(
+                      radius: 25,
+                      backgroundImage: snapshot.data,
+                    );
+                  } else {
+                    // You can return a placeholder or loading indicator while the image is loading
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            )
+            // SizedBox(
+            //   width: getProportionateScreenWidth(5),
+            // ),
+            // GestureDetector(
+            //   onTap: () =>
+            //       Navigator.pushNamed(context, ServicesBooked.routeName),
+            //   child: const Icon(
+            //     FontAwesomeIcons.bell,
+            //     color: kPrimaryColor,
+            //   ),
+            // ),
+            // SizedBox(
+            //   width: getProportionateScreenWidth(5),
+            // ),
+            // GestureDetector(
+            //   onTap: () {
+            //     showDialog(
+            //         context: context,
+            //         builder: (_) => SizedBox(
+            //             height: getProportionateScreenHeight(300),
+            //             child: PriceMenu()));
+            //   },
+            //   child: const Icon(
+            //     FontAwesomeIcons.clipboardList,
+            //     color: kPrimaryColor,
             //   ),
             // )
           ],
@@ -167,10 +302,34 @@ class _ServiceProviderMenuState extends State<ServiceProviderMenu> {
                         return Column(
                           children: [
                             SizedBox(
-                              height: getProportionateScreenHeight(90),
+                              height: getProportionateScreenHeight(30),
                             ),
-                            const Center(
-                              child: Text("No bookings made yet"),
+                            SizedBox(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(14.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image(
+                                          width:
+                                              getProportionateScreenWidth(100),
+                                          height:
+                                              getProportionateScreenHeight(100),
+                                          image: const AssetImage(
+                                              "assets/images/home/nodata.png"),
+                                          fit: BoxFit.cover),
+                                      const Text(
+                                        "No bookings made yet",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             )
                           ],
                         );
