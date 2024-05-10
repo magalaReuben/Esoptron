@@ -269,8 +269,8 @@ class _SubCategoriesState extends ConsumerState<SubCategories> {
                             children: [
                               Image.asset(
                                 "assets/images/services/unavailable.png",
-                                height: getProportionateScreenHeight(280),
-                                width: getProportionateScreenWidth(280),
+                                height: getProportionateScreenHeight(480),
+                                width: getProportionateScreenWidth(480),
                               ),
                               SizedBox(
                                   height: getProportionateScreenHeight(20)),

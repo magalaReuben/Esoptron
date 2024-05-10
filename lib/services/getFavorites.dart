@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:esoptron_salon/models/api_request.dart';
 import 'package:esoptron_salon/models/api_response.dart';
 import 'package:esoptron_salon/repositories/favorites.dart';
-import 'package:esoptron_salon/repositories/getCategoriesUnderService.dart';
-import 'package:esoptron_salon/repositories/recoverPassword.dart';
 import 'package:esoptron_salon/utils/dio_helper.dart';
 import 'package:esoptron_salon/utils/env.dart';
 import 'package:shared_preferences/shared_preferences.dart';

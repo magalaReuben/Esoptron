@@ -54,6 +54,7 @@ dependencies:
   google_fonts: 6.1.0
   sliding_clipped_nav_bar: ^3.1.0+4
   easy_date_timeline: ^1.0.3
+  map_location_picker: ^1.2.8+3
   
   
 
@@ -84,6 +85,7 @@ flutter:
     - assets/authentication/icons/
     - assets/authentication/widgets/
     - assets/images/serviceBooking/
+    - assets/images/comingsoon/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

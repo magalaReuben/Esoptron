@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -14,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends ConsumerStatefulWidget {
   const Body({super.key});
@@ -94,11 +96,15 @@ class _BodyState extends ConsumerState<Body> {
                   ),
                   GestureDetector(
                       onTap: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        String? phone = prefs.getString("phone");
+                        String? password = prefs.getString("secretPassword");
                         FilePickerResult? result =
                             await FilePicker.platform.pickFiles(
                           allowMultiple: true,
                           type: FileType.custom,
-                          allowedExtensions: ['jpg', 'png'],
+                          allowedExtensions: ['jpg', 'png', 'jpeg'],
                         );
                         if (result != null) {
                           String fileName = result!.files.first.name;
@@ -116,7 +122,22 @@ class _BodyState extends ConsumerState<Body> {
                           ref
                               .read(uploadPicNotifierProvider.notifier)
                               .uploadPic(body)
-                              .then((value) {});
+                              .then((value) async {
+                            print("logging in user");
+                            final response = await http.post(
+                              Uri.parse(
+                                  "http://admin.esoptronsalon.com/api/auth/login"),
+                              body: {
+                                "phone": phone,
+                                "password": password,
+                              },
+                            );
+                            prefs.setString("avatar",
+                                jsonDecode(response.body)['data']['avatar']);
+                            ref.read(profilePicProvider.notifier).state =
+                                jsonDecode(response.body)['data']['avatar'];
+                          });
+                          // get login user again to get details
                         } else {
                           // User canceled the picker
                         }

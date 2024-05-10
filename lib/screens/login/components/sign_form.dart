@@ -17,6 +17,7 @@ import 'package:esoptron_salon/widgets/default_button.dart';
 import 'package:esoptron_salon/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignForm extends ConsumerStatefulWidget {
   @override
@@ -148,6 +149,8 @@ class _SignFormState extends ConsumerState<SignForm> {
               : DefaultButton(
                   text: "Login",
                   press: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       setState(() {
@@ -161,6 +164,8 @@ class _SignFormState extends ConsumerState<SignForm> {
                           "password": passwordFormController.text,
                         },
                       );
+                      prefs.setString(
+                          "secretPassword", passwordFormController.text);
                       ref
                           .read(loginNotifierProvider.notifier)
                           .login(requestModel);

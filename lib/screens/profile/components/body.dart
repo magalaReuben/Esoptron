@@ -4,12 +4,14 @@ import 'package:esoptron_salon/constants/size_config.dart';
 import 'package:esoptron_salon/providers/profileProviders.dart';
 import 'package:esoptron_salon/screens/editprofile/edit_profile.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
+import 'package:esoptron_salon/screens/not_available/not_available.dart';
 import 'package:esoptron_salon/screens/statementsAndReports/statements_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Body extends ConsumerStatefulWidget {
   const Body({super.key});
@@ -580,6 +582,8 @@ class _BodyState extends ConsumerState<Body> {
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 child: ListTile(
+                  onTap: () =>
+                      Navigator.pushNamed(context, NotAvailable.routeName),
                   leading:
                       const Icon(Icons.group, color: Colors.black, size: 35),
                   title: Text(
@@ -608,6 +612,8 @@ class _BodyState extends ConsumerState<Body> {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: ListTile(
+                onTap: () =>
+                    Navigator.pushNamed(context, NotAvailable.routeName),
                 leading: const Icon(
                   Icons.star,
                   color: Colors.black,
@@ -638,6 +644,14 @@ class _BodyState extends ConsumerState<Body> {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: ListTile(
+                onTap: () async {
+                  var uri = Uri.parse("https://esoptronsalon.com/");
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  } else {
+                    // can't launch url
+                  }
+                },
                 leading: const Icon(Icons.map, color: Colors.black, size: 35),
                 title: Text("About Us",
                     style: GoogleFonts.nunitoSans(

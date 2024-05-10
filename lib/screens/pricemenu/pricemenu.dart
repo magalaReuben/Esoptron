@@ -18,6 +18,7 @@ class PriceMenu extends StatefulWidget {
 class _PriceMenuState extends State<PriceMenu> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       // bottomNavigationBar: BottomAppBar(
       //   child: SizedBox(
@@ -76,13 +77,17 @@ class _PriceMenuState extends State<PriceMenu> {
             // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "HAIRSTYLES",
-                style: GoogleFonts.nunitoSans(
-                  fontSize: getProportionateScreenWidth(18),
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    "HAIRSTYLES",
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(18),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             priceItem("Crotchets", "UGX 45,000"),
@@ -96,13 +101,17 @@ class _PriceMenuState extends State<PriceMenu> {
             priceItem("Faux Locs", "UGX 50,000"),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "MANICURE & PEDICURE",
-                style: GoogleFonts.nunitoSans(
-                  fontSize: getProportionateScreenWidth(18),
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    "MANICURE & PEDICURE",
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(18),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             priceItem("Manicure & Pedicure", "UGX 30-100,000"),
@@ -112,12 +121,16 @@ class _PriceMenuState extends State<PriceMenu> {
             // priceItem("Nail Clipping", "UGX 50000"),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("WAXING",
-                  style: GoogleFonts.nunitoSans(
-                    fontSize: getProportionateScreenWidth(18),
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  )),
+              child: Row(
+                children: [
+                  Text("WAXING",
+                      style: GoogleFonts.nunitoSans(
+                        fontSize: getProportionateScreenWidth(18),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ],
+              ),
             ),
             priceItem("waxing", "UGX 150-300,000"),
             // priceItem("Body wax", "UGX 50000"),
@@ -125,13 +138,17 @@ class _PriceMenuState extends State<PriceMenu> {
             // priceItem("Face wax", "UGX 50000"),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "ADDS ON",
-                style: GoogleFonts.nunitoSans(
-                  fontSize: getProportionateScreenWidth(18),
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    "ADDS ON",
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(18),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             priceItem("Adds on", "UGX 5-10,000"),
@@ -147,38 +164,51 @@ class _PriceMenuState extends State<PriceMenu> {
   Padding priceItem(String item, String price) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+      child: Container(
+        height: getProportionateScreenHeight(90),
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [kPrimaryColor, kPrimaryColor.withOpacity(0.7)]),
+            borderRadius: BorderRadius.circular(13.0)),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Checkbox(
-              //     checkColor: Colors.white,
-              //     value: widget.selected,
-              //     onChanged: (bool? value) {
-              //       setState(() {
-              //         widget.selected = value!;
-              //       });
-              //     }),
+              Row(
+                children: [
+                  // Checkbox(
+                  //     checkColor: Colors.white,
+                  //     value: widget.selected,
+                  //     onChanged: (bool? value) {
+                  //       setState(() {
+                  //         widget.selected = value!;
+                  //       });
+                  //     }),
+                  Text(
+                    item,
+                    style: GoogleFonts.nunitoSans(
+                      fontSize: getProportionateScreenWidth(14),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
               Text(
-                item,
+                price,
                 style: GoogleFonts.nunitoSans(
                   fontSize: getProportionateScreenWidth(14),
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              )
             ],
           ),
-          Text(
-            price,
-            style: GoogleFonts.nunitoSans(
-              fontSize: getProportionateScreenWidth(14),
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

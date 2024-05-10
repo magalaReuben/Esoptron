@@ -8,7 +8,6 @@ import 'package:esoptron_salon/screens/landing/landing_screen.dart';
 import 'package:esoptron_salon/screens/locationSelection/locationSelection.dart';
 import 'package:esoptron_salon/screens/login/login_screen.dart';
 import 'package:esoptron_salon/screens/mobileMoneyPayment/mobile_money_payment.dart';
-import 'package:esoptron_salon/screens/not_available/not_available.dart';
 import 'package:esoptron_salon/screens/onboarding/onboarding.dart';
 import 'package:esoptron_salon/screens/otp/otp_screen.dart';
 import 'package:esoptron_salon/screens/pricemenu/pricemenu.dart';
@@ -60,6 +59,5 @@ final Map<String, WidgetBuilder> routes = {
   TermsAndConditions.routeName: (context) => const TermsAndConditions(),
   ServicesUnderSubCategory.routeName: (context) =>
       const ServicesUnderSubCategory(),
-  LocationSelection.routeName: (context) => const LocationSelection(),
-  NotAvailable.routeName: (context) => const NotAvailable(),
+  LocationSelection.routeName: (context) => const LocationSelection()
 };
